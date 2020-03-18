@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".EditCalendar">
 
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        tools:layout_editor_absoluteX="1dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            app:layout_column="2"
+            app:layout_row="0" />
+
+    </androidx.gridlayout.widget.GridLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
