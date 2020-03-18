@@ -16,11 +16,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EditCalendarButton = (Button) findViewById(R.id.EditCalendarButton);
+        EditCalendarButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(this,EditCalendar.class);
+        Intent i = new Intent(this, EditCalendar.class);
         startActivity(i);
     }
 }
