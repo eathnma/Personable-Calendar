@@ -10,7 +10,7 @@ import android.widget.Button;
 import java.util.Date;
 import java.util.HashSet;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
 
     // loading editcalendar button
@@ -27,11 +27,14 @@ public class MainActivity extends AppCompatActivity {
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
         cv.updateCalendar();
 
+        EditCalendarButton = (Button) findViewById(R.id.EditCalendarButton);
+        EditCalendarButton.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(this, EditCalendar.class);
+        Intent i = new Intent(this, AddLocationActivity.class);
         startActivity(i);
     }
 }

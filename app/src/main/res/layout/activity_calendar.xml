@@ -160,6 +160,12 @@
         android:layout_height="wrap_content"
         android:verticalSpacing="20dp"
         android:numColumns="7"/>
+
+    <Button
+        android:id="@+id/EditCalendarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edit button, will be removed" />
 </LinearLayout>
 
 
