@@ -1,18 +1,24 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class EditCalendar extends AppCompatActivity{
+import com.example.mainactivity.PickerFragments.TimePickerFragment;
+
+public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     //elements in gridlayout 1
     private ImageView arrowRowOne;
@@ -44,6 +50,9 @@ public class EditCalendar extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
 
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         //setting listeners in gridlayout 1
         saveButtonRowOne = (Button) findViewById(R.id.saveButton);
 //        saveButtonRowOne.setOnClickListener(this);
@@ -55,7 +64,15 @@ public class EditCalendar extends AppCompatActivity{
 
         //setting listeners in gridlayout 3
         editDateRowOne = (TextView) findViewById(R.id.editDateRowOne);
+
         editTimeRowOne = (TextView) findViewById(R.id.editTimeRowOne);
+        editTimeRowOne.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(),"time picker");
+            }
+        });
 
         editDateRowTwo = (TextView) findViewById(R.id.editDateRowTwo);
         editTimeRowTwo = (TextView) findViewById(R.id.editTimeRowTwo);
@@ -102,5 +119,11 @@ public class EditCalendar extends AppCompatActivity{
         // return the user back to the homepage
         Intent intent = new Intent (this,MainActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView textView = (TextView) findViewById(R.id.textView);
+
     }
 }

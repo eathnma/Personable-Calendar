@@ -65,9 +65,9 @@
                     android:inputType="textPersonName"
                     android:paddingStart="50dp"
                     android:paddingEnd="0dp"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/black_cursor"
                      />
-
+                <requestFocus />
             </androidx.gridlayout.widget.GridLayout>
 
             <androidx.gridlayout.widget.GridLayout
@@ -93,6 +93,7 @@
                     android:id="@+id/editTimeRowOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:fontFamily="@font/circular_book"
                     android:text="@string/current_time"
                     app:layout_column="2"
@@ -139,12 +140,12 @@
                     android:gravity="start|top"
                     android:inputType="textMultiLine"
                     android:padding="15dp"
-                    android:text="@string/notification_message"
+                    android:hint="Write Notification Message"
                     android:textSize="14sp"
+                    android:textCursorDrawable="@drawable/black_cursor"
                     app:layout_column="0"
                     app:layout_row="0">
-
-                    <requestFocus />
+<!--                    <requestFocus />-->
                 </EditText>
             </androidx.gridlayout.widget.GridLayout>
 
