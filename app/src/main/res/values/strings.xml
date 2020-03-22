@@ -1,8 +1,31 @@
 <resources>
+<!--    MAP STRINGS-->
     <string name="app_name">MainActivity</string>
     <string name="title_activity_maps">Current Place Details</string>
     <string name="default_info_title">Default Location</string>
     <string name="default_info_snippet">No places found, because location permission is disabled.</string>
     <string name="option_get_place">Get place</string>
     <string name="pick_place">Choose a place</string>
+
+<!--    EDIT CALENDAR STRINGS-->
+    <string name="to_do">TODO</string>
+
+    <string name="save">Save</string>
+    <string name="add_title">Add Title</string>
+
+    <string name="current_date">Current Date</string>
+
+    <string name="current_time">6:30AM</string>
+    <string name="current_time_1">7:30AM</string>
+    <string name="notification_message">Write Notification Message</string>
+
+    <string name="add_location">Add Location</string>
+    <string name="choose_colour">Choose Colour</string>
+    
+    <string name="blue_circle">Blue Circle</string>
+    <string name="red_circle">Red Circle</string>
+    <string name="yellow_circle">Yellow Circle</string>
+    <string name="lightblue_circle">LightBlue Circle</string>
+    <string name="orange_circle">Orange Circle</string>
+    <string name="green_circle">Green Circle</string>
 </resources>
