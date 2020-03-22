@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent i = new Intent(this, AddLocationActivity.class);
+        // change this intent for different pages?
+        Intent i = new Intent(this, EditCalendar.class);
         startActivity(i);
     }
 }
