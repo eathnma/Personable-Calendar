@@ -28,6 +28,14 @@ public class EditCalendar extends AppCompatActivity implements View.OnClickListe
     //elements in gridlayout 4
     private EditText notificationMessage;
 
+    //elements in gridlayout 5
+    private TextView addLocation;
+
+    //elements in gridlayout 6
+    private ImageView blueCircle, redCircle, yellowCircle, lightBlueCircle, orangeCircle, greenCircle;
+
+    // add database object
+//    MyDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,19 @@ public class EditCalendar extends AppCompatActivity implements View.OnClickListe
         //setting listeners in gridlayout 4
         notificationMessage = (EditText) findViewById(R.id.notificationMessage);
 
+        //setting listeners in gridlayout 5
+        addLocation = (TextView) findViewById(R.id.addLocation);
+
+        //setting listeners in gridlayout 6
+        blueCircle = (ImageView) findViewById(R.id.blueCircle);
+        redCircle = (ImageView) findViewById(R.id.redCircle);
+        yellowCircle = (ImageView) findViewById(R.id.yellowCircle);
+        lightBlueCircle = (ImageView) findViewById(R.id.lightBlueCircle);
+        orangeCircle = (ImageView) findViewById(R.id.orangeCircle);
+        greenCircle = (ImageView) findViewById(R.id.greenCircle);
+
+//      instantiate database object
+//        db = new MyDatabase(this);
     }
 
 
