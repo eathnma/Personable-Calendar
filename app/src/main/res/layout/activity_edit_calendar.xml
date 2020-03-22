@@ -40,6 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
+                    android:onClick="addActivity"
                     android:text="@string/save"
                     android:textSize="12sp"
                     app:layout_column="2"
@@ -57,14 +58,15 @@
                     android:id="@+id/addTitle"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
-                    android:autofillHints=""
+                    android:hint="Add Title"
                     android:background="@null"
                     android:ems="10"
                     android:fontFamily="@font/circular_book"
                     android:inputType="textPersonName"
                     android:paddingStart="50dp"
                     android:paddingEnd="0dp"
-                    android:text="@string/add_title" />
+                    android:textCursorDrawable="@null"
+                     />
 
             </androidx.gridlayout.widget.GridLayout>
 
