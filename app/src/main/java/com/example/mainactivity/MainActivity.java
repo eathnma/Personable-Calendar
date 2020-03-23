@@ -9,19 +9,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import java.util.Date;
 import java.util.HashSet;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "MainActivity";
     Toolbar toolbar;
     String[] dateToday;
     String toolbarDate;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "MainActivity";
 
     // loading editcalendar button
     private Button EditCalendarButton;
@@ -84,5 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
         toolbar.setTitle(toolbarDate);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
