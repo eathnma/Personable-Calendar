@@ -20,6 +20,12 @@ public class MainActivity extends AppCompatActivity {
     String[] dateToday;
     String toolbarDate;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "MainActivity";
+
+    // loading editcalendar button
+    private Button EditCalendarButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

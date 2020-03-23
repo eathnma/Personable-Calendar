@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditCalendar">
@@ -9,8 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="-135dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
@@ -30,6 +31,8 @@
                     android:id="@+id/arrow"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:contentDescription="@string/to_do"
+                    android:onClick="home"
                     app:layout_gravity="center_vertical"
                     app:srcCompat="@drawable/arrow" />
 
@@ -38,7 +41,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
-                    android:text="Save"
+                    android:onClick="addActivity"
+                    android:text="@string/save"
                     android:textSize="12sp"
                     app:layout_column="2"
                     app:layout_row="0" />
@@ -55,19 +59,22 @@
                     android:id="@+id/addTitle"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
+                    android:hint="Add Title"
                     android:background="@null"
                     android:ems="10"
                     android:fontFamily="@font/circular_book"
                     android:inputType="textPersonName"
-                    android:paddingLeft="50dp"
-                    android:text="Add Title" />
-
+                    android:paddingStart="50dp"
+                    android:paddingEnd="0dp"
+                    android:textCursorDrawable="@drawable/black_cursor"
+                     />
+                <requestFocus />
             </androidx.gridlayout.widget.GridLayout>
 
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="102dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 app:layout_column="0"
                 app:layout_row="2">
@@ -78,7 +85,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_medium"
-                    android:text="Feb 28th, 2020"
+                    android:text="@string/current_date"
                     app:layout_column="0"
                     app:layout_gravity="center_vertical"
                     app:layout_row="0" />
@@ -87,8 +94,9 @@
                     android:id="@+id/editTimeRowOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:fontFamily="@font/circular_book"
-                    android:text="7:30 PM"
+                    android:text="@string/current_time"
                     app:layout_column="2"
                     app:layout_row="0" />
 
@@ -97,7 +105,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_medium"
-                    android:text="Feb 28th, 2020"
+                    android:text="@string/current_date"
                     app:layout_column="0"
                     app:layout_gravity="center_vertical"
                     app:layout_row="1" />
@@ -107,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
-                    android:text="8:30 PM"
+                    android:text="@string/current_time_1"
                     app:layout_column="2"
                     app:layout_gravity="center_vertical"
                     app:layout_row="1" />
@@ -121,23 +129,24 @@
 
                 <EditText
                     android:id="@+id/notificationMessage"
-                    android:layout_width="299dp"
+                    android:layout_width="570dp"
                     android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:autofillHints=""
                     android:background="@drawable/rounded_edit_text"
                     android:ems="10"
                     android:fontFamily="@font/circular_book"
-                    android:gravity="top|left"
+                    android:gravity="start|top"
                     android:inputType="textMultiLine"
                     android:padding="15dp"
-                    android:text="Write Notification Message..."
+                    android:hint="Write Notification Message"
                     android:textSize="14sp"
+                    android:textCursorDrawable="@drawable/black_cursor"
                     app:layout_column="0"
                     app:layout_row="0">
-
-                    <requestFocus />
+<!--                    <requestFocus />-->
                 </EditText>
             </androidx.gridlayout.widget.GridLayout>
 
@@ -149,12 +158,12 @@
                 app:layout_row="4">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/addLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
-                    android:text="Add Location"
-                    android:textSize="13sp"
+                    android:text="@string/add_location"
+                    android:textSize="15sp"
                     app:layout_column="1"
                     app:layout_gravity="center_vertical"
                     app:layout_row="0" />
@@ -163,13 +172,112 @@
                     android:id="@+id/imageView2"
                     android:layout_width="18dp"
                     android:layout_height="25dp"
-                    android:layout_margin="12dp"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/to_do"
                     app:layout_column="0"
                     app:layout_gravity="center_vertical"
                     app:layout_row="0"
                     app:srcCompat="@drawable/location_icon" />
 
             </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_column="0"
+                app:layout_row="5">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="@string/choose_colour"
+                    android:textSize="15sp" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="25dp"
+                app:layout_column="0"
+                app:layout_row="6">
+
+                <ImageView
+                    android:id="@+id/blueCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:contentDescription="@string/blue_circle"
+                    android:padding="1dp"
+                    app:layout_column="0"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/blue_circle" />
+
+                <ImageView
+                    android:id="@+id/redCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:contentDescription="@string/to_do"
+                    android:padding="1dp"
+                    app:layout_column="1"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/red_circle" />
+
+                <ImageView
+                    android:id="@+id/yellowCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:contentDescription="@string/yellow_circle"
+                    android:padding="1dp"
+                    app:layout_column="2"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/yellow_circle" />
+
+                <ImageView
+                    android:id="@+id/lightBlueCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:contentDescription="@string/lightblue_circle"
+                    android:padding="1dp"
+                    app:layout_column="3"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/lightblue_circle" />
+
+                <ImageView
+                    android:id="@+id/orangeCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:contentDescription="@string/orange_circle"
+                    app:layout_column="4"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/orange_circle" />
+
+                <ImageView
+                    android:id="@+id/greenCircle"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="25dp"
+                    android:contentDescription="@string/green_circle"
+                    android:padding="1dp"
+                    app:layout_column="5"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/green_circle" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="98dp"
+                app:layout_column="0"
+                app:layout_row="7"/>
 
         </androidx.gridlayout.widget.GridLayout>
     </ScrollView>
