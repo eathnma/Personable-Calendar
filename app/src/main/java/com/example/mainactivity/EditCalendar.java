@@ -89,7 +89,7 @@ public class EditCalendar extends AppCompatActivity implements
         arrowRowOne.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                discardMessage();
+                discardMessage(v);
             }
         });
 
@@ -160,19 +160,22 @@ public class EditCalendar extends AppCompatActivity implements
     }
 
 
-    public void discardMessage(){
+    public void discardMessage(View view){
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
+
+//        if(SHAREDPREFERENCES SOMETHING, RUN HOME){
+//            Intent intent = new Intent (this, MainActivity.class);
+//            startActivity(intent);
+//        }
     }
 
     // (USING THE BACK BUTTON)
     // returns the user back to the homepage
-    public void home(View view){
-        Intent intent = new Intent (this, MainActivity.class);
-        startActivity(intent);
-    }
-
-
+//    public void home(View view){
+//        Intent intent = new Intent (this, MainActivity.class);
+//        startActivity(intent);
+//    }
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {

@@ -1,14 +1,14 @@
 package com.example.mainactivity.DialogueObjects;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import com.example.mainactivity.MainActivity;
 
 public class DiscardDialogue extends AppCompatDialogFragment {
 
@@ -21,7 +21,9 @@ public class DiscardDialogue extends AppCompatDialogFragment {
 
             @Override
             public void onClick(DialogInterface dialog, int i) {
-                // pass a boolean statment 
+//                SharedPreferences sharedPrefs = getSharedPreferences("DiscardBoolean", Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPrefs.edit();
+
 //                Intent intent = new Intent(this, MainActivity.class);
 //                startActivity(intent);
             }
