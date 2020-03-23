@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!-- days toolbar -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp">
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="&gt;"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            />
+
+        <Button
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="&lt;"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="85dp"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/date_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true">
+
+            <!-- date title -->
+            <TextView
+                android:id="@+id/date_display_date"
+                android:layout_width="wrap_content"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textAppearance="@android:style/TextAppearance.Large"
+                android:textColor="#222222"
+                android:text="Month"/>
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/calendar_next_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@id/date_display"
+            android:layout_toRightOf="@id/date_display"
+            />
+
+
+    </RelativeLayout>
+
+    <!-- days header -->
+    <LinearLayout
+        android:id="@+id/calendar_header"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:paddingLeft="13dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Sunday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="S"/>
+
+        <TextView
+            android:id="@+id/Monday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="M"/>
+
+        <TextView
+            android:id="@+id/Tuesday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="T"/>
+
+        <TextView
+            android:id="@+id/Wednesday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="W"/>
+
+        <TextView
+            android:id="@+id/Thursday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="T"/>
+
+        <TextView
+            android:id="@+id/Friday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="F"/>
+
+        <TextView
+            android:id="@+id/Saturday"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@color/textColor"
+            android:text="S"/>
+
+    </LinearLayout>
+
+    <!-- days view -->
+    <GridView
+        android:id="@+id/calendar_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:verticalSpacing="40dp"
+        android:numColumns="7"/>
+</LinearLayout>
+
+
