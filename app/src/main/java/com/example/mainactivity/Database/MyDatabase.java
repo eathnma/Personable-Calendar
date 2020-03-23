@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,13 +15,15 @@ public class MyDatabase {
         helper = new MyDatabaseHelper(context);
     }
 
-    public long insertData (String name, String dateOne, String timeOne, String dateTwo, String message)
+    public long insertData (String title, String dateOne, String timeOne, String dateTwo, String timeTwo, String message)
     {
         db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Constants.NAME, name);
+        contentValues.put(Constants.TITLE, title);
         contentValues.put(Constants.DATEONE, dateOne);
         contentValues.put(Constants.TIMEONE, timeOne);
+        contentValues.put(Constants.DATETWO, dateTwo);
+        contentValues.put(Constants.TIMETWO, timeTwo);
         contentValues.put(Constants.MESSAGE, message);
         long id = db.insert(Constants.TABLE_NAME, null, contentValues);
         return id;
@@ -31,7 +33,9 @@ public class MyDatabase {
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.UID, Constants.NAME, Constants.DATEONE, Constants.TIMEONE, Constants.MESSAGE};
+        String[] columns = {Constants.UID, Constants.TITLE, Constants.DATEONE,
+                Constants.TIMEONE, Constants.DATETWO, Constants.TIMETWO, Constants.MESSAGE};
+
         Cursor cursor = db.query(Constants.TABLE_NAME, columns, null, null, null, null, null);
         return cursor;
     }

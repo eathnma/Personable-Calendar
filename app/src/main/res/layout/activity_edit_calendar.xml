@@ -32,6 +32,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:contentDescription="@string/to_do"
+                    android:onClick="home"
                     app:layout_gravity="center_vertical"
                     app:srcCompat="@drawable/arrow" />
 

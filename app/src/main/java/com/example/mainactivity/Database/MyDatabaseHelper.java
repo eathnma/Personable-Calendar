@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.Database;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -15,9 +15,11 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE "+
                     Constants.TABLE_NAME + " (" +
                     Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Constants.NAME + " TEXT, " +
+                    Constants.TITLE + " TEXT, " +
                     Constants.DATEONE + " TEXT, " +
                     Constants.TIMEONE + " TEXT, " +
+                    Constants.DATETWO + " TEXT, " +
+                    Constants.TIMETWO + " TEXT, " +
                     Constants.MESSAGE + " TEXT);";
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
