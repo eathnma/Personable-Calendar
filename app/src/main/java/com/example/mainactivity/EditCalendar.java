@@ -16,8 +16,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.mainactivity.Database.MyDatabase;
-import com.example.mainactivity.PickerFragments.TimePickerFragment;
-import com.example.mainactivity.PickerFragments.TimePickerFragmentTwo;
+import com.example.mainactivity.DialogueObjects.DiscardDialogue;
+import com.example.mainactivity.DialogueObjects.TimePickerFragment;
+import com.example.mainactivity.DialogueObjects.TimePickerFragmentTwo;
 
 import java.util.Calendar;
 
@@ -85,7 +86,12 @@ public class EditCalendar extends AppCompatActivity implements
         saveButtonRowOne = (Button) findViewById(R.id.saveButton);
 //        saveButtonRowOne.setOnClickListener(this);
         arrowRowOne = (ImageView) findViewById(R.id.arrow);
-//        arrowRowOne.setOnClickListener(this);
+        arrowRowOne.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                discardMessage();
+            }
+        });
 
         //GRID LAYOUT TWO
         addTitle = (EditText) findViewById(R.id.addTitle);
@@ -155,14 +161,18 @@ public class EditCalendar extends AppCompatActivity implements
 
 
     public void discardMessage(){
-        // if clicked back, run a discard message?
+        DiscardDialogue discardDialogue = new DiscardDialogue();
+        discardDialogue.show(getSupportFragmentManager(), "example dialogue");
     }
 
+    // (USING THE BACK BUTTON)
+    // returns the user back to the homepage
     public void home(View view){
-        // return the user back to the homepage
         Intent intent = new Intent (this, MainActivity.class);
         startActivity(intent);
     }
+
+
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {
