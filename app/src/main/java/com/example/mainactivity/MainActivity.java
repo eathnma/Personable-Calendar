@@ -9,19 +9,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 import java.util.Date;
 import java.util.HashSet;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
     Toolbar toolbar;
+    TextView toolbarTitle;
     String[] dateToday;
     String toolbarDate;
-
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String TAG = "MainActivity";
 
     // loading editcalendar button
     private Button EditCalendarButton;
@@ -31,11 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TESTING
+
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbar.inflateMenu(R.menu.menu_main);
+        toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         cv.updateCalendar();
 
         cv.setEventHandler(new CalendarView.EventHandler()
@@ -83,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "DATE: " + dateToday[3]);
 
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
-        toolbar.setTitle(toolbarDate);
+        toolbarTitle.setText(toolbarDate);
     }
+
 }

@@ -5,33 +5,47 @@
     android:layout_height="match_parent"
     android:weightSum="1"
     android:orientation="vertical"
-    tools:context=".MainActivity">
-
+    android:background="#ffffff"
+    tools:context=".MainActivity"
+    >
     <Toolbar
         android:id="@+id/actionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="25dp"
-        android:layout_marginBottom="10dp"
+        android:paddingVertical="5dp"
         android:color="#000000"
-        android:background="#f3f5fa"
-        android:title="Month day, year"
+        android:background="#ffffff"
+        android:navigationIcon="@drawable/ic_menu_black_24dp"
         >
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/ic_menu_black_24dp">
-
-        </ImageView>
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/circular_bold"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:text="Month Day, Year"
+            />
     </Toolbar>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/toolbar_shadow"
+        />
     <com.example.mainactivity.CalendarView
         xmlns:calendarNS="http://schemas.android.com/apk/res/com.example.mainactivity"
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="20dp"
+        android:layout_marginBottom="75dp"
         calendarNS:dateFormat="MMMM yyyy"
         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="#F9F9F9" />
+
 
 </LinearLayout>

@@ -1,19 +1,30 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.gridlayout.widget.GridLayout;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.DialogueObjects.DiscardDialogue;
@@ -22,8 +33,7 @@ import com.example.mainactivity.DialogueObjects.TimePickerFragmentTwo;
 
 import java.util.Calendar;
 
-public class EditCalendar extends AppCompatActivity implements
-        TimePickerDialog.OnTimeSetListener {
+public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     // loading calendar
     private int hour;
@@ -57,6 +67,8 @@ public class EditCalendar extends AppCompatActivity implements
     //elements in gridlayout 6
     private ImageView blueCircle, redCircle, yellowCircle, lightBlueCircle, orangeCircle, greenCircle;
 
+
+
     // add database object
     MyDatabase db;
 
@@ -64,7 +76,6 @@ public class EditCalendar extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
-
         //prevents the keyboard from showing up from EditText
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

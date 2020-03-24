@@ -30,16 +30,21 @@ public class EventsList extends AppCompatActivity {
     LinearLayout.LayoutParams layoutParams2;
     private Resources r;
     Toolbar toolbar;
+    TextView toolbarTitle;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_list);
-        Intent intent = getIntent();
+        intent = getIntent();
+
 
         toolbarDate = intent.getStringExtra("TOOLBAR");
         toolbar = findViewById(R.id.actionBar);
-        toolbar.setTitle(toolbarDate);
+        toolbarTitle= toolbar.findViewById(R.id.toolbarTitle);
+
+        toolbarTitle.setText(toolbarDate);
 
         scrollView = findViewById(R.id.scrollViewContainer);
         r = getResources();
@@ -128,5 +133,10 @@ public class EventsList extends AppCompatActivity {
 
         parentContainer.addView(timeline);
         parentContainer.addView(boxParent);
+    }
+
+    public void clickAddEvent(View v){
+        Intent editCalendarIntent = new Intent(getBaseContext(), EditCalendar.class);
+        startActivity(editCalendarIntent);
     }
 }
