@@ -75,7 +75,6 @@ public class EditCalendar extends AppCompatActivity implements
         int hourPlusOne = 1 + c.get(Calendar.HOUR);
         int minute = c.get(Calendar.MINUTE);
 
-
         if(c.get(Calendar.AM_PM) == 1){
             AM_PM = "PM";
         } else{
