@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity{
 
     // loading editcalendar button
     private Button editCalendarButton;
-    private Button mapsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +41,6 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(i);
             }
         });
-
-        mapsButton = (Button) findViewById(R.id.mapsButton);
-        mapsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent inte = new Intent(MainActivity.this, AddLocationActivity.class);
-                startActivity(inte);
-            }
-        });
-
 
         //TESTING
         HashSet<Date> events = new HashSet<>();
