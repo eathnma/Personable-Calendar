@@ -3,6 +3,7 @@ package com.example.mainactivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,15 +26,34 @@ public class MainActivity extends AppCompatActivity{
     String toolbarDate;
 
     // loading editcalendar button
-    private Button EditCalendarButton;
+    private Button editCalendarButton;
+    private Button mapsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TESTING
+        editCalendarButton = (Button) findViewById(R.id.editCalendarButton);
+        editCalendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, EditCalendar.class);
+                startActivity(i);
+            }
+        });
 
+        mapsButton = (Button) findViewById(R.id.mapsButton);
+        mapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent inte = new Intent(MainActivity.this, AddLocationActivity.class);
+                startActivity(inte);
+            }
+        });
+
+
+        //TESTING
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
@@ -66,6 +86,11 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
+//    public void editCalendarIntent(View view){
+//        Intent i = new Intent(MainActivity.this, EventsList.class);
+//        startActivity(i);
+//    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -89,5 +114,7 @@ public class MainActivity extends AppCompatActivity{
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
         toolbarTitle.setText(toolbarDate);
     }
+
+
 
 }
