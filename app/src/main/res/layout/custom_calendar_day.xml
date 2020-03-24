@@ -8,5 +8,6 @@
     android:textAppearance="@android:style/TextAppearance.Medium"
     android:textAlignment="center"
     android:textSize="13sp"
+    android:fontFamily="@font/circular_book"
     android:text="00">
 </TextView>

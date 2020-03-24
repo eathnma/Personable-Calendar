@@ -26,6 +26,7 @@
         >
         <activity android:name=".AddLocationActivity"></activity>
         <activity android:name=".EditCalendar" />
+        <activity android:name=".EventsList"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
