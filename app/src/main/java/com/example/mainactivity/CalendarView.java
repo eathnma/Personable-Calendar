@@ -1,9 +1,11 @@
 package com.example.mainactivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toolbar;
+
+import androidx.core.content.ContextCompat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +30,7 @@ public class CalendarView extends LinearLayout {
     LinearLayout header;
     Button btnToday;
     ImageView btnPrev;
-    ImageView btnNext;
+    Button btnNext;
     TextView txtDateDay;
     TextView txtDisplayDate;
     TextView txtDateYear;
@@ -54,7 +59,7 @@ public class CalendarView extends LinearLayout {
         // layout is inflated, assign local variables to components
         header = findViewById(R.id.calendar_header);
         //btnPrev = findViewById(R.id.calendar_prev_button);
-        btnNext = findViewById(R.id.calendar_next_button);
+        btnNext = findViewById(R.id.button1);
         txtDisplayDate = findViewById(R.id.date_display_date);
        // btnToday = findViewById(R.id.date_display_today);
         gridView = findViewById(R.id.calendar_grid);
@@ -135,6 +140,15 @@ public class CalendarView extends LinearLayout {
         dayOfWeek = (TextView) findViewById(getResources().getIdentifier(dateToday[0], "id", "com.example.mainactivity"));
         dayOfWeek.setTextColor(Color.BLACK);
         dayOfWeek.setTypeface(null, Typeface.BOLD);
+    }
+
+    private void setColors(){
+        GradientDrawable shape = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle);
+        shape.setColor(ContextCompat.getColor(getContext(), R.color.boxColor1));
+
+        ImageView color = findViewById(R.id.blueCircle);
+
+        color.setBackground(shape);
     }
 
     public void setEventHandler(EventHandler eventHandler)

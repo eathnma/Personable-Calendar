@@ -1,19 +1,30 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.gridlayout.widget.GridLayout;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.DialogueObjects.DiscardDialogue;
@@ -22,8 +33,7 @@ import com.example.mainactivity.DialogueObjects.TimePickerFragmentTwo;
 
 import java.util.Calendar;
 
-public class EditCalendar extends AppCompatActivity implements
-        TimePickerDialog.OnTimeSetListener {
+public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     // loading calendar
     private int hour;
@@ -52,10 +62,12 @@ public class EditCalendar extends AppCompatActivity implements
     private EditText notificationMessage;
 
     //elements in gridlayout 5
-    private TextView addLocation;
+    private GridLayout locationButton;
 
     //elements in gridlayout 6
+    private ImageView[] imgs = new ImageView[6];
     private ImageView blueCircle, redCircle, yellowCircle, lightBlueCircle, orangeCircle, greenCircle;
+    private String chosenColor;
 
     // add database object
     MyDatabase db;
@@ -64,7 +76,6 @@ public class EditCalendar extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
-
         //prevents the keyboard from showing up from EditText
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -74,7 +85,6 @@ public class EditCalendar extends AppCompatActivity implements
         int hour = c.get(Calendar.HOUR);
         int hourPlusOne = 1 + c.get(Calendar.HOUR);
         int minute = c.get(Calendar.MINUTE);
-
 
         if(c.get(Calendar.AM_PM) == 1){
             AM_PM = "PM";
@@ -129,15 +139,33 @@ public class EditCalendar extends AppCompatActivity implements
         notificationMessage = (EditText) findViewById(R.id.notificationMessage);
 
         //GRID LAYOUT FIVE
-        addLocation = (TextView) findViewById(R.id.addLocation);
+        locationButton = (GridLayout) findViewById(R.id.locationButton);
+        locationButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(EditCalendar.this, AddLocationActivity.class);
+                startActivity(i);
+            }
+        });
 
         //GRID LAYOUT SIX
-        blueCircle = (ImageView) findViewById(R.id.blueCircle);
-        redCircle = (ImageView) findViewById(R.id.redCircle);
-        yellowCircle = (ImageView) findViewById(R.id.yellowCircle);
-        lightBlueCircle = (ImageView) findViewById(R.id.lightBlueCircle);
-        orangeCircle = (ImageView) findViewById(R.id.orangeCircle);
-        greenCircle = (ImageView) findViewById(R.id.greenCircle);
+        imgs[0]=findViewById(R.id.blueCircle);
+        imgs[1]=findViewById(R.id.redCircle);
+        imgs[2]=findViewById(R.id.yellowCircle);
+        imgs[3]=findViewById(R.id.lightBlueCircle);
+        imgs[4]=findViewById(R.id.orangeCircle);
+        imgs[5]=findViewById(R.id.greenCircle);
+
+        for(int j = 0; j < imgs.length; j++){
+            final int finalJ = j;
+            imgs[j].setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    chosenColor = "@colors/boxColor" + (finalJ + 1);
+                    Toast.makeText(getApplicationContext(), chosenColor, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 //      instantiate database object
         db = new MyDatabase(this);
@@ -158,6 +186,7 @@ public class EditCalendar extends AppCompatActivity implements
 
 //        Toast.makeText(this, "SEND BUTTON CLICKED", Toast.LENGTH_SHORT).show();
     }
+
 
 
     public void discardMessage(View view){

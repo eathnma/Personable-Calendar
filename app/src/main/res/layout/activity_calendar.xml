@@ -8,11 +8,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:paddingLeft="15dp"
         android:paddingTop="20dp">
 
         <Button
+            android:id="@+id/button1"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:text="&gt;"
@@ -46,6 +46,7 @@
                 android:textStyle="bold"
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:textColor="#222222"
+                android:fontFamily="@font/circular_bold"
                 android:text="Month"/>
 
 
@@ -83,6 +84,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="S"/>
 
         <TextView
@@ -94,6 +96,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="M"/>
 
         <TextView
@@ -105,6 +108,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="T"/>
 
         <TextView
@@ -116,6 +120,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="W"/>
 
         <TextView
@@ -127,6 +132,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="T"/>
 
         <TextView
@@ -138,6 +144,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="F"/>
 
         <TextView
@@ -149,6 +156,7 @@
             android:layout_weight="1"
             android:paddingRight="20dp"
             android:textColor="@color/textColor"
+            android:fontFamily="@font/circular_book"
             android:text="S"/>
 
     </LinearLayout>
@@ -160,7 +168,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
         android:verticalSpacing="40dp"
-        android:numColumns="7"/>
+        android:numColumns="7"
+        />
 </LinearLayout>
 
 
