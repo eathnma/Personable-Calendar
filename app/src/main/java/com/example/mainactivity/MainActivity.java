@@ -104,6 +104,4 @@ public class MainActivity extends AppCompatActivity{
         toolbarTitle.setText(toolbarDate);
     }
 
-
-
 }
