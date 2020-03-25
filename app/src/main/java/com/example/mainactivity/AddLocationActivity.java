@@ -115,7 +115,7 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        inputSearch= (EditText) findViewById(R.id.inputSearch);
+        mSearchText= (EditText) findViewById(R.id.inputSearch);
     }
 
     private void init(){
