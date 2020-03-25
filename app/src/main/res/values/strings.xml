@@ -29,4 +29,8 @@
     <string name="lightblue_circle">LightBlue Circle</string>
     <string name="orange_circle">Orange Circle</string>
     <string name="green_circle">Green Circle</string>
+
+<!--    search bar strings-->
+    <string name="search_bar">Search Bar</string>
+    <string name="search_hint">Enter Address, City or Zip Code</string>
 </resources>
