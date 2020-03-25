@@ -194,9 +194,9 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         String notifmessage = sharedPrefs.getString("motifmessage",DEFAULT);
         String choosecolor = sharedPrefs.getString("choosecolor,",DEFAULT);
 
-        if(title.equals(DEFAULT) || firstdate.equals(DEFAULT) || firsttime.equals(DEFAULT) ||
-                seconddate.equals(DEFAULT) || secondtime.equals(DEFAULT) || notifmessage.equals(DEFAULT)||
-                choosecolor.equals(DEFAULT)){
+        if(title != DEFAULT || firstdate!= DEFAULT || firsttime !=DEFAULT ||
+                seconddate != DEFAULT || secondtime != DEFAULT || notifmessage != DEFAULT ||
+                choosecolor != DEFAULT){
             Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "Data retrieve success", Toast.LENGTH_LONG).show();
