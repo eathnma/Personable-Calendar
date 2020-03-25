@@ -62,12 +62,12 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     private EditText notificationMessage;
 
     //elements in gridlayout 5
-    private TextView addLocation;
+    private GridLayout locationButton;
 
     //elements in gridlayout 6
+    private ImageView[] imgs = new ImageView[6];
     private ImageView blueCircle, redCircle, yellowCircle, lightBlueCircle, orangeCircle, greenCircle;
-
-
+    private String chosenColor;
 
     // add database object
     MyDatabase db;
@@ -139,15 +139,33 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         notificationMessage = (EditText) findViewById(R.id.notificationMessage);
 
         //GRID LAYOUT FIVE
-        addLocation = (TextView) findViewById(R.id.addLocation);
+        locationButton = (GridLayout) findViewById(R.id.locationButton);
+        locationButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(EditCalendar.this, AddLocationActivity.class);
+                startActivity(i);
+            }
+        });
 
         //GRID LAYOUT SIX
-        blueCircle = (ImageView) findViewById(R.id.blueCircle);
-        redCircle = (ImageView) findViewById(R.id.redCircle);
-        yellowCircle = (ImageView) findViewById(R.id.yellowCircle);
-        lightBlueCircle = (ImageView) findViewById(R.id.lightBlueCircle);
-        orangeCircle = (ImageView) findViewById(R.id.orangeCircle);
-        greenCircle = (ImageView) findViewById(R.id.greenCircle);
+        imgs[0]=findViewById(R.id.blueCircle);
+        imgs[1]=findViewById(R.id.redCircle);
+        imgs[2]=findViewById(R.id.yellowCircle);
+        imgs[3]=findViewById(R.id.lightBlueCircle);
+        imgs[4]=findViewById(R.id.orangeCircle);
+        imgs[5]=findViewById(R.id.greenCircle);
+
+        for(int j = 0; j < imgs.length; j++){
+            final int finalJ = j;
+            imgs[j].setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    chosenColor = "@colors/boxColor" + (finalJ + 1);
+                    Toast.makeText(getApplicationContext(), chosenColor, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 //      instantiate database object
         db = new MyDatabase(this);
@@ -168,6 +186,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
 //        Toast.makeText(this, "SEND BUTTON CLICKED", Toast.LENGTH_SHORT).show();
     }
+
 
 
     public void discardMessage(View view){

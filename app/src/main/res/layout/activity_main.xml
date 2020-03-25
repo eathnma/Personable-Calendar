@@ -27,6 +27,13 @@
             android:text="Month Day, Year"
             />
     </Toolbar>
+
+    <Button
+        android:id="@+id/editCalendarButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="edit" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="8dp"

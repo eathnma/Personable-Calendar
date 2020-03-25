@@ -9,9 +9,8 @@
         />
 
     <item
-        android:title="item2"
-        app:showAsAction="never"
-        />
+        android:title="edit "
+        app:showAsAction="never" />
 
     <item
         android:title="item2"
