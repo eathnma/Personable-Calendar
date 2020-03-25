@@ -2,7 +2,10 @@ package com.example.mainactivity;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -89,7 +93,8 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
 
     // Storing Address into a List
     private List<Address> list = new ArrayList<>();
-    private EditText inputSearch;
+    private String currentLocation;
+    private Button addLocButton;
 
 
     @Override
@@ -116,7 +121,9 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
         mapFragment.getMapAsync(this);
 
         mSearchText= (EditText) findViewById(R.id.inputSearch);
+        addLocButton = (Button) findViewById(R.id.addLocButton);
     }
+
 
     private void init(){
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -155,13 +162,29 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
 
             Log.d(TAG, "geoLocate: found location!:" + address.toString());
 
-            String currentLocation = (address.getFeatureName() + " " +address.getThoroughfare()
+            // Clear search result
+            mSearchText.setText("");
+
+            currentLocation = (address.getFeatureName() + " " +address.getThoroughfare()
                     + ", " + address.getAdminArea() + ", " + address.getCountryName()+ ", "
                     + address.getPostalCode());
 
-            Toast.makeText(this, currentLocation, Toast.LENGTH_SHORT).show();
+            // Set Search Result
+            mSearchText.setHint(currentLocation);
+
+            SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("currentlocation", currentLocation);
+            Toast.makeText(this, currentLocation + " " + "Stored", Toast.LENGTH_LONG).show();
+            editor.commit();
         }
     }
+
+    public void sendLocation(View view){
+        Intent i = new Intent(getApplicationContext(), EditCalendar.class);
+        startActivity(i);
+    }
+
 
     private void moveCamera(LatLng latLng, float zoom, String title){
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));

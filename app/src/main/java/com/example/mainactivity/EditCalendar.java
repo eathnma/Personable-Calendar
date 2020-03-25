@@ -8,6 +8,7 @@ import androidx.gridlayout.widget.GridLayout;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -71,6 +72,10 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     // add database object
     MyDatabase db;
+
+    // shared preferences
+    public static final String DEFAULT = "not available";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +149,16 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditCalendar.this, AddLocationActivity.class);
+                SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString("title", addTitle.getText().toString());
+                editor.putString("firstdate",editDateRowOne.getText().toString());
+                editor.putString("firsttime",editTimeRowOne.getText().toString());
+                editor.putString("seconddate",editDateRowTwo.getText().toString());
+                editor.putString("secondtime",editTimeRowTwo.getText().toString());
+                editor.putString("notifmessage",notificationMessage.getText().toString());
+                editor.putString("choosecolor",chosenColor);
+                editor.commit();
                 startActivity(i);
             }
         });
@@ -169,6 +184,30 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
 //      instantiate database object
         db = new MyDatabase(this);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        String title = sharedPrefs.getString("title", DEFAULT);
+        String firstdate = sharedPrefs.getString("firstdate", DEFAULT);
+        String firsttime = sharedPrefs.getString("firsttime",DEFAULT);
+        String seconddate = sharedPrefs.getString("seconddate",DEFAULT);
+        String secondtime = sharedPrefs.getString("secondtime",DEFAULT);
+        String notifmessage = sharedPrefs.getString("motifmessage",DEFAULT);
+        String choosecolor = sharedPrefs.getString("choosecolor,",DEFAULT);
+
+        if(title.equals(DEFAULT) || firstdate.equals(DEFAULT) || firsttime.equals(DEFAULT) ||
+                seconddate.equals(DEFAULT) || secondtime.equals(DEFAULT) || notifmessage.equals(DEFAULT)||
+                choosecolor.equals(DEFAULT)){
+            Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "Data retrieve success", Toast.LENGTH_LONG).show();
+            addTitle.setText(title);
+            editDateRowOne.setText(firstdate);
+            editTimeRowOne.setText(firsttime);
+            editDateRowTwo.setText(seconddate);
+            editTimeRowTwo.setText(secondtime);
+            notificationMessage.setText(notifmessage);
+            chosenColor = choosecolor;
+        }
     }
 
 
@@ -184,7 +223,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
         long id = db.insertData(title, dateOne, timeOne, dateTwo, timeTwo, message);
 
-//        Toast.makeText(this, "SEND BUTTON CLICKED", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -193,10 +231,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
 
-//        if(SHAREDPREFERENCES SOMETHING, RUN HOME){
-//            Intent intent = new Intent (this, MainActivity.class);
-//            startActivity(intent);
-//        }
     }
 
     // (USING THE BACK BUTTON)
