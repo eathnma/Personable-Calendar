@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -19,7 +20,7 @@ public class DiscardDialogue extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Discard Activity?");
         builder.setMessage("All information will not be saved.");
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+        builder.setNegativeButton(Html.fromHtml("<font color='#969696'>Cancel</font>"), new DialogInterface.OnClickListener(){
 
             @Override
             public void onClick(DialogInterface dialog, int i) {
@@ -28,7 +29,7 @@ public class DiscardDialogue extends AppCompatDialogFragment {
             }
         });
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(Html.fromHtml("<font color='#edbe2f'>Yes</font>"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
              Intent intent= new Intent (getActivity(), EventsList.class);
