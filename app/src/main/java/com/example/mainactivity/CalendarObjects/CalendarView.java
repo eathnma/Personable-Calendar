@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.CalendarObjects;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -17,6 +17,9 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import androidx.core.content.ContextCompat;
+
+import com.example.mainactivity.CalendarObjects.CalendarAdapter;
+import com.example.mainactivity.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

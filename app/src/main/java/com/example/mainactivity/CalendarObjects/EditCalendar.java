@@ -1,7 +1,6 @@
-package com.example.mainactivity;
+package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -10,32 +9,28 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.example.mainactivity.AddLocationActivity;
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.DialogueObjects.DiscardDialogue;
 import com.example.mainactivity.DialogueObjects.TimePickerFragment;
 import com.example.mainactivity.DialogueObjects.TimePickerFragmentTwo;
+import com.example.mainactivity.R;
 
 import java.util.Calendar;
 
 public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+
+    private static final String TAG = EditCalendar.class.getSimpleName();
 
     private String AM_PM;
 
@@ -74,7 +69,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     // shared preferences
     public static final String DEFAULT = "not available";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,6 +109,15 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         editTimeRowOne = (TextView) findViewById(R.id.editTimeRowOne);
         editDateRowTwo = (TextView) findViewById(R.id.editDateRowTwo);
         editTimeRowTwo = (TextView) findViewById(R.id.editTimeRowTwo);
+
+        Intent intent = getIntent();
+        String dateClicked = intent.getStringExtra("DATECLICKED");
+
+        String [] parser  = dateClicked.split(" ");
+        String MYD = parser[0] + " " + parser[1] + " " + parser[2];
+
+        editDateRowOne.setText(MYD + ", 2020");
+        editDateRowTwo.setText(MYD + ", 2020");
 
         //onClick opens the TIME DIALOGUE ( ROW ONE )
         editTimeRowOne.setOnClickListener(new View.OnClickListener(){
@@ -170,7 +173,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             addLocation.setText(currentLocation);
         }
 
-
         //GRID LAYOUT SIX
         imgs[0]=findViewById(R.id.blueCircle);
         imgs[1]=findViewById(R.id.redCircle);
@@ -185,7 +187,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 @Override
                 public void onClick(View v) {
                     chosenColor = "@colors/boxColor" + (finalJ + 1);
-
                 }
             });
         }
@@ -235,28 +236,26 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     public void addActivity(View view){
         String title = addTitle.getText().toString();
-        //String dateOne = editDateRowOne.getText().toString();
         String timeOne = editTimeRowOne.getText().toString();
-        //String dateTwo = editDateRowTwo.getText().toString();
         String timeTwo = editTimeRowTwo.getText().toString();
         String message = notificationMessage.getText().toString();
+        String location = addLocation.getText().toString();
         Intent intent = getIntent();
         String dateClicked = intent.getStringExtra("DATECLICKED");
-        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
 
-        //Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
 
-        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked);
+        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, location, dateClicked);
+
+        Toast.makeText(getApplicationContext(), title + timeOne + timeTwo + message + chosenColor + location + dateClicked, Toast.LENGTH_SHORT).show();
 
     }
-
 
     public void discardMessage(View view){
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
     }
-
-
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {

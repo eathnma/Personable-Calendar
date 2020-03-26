@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.CalendarObjects;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.mainactivity.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

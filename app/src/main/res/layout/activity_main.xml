@@ -33,7 +33,7 @@
         android:layout_height="8dp"
         android:background="@drawable/toolbar_shadow"
         />
-    <com.example.mainactivity.CalendarView
+    <com.example.mainactivity.CalendarObjects.CalendarView
         xmlns:calendarNS="http://schemas.android.com/apk/res/com.example.mainactivity"
         android:id="@+id/calendar_view"
         android:layout_width="match_parent"
