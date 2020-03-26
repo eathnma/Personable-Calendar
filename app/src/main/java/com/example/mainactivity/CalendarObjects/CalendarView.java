@@ -29,14 +29,14 @@ import java.util.HashSet;
 
 public class CalendarView extends LinearLayout {
     // calendar components
-    LinearLayout header;
-    Button btnPrev;
-    Button btnNext;
-    TextView txtDateDay;
-    TextView txtDisplayDate;
-    TextView txtDateYear;
-    GridView gridView;
-    Toolbar toolbar;
+    private LinearLayout header;
+    private Button btnPrev;
+    private Button btnNext;
+    private TextView txtDateDay;
+    private TextView txtDisplayDate;
+    private TextView txtDateYear;
+    private GridView gridView;
+    private Toolbar toolbar;
 
     EventHandler eventHandler;
 

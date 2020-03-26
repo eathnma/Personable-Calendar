@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.mainactivity.AddLocationActivity;
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.DialogueObjects.DiscardDialogue;
 import com.example.mainactivity.DialogueObjects.TimePickerFragment;
