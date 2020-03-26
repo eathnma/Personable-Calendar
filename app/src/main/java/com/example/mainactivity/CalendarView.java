@@ -1,7 +1,6 @@
 package com.example.mainactivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,8 +27,7 @@ import java.util.HashSet;
 public class CalendarView extends LinearLayout {
     // calendar components
     LinearLayout header;
-    Button btnToday;
-    ImageView btnPrev;
+    Button btnPrev;
     Button btnNext;
     TextView txtDateDay;
     TextView txtDisplayDate;
@@ -45,6 +43,7 @@ public class CalendarView extends LinearLayout {
     String[] dateToday;
 
     private Calendar currentDate = Calendar.getInstance();
+    private Calendar currentDateComparison = Calendar.getInstance();
 
     public CalendarView(Context context) {
         super(context);
@@ -58,12 +57,10 @@ public class CalendarView extends LinearLayout {
     private void assignUiElements(Context context) {
         // layout is inflated, assign local variables to components
         header = findViewById(R.id.calendar_header);
-        //btnPrev = findViewById(R.id.calendar_prev_button);
-        btnNext = findViewById(R.id.button1);
+        btnPrev = findViewById(R.id.buttonPrev);
+        btnNext = findViewById(R.id.buttonNext);
         txtDisplayDate = findViewById(R.id.date_display_date);
-       // btnToday = findViewById(R.id.date_display_today);
         gridView = findViewById(R.id.calendar_grid);
-        //toolbar = findViewById(R.id.actionBar);
         setEventHandler(eventHandler);
 
     }
@@ -72,7 +69,26 @@ public class CalendarView extends LinearLayout {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //send date clicked
                 eventHandler.onDayClick((Date)parent.getItemAtPosition(position));
+            }
+        });
+
+        btnPrev.setOnClickListener(new OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                currentDate.add(Calendar.MONTH, -1);
+                updateCalendar();
+            }
+        });
+
+        btnNext.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                currentDate.add(Calendar.MONTH, 1);
+                updateCalendar();
             }
         });
 
@@ -129,7 +145,7 @@ public class CalendarView extends LinearLayout {
         }
 
         // update grid
-        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events));
+        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events, currentDate));
 
         // update title
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM,yyyy,dd");
@@ -137,9 +153,43 @@ public class CalendarView extends LinearLayout {
 
         txtDisplayDate.setText(dateToday[1]);
 
-        dayOfWeek = (TextView) findViewById(getResources().getIdentifier(dateToday[0], "id", "com.example.mainactivity"));
-        dayOfWeek.setTextColor(Color.BLACK);
-        dayOfWeek.setTypeface(null, Typeface.BOLD);
+
+        if(currentDate.get(Calendar.MONTH) == currentDateComparison.get(Calendar.MONTH)) {
+            dayOfWeek = (TextView) findViewById(getResources().getIdentifier(dateToday[0], "id", "com.example.mainactivity"));
+            dayOfWeek.setTextColor(Color.BLACK);
+            dayOfWeek.setTypeface(null, Typeface.BOLD);
+        }
+        else{
+            //DO MORE EFFICIENTLY PLS
+            dayOfWeek = (TextView) findViewById(R.id.Wednesday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Thursday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Friday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Saturday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Sunday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Monday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+
+            dayOfWeek = (TextView) findViewById(R.id.Tuesday);
+            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+        }
+
     }
 
     private void setColors(){

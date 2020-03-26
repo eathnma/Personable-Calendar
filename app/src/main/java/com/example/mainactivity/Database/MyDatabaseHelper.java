@@ -15,12 +15,12 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE "+
                     Constants.TABLE_NAME + " (" +
                     Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Constants.DATECLICKED + " TEXT, " +
                     Constants.TITLE + " TEXT, " +
-                    Constants.DATEONE + " TEXT, " +
                     Constants.TIMEONE + " TEXT, " +
-                    Constants.DATETWO + " TEXT, " +
                     Constants.TIMETWO + " TEXT, " +
-                    Constants.MESSAGE + " TEXT);";
+                    Constants.MESSAGE + " TEXT, " +
+                    Constants.COLOR + " TEXT);";
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
 

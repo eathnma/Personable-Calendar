@@ -35,10 +35,6 @@ import java.util.Calendar;
 
 public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-    // loading calendar
-    private int hour;
-    private int hourPlusOne;
-    private int minute;
     private String AM_PM;
 
     private int flag = 0;
@@ -66,7 +62,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     //elements in gridlayout 6
     private ImageView[] imgs = new ImageView[6];
-    private ImageView blueCircle, redCircle, yellowCircle, lightBlueCircle, orangeCircle, greenCircle;
     private String chosenColor;
 
     // add database object
@@ -162,7 +157,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 @Override
                 public void onClick(View v) {
                     chosenColor = "@colors/boxColor" + (finalJ + 1);
-                    Toast.makeText(getApplicationContext(), chosenColor, Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
@@ -174,15 +169,18 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     public void addActivity(View view){
         String title = addTitle.getText().toString();
-        String dateOne = editDateRowOne.getText().toString();
+        //String dateOne = editDateRowOne.getText().toString();
         String timeOne = editTimeRowOne.getText().toString();
-        String dateTwo = editDateRowTwo.getText().toString();
+        //String dateTwo = editDateRowTwo.getText().toString();
         String timeTwo = editTimeRowTwo.getText().toString();
         String message = notificationMessage.getText().toString();
+        Intent intent = getIntent();
+        String dateClicked = intent.getStringExtra("DATECLICKED");
+        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(this, title + dateOne + timeOne + dateTwo + timeTwo + message, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
 
-        long id = db.insertData(title, dateOne, timeOne, dateTwo, timeTwo, message);
+        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked);
 
 //        Toast.makeText(this, "SEND BUTTON CLICKED", Toast.LENGTH_SHORT).show();
     }

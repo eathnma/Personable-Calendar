@@ -1,4 +1,5 @@
 package com.example.mainactivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,14 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
     // for view inflation
     private LayoutInflater inflater;
     private HashSet<Date> eventDays;
+    private Calendar calendarCompare;
     private static final String TAG = "CalendarAdapter";
 
-    public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays) {
+    public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays, Calendar calendar) {
         super(context, R.layout.custom_calendar_day, days);
         this.eventDays = eventDays;
         inflater = LayoutInflater.from(context);
+        this.calendarCompare = (Calendar) calendar.clone();
     }
 
     @Override
@@ -43,22 +46,33 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
         // inflate item if it does not exist yet
         if (view == null) {
             view = inflater.inflate(R.layout.custom_calendar_day, parent, false);
+        }
 
-        }
-        // clear styling
-        if (month != calendarToday.get(Calendar.MONTH) || year != calendarToday.get(Calendar.YEAR)) {
-            // if this day is outside current month, grey it out
-            ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
-        }
-        else if (day == calendarToday.get(Calendar.DATE)) {
-            // if it is today, set it to blue/bold
-            ((TextView)view).setTextColor(Color.BLACK);
-            ((TextView)view).setGravity(Gravity.CENTER);
-            view.setBackgroundResource(R.drawable.text_view_circle_selected);
+        if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)) {
+            // clear styling
+            if (month != calendarToday.get(Calendar.MONTH)) {
+                // if this day is outside current month, grey it out
+                ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
+            } else if (day == calendarToday.get(Calendar.DATE)) {
+                // if it is today, set it to blue/bold
+                ((TextView) view).setTextColor(Color.BLACK);
+                ((TextView) view).setGravity(Gravity.CENTER);
+                view.setBackgroundResource(R.drawable.text_view_circle_selected);
+            } else {
+                // !*** CHECK FOR EVENT **
+                ((TextView) view).setTextColor(Color.parseColor("#969696"));
+                view.setBackgroundResource(R.drawable.text_view_circle);
+            }
         }
         else{
-            ((TextView)view).setTextColor(Color.parseColor("#969696"));
-            view.setBackgroundResource(R.drawable.text_view_circle);
+            if (month != calendarCompare.get(Calendar.MONTH)) {
+                // if this day is outside current month, grey it out
+                ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
+            } else {
+                // !*** CHECK FOR EVENT **
+                ((TextView) view).setTextColor(Color.parseColor("#969696"));
+                view.setBackgroundResource(R.drawable.text_view_circle);
+            }
         }
 
         // set text
