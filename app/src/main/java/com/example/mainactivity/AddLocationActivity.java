@@ -1,16 +1,27 @@
 package com.example.mainactivity;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -36,6 +47,8 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,6 +89,15 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
     private List[] mLikelyPlaceAttributions;
     private LatLng[] mLikelyPlaceLatLngs;
 
+    //Widgets for grabbing location
+    private EditText mSearchText;
+
+    // Storing Address into a List
+    private List<Address> list = new ArrayList<>();
+    private String currentLocation;
+    private Button addLocButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +120,82 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mSearchText= (EditText) findViewById(R.id.inputSearch);
+        addLocButton = (Button) findViewById(R.id.addLocButton);
+    }
+
+
+    private void init(){
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+
+                    // execute method for searching
+                    geoLocate();
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private void geoLocate(){
+        Log.d(TAG, "geoLocate: geolocating");
+
+        String searchString = mSearchText.getText().toString();
+        Geocoder geocoder = new Geocoder(AddLocationActivity.this);
+
+        try{
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(list.size() > 0){
+            Address address = list.get(0);
+
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
+
+            Log.d(TAG, "geoLocate: found location!:" + address.toString());
+
+            // Clear search result
+            mSearchText.setText("");
+
+            currentLocation = (address.getFeatureName() + " " +address.getThoroughfare()
+                    + ", " + address.getAdminArea() + ", " + address.getCountryName()+ ", "
+                    + address.getPostalCode());
+
+            // Set Search Result
+            mSearchText.setHint(currentLocation);
+
+            SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("currentlocation", currentLocation);
+            Toast.makeText(this, currentLocation + " " + "Stored", Toast.LENGTH_LONG).show();
+            editor.commit();
+        }
+    }
+
+    public void sendLocation(View view){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("currentlocation", currentLocation);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
+
+    private void moveCamera(LatLng latLng, float zoom, String title){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        MarkerOptions options = new MarkerOptions()
+                .position(latLng)
+                .title(title);
+        mMap.addMarker(options);
     }
 
     @Override
@@ -153,6 +251,9 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
 
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+
+        // Initalizing Geolocation
+        init();
     }
 
     private void getDeviceLocation() {
@@ -350,5 +451,6 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
 
 }
