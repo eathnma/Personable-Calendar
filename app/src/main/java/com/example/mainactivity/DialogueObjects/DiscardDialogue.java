@@ -10,10 +10,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 
+
 public class DiscardDialogue extends AppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Discard Activity?");
         builder.setMessage("All information will not be saved");
@@ -28,6 +30,7 @@ public class DiscardDialogue extends AppCompatDialogFragment {
 //                startActivity(intent);
             }
         });
+
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
             @Override

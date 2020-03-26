@@ -1,6 +1,7 @@
 package com.example.mainactivity;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -181,8 +182,10 @@ public class AddLocationActivity extends FragmentActivity implements OnMapReadyC
     }
 
     public void sendLocation(View view){
-        Intent i = new Intent(getApplicationContext(), EditCalendar.class);
-        startActivity(i);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("currentlocation", currentLocation);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
 
