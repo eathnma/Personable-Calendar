@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -14,6 +15,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toolbar;
+
+import com.example.mainactivity.Database.Constants;
+import com.example.mainactivity.Database.MyDatabase;
+import com.example.mainactivity.Database.MyDatabaseHelper;
+
+import java.util.ArrayList;
 
 public class EventsList extends AppCompatActivity {
     private static final String TAG = "EventsList";
@@ -30,22 +37,33 @@ public class EventsList extends AppCompatActivity {
     LinearLayout.LayoutParams layoutParams2;
     private Resources r;
     Toolbar toolbar;
+    String dateClicked;
+    String[] parser;
     TextView toolbarTitle;
     Intent intent;
+    MyDatabase db;
+    MyDatabaseHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_list);
         intent = getIntent();
+        dateClicked = intent.getStringExtra("DATE_CLICKED");
+        //parser = dateClicked.split()
 
+        //database
+        db = new MyDatabase(this);
+        helper = new MyDatabaseHelper(this);
 
+        //Toolbar stuff
         toolbarDate = intent.getStringExtra("TOOLBAR");
         toolbar = findViewById(R.id.actionBar);
         toolbarTitle= toolbar.findViewById(R.id.toolbarTitle);
 
         toolbarTitle.setText(toolbarDate);
 
+        //Scrollview containers
         scrollView = findViewById(R.id.scrollViewContainer);
         r = getResources();
         width = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, r.getDisplayMetrics()));
@@ -57,6 +75,9 @@ public class EventsList extends AppCompatActivity {
         setContainers();
         scrollView.addView(parentContainer);
         fillLayout();
+
+        //Display event
+        displayEvent();
     }
 
     private void fillLayout(){
@@ -135,8 +156,41 @@ public class EventsList extends AppCompatActivity {
         parentContainer.addView(boxParent);
     }
 
+    //next intent
     public void clickAddEvent(View v){
         Intent editCalendarIntent = new Intent(getBaseContext(), EditCalendar.class);
+        editCalendarIntent.putExtra("DATECLICKED", dateClicked);
         startActivity(editCalendarIntent);
+    }
+
+    private void displayEvent(){
+        Cursor cursor = db.getData();
+        int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
+        int index1 = cursor.getColumnIndex(Constants.TITLE);
+        int index2 = cursor.getColumnIndex(Constants.TIMEONE);
+        int index3 = cursor.getColumnIndex(Constants.TIMETWO);
+        int index4 = cursor.getColumnIndex(Constants.MESSAGE);
+        int index5 = cursor.getColumnIndex(Constants.COLOR);
+
+        ArrayList<String> mArrayList = new ArrayList<>();
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            String dateDatabase = cursor.getString(index0);
+            if(dateDatabase.contentEquals(dateClicked)) {
+                String title = cursor.getString(index1);
+                String timeone = cursor.getString(index2);
+                String timetwo = cursor.getString(index3);
+                String message = cursor.getString(index4);
+                String color = cursor.getString(index5);
+
+                String s = dateDatabase + " " + title + " " + timeone + " " + timetwo + " " + message + " " + color;
+                mArrayList.add(s);
+
+            }
+            cursor.moveToNext();
+        }
+        for(int i = 0; i < mArrayList.size(); i++) {
+            Log.d(TAG, "TESTING " + mArrayList.get(i));
+        }
     }
 }

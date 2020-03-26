@@ -25,22 +25,10 @@ public class MainActivity extends AppCompatActivity{
     String[] dateToday;
     String toolbarDate;
 
-    // loading editcalendar button
-    private Button editCalendarButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        editCalendarButton = (Button) findViewById(R.id.editCalendarButton);
-        editCalendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, EditCalendar.class);
-                startActivity(i);
-            }
-        });
 
         //TESTING
         HashSet<Date> events = new HashSet<>();
@@ -58,8 +46,9 @@ public class MainActivity extends AppCompatActivity{
             {
                 // start activity
                 Intent intent = new Intent(MainActivity.this, EventsList.class);
-                Toast.makeText(MainActivity.this, "working", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, date.toString(), Toast.LENGTH_SHORT).show();
                 intent.putExtra("TOOLBAR", toolbarDate);
+                intent.putExtra("DATE_CLICKED", date.toString());
                 startActivity(intent);
             }
         });
@@ -88,16 +77,20 @@ public class MainActivity extends AppCompatActivity{
 
     public void setToolbarHeader(String[] dateToday){
         String suffix;
-        suffix = "th";
-        if(dateToday[3].contains("1") || dateToday[3].contains("31") || dateToday[3].contains("21")){
+
+        if(dateToday[3].contentEquals("1") || dateToday[3].contentEquals("31") || dateToday[3].contentEquals("21")){
             suffix = "st";
         }
-        else if(dateToday[3].contains("2") || dateToday[3].contains("22")){
+        else if(dateToday[3].contentEquals("2") || dateToday[3].contentEquals("22")){
             suffix = "nd";
         }
-        else if(dateToday[3].contains("3") || dateToday[3].contains("23")){
+        else if(dateToday[3].contentEquals("3") || dateToday[3].contentEquals("23")){
             suffix = "rd";
         }
+        else{
+            suffix = "th";
+        }
+
         Log.d(TAG, "DATE: " + dateToday[3]);
 
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];

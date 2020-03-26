@@ -15,16 +15,17 @@ public class MyDatabase {
         helper = new MyDatabaseHelper(context);
     }
 
-    public long insertData (String title, String dateOne, String timeOne, String dateTwo, String timeTwo, String message)
+    public long insertData (String title, String timeOne, String timeTwo, String message, String color, String dateClicked)
     {
         db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.DATECLICKED, dateClicked);
         contentValues.put(Constants.TITLE, title);
-        contentValues.put(Constants.DATEONE, dateOne);
         contentValues.put(Constants.TIMEONE, timeOne);
-        contentValues.put(Constants.DATETWO, dateTwo);
         contentValues.put(Constants.TIMETWO, timeTwo);
         contentValues.put(Constants.MESSAGE, message);
+        contentValues.put(Constants.COLOR, color);
+
         long id = db.insert(Constants.TABLE_NAME, null, contentValues);
         return id;
     }
@@ -33,8 +34,8 @@ public class MyDatabase {
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.UID, Constants.TITLE, Constants.DATEONE,
-                Constants.TIMEONE, Constants.DATETWO, Constants.TIMETWO, Constants.MESSAGE};
+        String[] columns = {Constants.UID, Constants.DATECLICKED, Constants.TITLE,
+                Constants.TIMEONE, Constants.TIMETWO, Constants.MESSAGE, Constants.COLOR};
 
         Cursor cursor = db.query(Constants.TABLE_NAME, columns, null, null, null, null, null);
         return cursor;

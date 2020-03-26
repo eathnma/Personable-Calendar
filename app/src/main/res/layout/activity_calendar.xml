@@ -12,7 +12,7 @@
         android:paddingTop="20dp">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/buttonNext"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:text="&gt;"
@@ -21,6 +21,7 @@
             />
 
         <Button
+            android:id="@+id/buttonPrev"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:text="&lt;"
