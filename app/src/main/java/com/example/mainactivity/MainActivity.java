@@ -3,18 +3,19 @@ package com.example.mainactivity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.example.mainactivity.CalendarObjects.CalendarView;
+import com.example.mainactivity.CalendarObjects.EventsList;
+
 import java.util.Date;
 import java.util.HashSet;
 

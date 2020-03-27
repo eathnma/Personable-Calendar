@@ -11,7 +11,8 @@ public class Constants {
     public static final String TIMEONE = "Timeone";
     public static final String TIMETWO = "Timetwo";
     public static final String MESSAGE = "Message";
-    public static final String COLOR = "color";
+    public static final String COLOR = "Color";
+    public static final String LOCATION = "Location";
 
 
 //  if it doesn't work, try changing the database version

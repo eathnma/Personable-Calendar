@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.CalendarObjects;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -18,6 +18,9 @@ import android.widget.Toolbar;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.mainactivity.CalendarObjects.CalendarAdapter;
+import com.example.mainactivity.R;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,14 +29,14 @@ import java.util.HashSet;
 
 public class CalendarView extends LinearLayout {
     // calendar components
-    LinearLayout header;
-    Button btnPrev;
-    Button btnNext;
-    TextView txtDateDay;
-    TextView txtDisplayDate;
-    TextView txtDateYear;
-    GridView gridView;
-    Toolbar toolbar;
+    private LinearLayout header;
+    private Button btnPrev;
+    private Button btnNext;
+    private TextView txtDateDay;
+    private TextView txtDisplayDate;
+    private TextView txtDateYear;
+    private GridView gridView;
+    private Toolbar toolbar;
 
     EventHandler eventHandler;
 

@@ -20,7 +20,8 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     Constants.TIMEONE + " TEXT, " +
                     Constants.TIMETWO + " TEXT, " +
                     Constants.MESSAGE + " TEXT, " +
-                    Constants.COLOR + " TEXT);";
+                    Constants.COLOR + " TEXT, " +
+                    Constants.LOCATION + " TEXT);";
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
 

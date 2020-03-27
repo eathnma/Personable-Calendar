@@ -1,4 +1,4 @@
-package com.example.mainactivity;
+package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -22,9 +22,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
+import com.example.mainactivity.CalendarObjects.EditCalendar;
 import com.example.mainactivity.Database.Constants;
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
+import com.example.mainactivity.R;
 
 import org.w3c.dom.Text;
 
@@ -207,6 +209,7 @@ public class EventsList extends AppCompatActivity {
         int index3 = cursor.getColumnIndex(Constants.TIMETWO);
         int index4 = cursor.getColumnIndex(Constants.MESSAGE);
         int index5 = cursor.getColumnIndex(Constants.COLOR);
+        // string for location?
 
         ArrayList<String[]> mArrayList = new ArrayList<>();
         cursor.moveToFirst();
@@ -222,6 +225,7 @@ public class EventsList extends AppCompatActivity {
                 String timeone = cursor.getString(index2);
                 String timetwo = cursor.getString(index3);
                 String message = cursor.getString(index4);
+                // probably add location
                 String color = cursor.getString(index5);
 
                 String[] s = new String[5];
