@@ -169,9 +169,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     public void addActivity(View view){
         String title = addTitle.getText().toString();
-        //String dateOne = editDateRowOne.getText().toString();
         String timeOne = editTimeRowOne.getText().toString();
-        //String dateTwo = editDateRowTwo.getText().toString();
         String timeTwo = editTimeRowTwo.getText().toString();
         String message = notificationMessage.getText().toString();
         Intent intent = getIntent();
