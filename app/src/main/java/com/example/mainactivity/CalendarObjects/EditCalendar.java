@@ -245,7 +245,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
 //        Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
 
-        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, location, dateClicked);
+        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked, location);
 
         Toast.makeText(getApplicationContext(), title + timeOne + timeTwo + message + chosenColor + location + dateClicked, Toast.LENGTH_SHORT).show();
 
