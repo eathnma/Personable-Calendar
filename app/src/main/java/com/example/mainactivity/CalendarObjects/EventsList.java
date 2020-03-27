@@ -209,6 +209,7 @@ public class EventsList extends AppCompatActivity {
         int index3 = cursor.getColumnIndex(Constants.TIMETWO);
         int index4 = cursor.getColumnIndex(Constants.MESSAGE);
         int index5 = cursor.getColumnIndex(Constants.COLOR);
+        int index6 = cursor.getColumnIndex(Constants.LOCATION);
         // string for location?
 
         ArrayList<String[]> mArrayList = new ArrayList<>();
@@ -227,13 +228,15 @@ public class EventsList extends AppCompatActivity {
                 String message = cursor.getString(index4);
                 // probably add location
                 String color = cursor.getString(index5);
+                String location = cursor.getString(index6);
 
-                String[] s = new String[5];
+                String[] s = new String[6];
                 s[0] = title;
                 s[1] = timeone;
                 s[2] = timetwo;
                 s[3] = message;
                 s[4] = color;
+                s[5] = location;
 
                 mArrayList.add(s);
             }
