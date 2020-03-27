@@ -95,8 +95,7 @@ public class EventsList extends AppCompatActivity {
 
         setContainers();
         fillLayout();
-
-
+        
         scrollView.addView(parentContainer);
 
 
@@ -154,8 +153,6 @@ public class EventsList extends AppCompatActivity {
     }
 
     private void setContainers(){
-
-
         //first child container to scrollview
         parentContainer = new LinearLayout(this);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -210,14 +207,15 @@ public class EventsList extends AppCompatActivity {
         int index4 = cursor.getColumnIndex(Constants.MESSAGE);
         int index5 = cursor.getColumnIndex(Constants.COLOR);
         int index6 = cursor.getColumnIndex(Constants.LOCATION);
-        // string for location?
 
         ArrayList<String[]> mArrayList = new ArrayList<>();
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
-            String dateDatabase = cursor.getString(index0);
             String[] dateClickedParse = (cursor.getString(index0)).split(" ");
+
+            Log.d(TAG, "TESTING1 " + dateClickedParse[0]);
+
             if(     dateClickedParse[0].contentEquals(parser[0]) &&
                     dateClickedParse[1].contentEquals(parser[1]) &&
                     dateClickedParse[2].contentEquals(parser[2])) {
@@ -258,6 +256,7 @@ public class EventsList extends AppCompatActivity {
         TextView event;
         TextView eventTime;
         TextView eventDesc;
+
 
         for (int i = 0; i < mArrayList.size(); i++) {
             Log.d(TAG, "TESTING " + mArrayList.get(i)[0] + " " + mArrayList.get(i)[1] + " " + mArrayList.get(i)[2] + " " + mArrayList.get(i)[3] + " " + mArrayList.get(i)[4]);

@@ -36,7 +36,7 @@ public class MyDatabase {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String[] columns = {Constants.UID, Constants.DATECLICKED, Constants.TITLE,
-                Constants.TIMEONE, Constants.TIMETWO, Constants.MESSAGE, Constants.COLOR, Constants.LOCATION};
+                Constants.TIMEONE, Constants.TIMETWO, Constants.MESSAGE,  Constants.LOCATION, Constants.COLOR};
 
         Cursor cursor = db.query(Constants.TABLE_NAME, columns, null, null, null, null, null);
         return cursor;
