@@ -35,13 +35,20 @@
                     app:srcCompat="@drawable/arrow" />
 
                 <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="2dp"
+                    android:id="@+id/garbageButton"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
                     app:layout_column="2"
                     app:layout_row="0"
                     app:srcCompat="@drawable/garbage_can" />
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="125dp"
+                app:layout_column="0"
+                app:layout_row="1">
+
             </androidx.gridlayout.widget.GridLayout>
 
         </androidx.gridlayout.widget.GridLayout>
