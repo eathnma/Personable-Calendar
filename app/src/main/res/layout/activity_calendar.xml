@@ -6,6 +6,12 @@
     android:orientation="vertical">
 
     <!-- days toolbar -->
+    <Button
+        android:id="@+id/viewActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -172,6 +178,7 @@
         android:verticalSpacing="40dp"
         android:numColumns="7"
         />
+
 </LinearLayout>
 
 

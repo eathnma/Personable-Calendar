@@ -8,20 +8,20 @@
     tools:context=".CalendarObjects.EditCalendar">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/parentGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginBottom="20dp"
-            android:id="@+id/parentGrid">
+            android:layout_marginBottom="20dp">
 
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
@@ -60,15 +60,15 @@
                     android:id="@+id/addTitle"
                     android:layout_width="match_parent"
                     android:layout_height="74dp"
-                    android:hint="Add Title"
                     android:background="@null"
                     android:ems="10"
                     android:fontFamily="@font/circular_book"
+                    android:hint="Add Title"
                     android:inputType="textPersonName"
                     android:paddingStart="50dp"
                     android:paddingEnd="0dp"
-                    android:textCursorDrawable="@drawable/black_cursor"
-                     />
+                    android:textCursorDrawable="@drawable/black_cursor" />
+
                 <requestFocus />
             </androidx.gridlayout.widget.GridLayout>
 
@@ -139,14 +139,14 @@
                     android:ems="10"
                     android:fontFamily="@font/circular_book"
                     android:gravity="start|top"
+                    android:hint="Write Notification Message"
                     android:inputType="textMultiLine"
                     android:padding="15dp"
-                    android:hint="Write Notification Message"
-                    android:textSize="14sp"
                     android:textCursorDrawable="@drawable/black_cursor"
+                    android:textSize="14sp"
                     app:layout_column="0"
                     app:layout_row="0">
-<!--                    <requestFocus />-->
+                    <!--                    <requestFocus />-->
                 </EditText>
             </androidx.gridlayout.widget.GridLayout>
 
@@ -201,11 +201,11 @@
             </androidx.gridlayout.widget.GridLayout>
 
             <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/colorGrid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="25dp"
-                android:id="@+id/colorGrid"
                 app:layout_column="0"
                 app:layout_row="6">
 
@@ -213,71 +213,65 @@
                     android:id="@+id/blueCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    android:background="@drawable/blue_circle"
                     android:contentDescription="@string/blue_circle"
                     android:padding="1dp"
-                    android:background="@drawable/blue_circle"
                     app:layout_column="0"
-                    app:layout_row="0"
-                    />
+                    app:layout_row="0" />
 
                 <ImageView
                     android:id="@+id/redCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="25dp"
+                    android:background="@drawable/red_circle"
                     android:contentDescription="@string/to_do"
                     android:padding="1dp"
-                    android:background="@drawable/red_circle"
                     app:layout_column="1"
-                    app:layout_row="0"
-                    />
+                    app:layout_row="0" />
 
                 <ImageView
                     android:id="@+id/yellowCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="25dp"
+                    android:background="@drawable/yellow_circle"
                     android:contentDescription="@string/yellow_circle"
                     android:padding="1dp"
-                    android:background="@drawable/yellow_circle"
                     app:layout_column="2"
-                    app:layout_row="0"
-                    />
+                    app:layout_row="0" />
 
                 <ImageView
                     android:id="@+id/lightBlueCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="25dp"
+                    android:background="@drawable/light_blue_circle"
                     android:contentDescription="@string/lightblue_circle"
                     android:padding="1dp"
-                    android:background="@drawable/light_blue_circle"
                     app:layout_column="3"
-                    app:layout_row="0"
-                   />
+                    app:layout_row="0" />
 
                 <ImageView
                     android:id="@+id/orangeCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="25dp"
-                    android:contentDescription="@string/orange_circle"
                     android:background="@drawable/orange_circle"
+                    android:contentDescription="@string/orange_circle"
                     app:layout_column="4"
-                    app:layout_row="0"
-                    />
+                    app:layout_row="0" />
 
                 <ImageView
                     android:id="@+id/greenCircle"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="25dp"
+                    android:background="@drawable/green_circle"
                     android:contentDescription="@string/green_circle"
                     android:padding="1dp"
-                    android:background="@drawable/green_circle"
                     app:layout_column="5"
-                    app:layout_row="0"
-                    />
+                    app:layout_row="0" />
 
             </androidx.gridlayout.widget.GridLayout>
 
@@ -285,7 +279,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="98dp"
                 app:layout_column="0"
-                app:layout_row="7"/>
+                app:layout_row="7" />
 
         </androidx.gridlayout.widget.GridLayout>
     </ScrollView>

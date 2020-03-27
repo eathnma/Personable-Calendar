@@ -9,12 +9,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.mainactivity.CalendarObjects.CalendarView;
 import com.example.mainactivity.CalendarObjects.EventsList;
+import com.example.mainactivity.CalendarObjects.ViewEvent;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity{
     TextView toolbarTitle;
     String[] dateToday;
     String toolbarDate;
+    private Button viewActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,15 @@ public class MainActivity extends AppCompatActivity{
         });
         dateToday = cv.returnDate();
         setToolbarHeader(dateToday);
+
+        viewActivity = (Button) findViewById(R.id.viewActivity);
+        viewActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, ViewEvent.class);
+                startActivity(i);
+            }
+        });
 
     }
 
