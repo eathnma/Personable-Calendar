@@ -252,6 +252,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     }
 
     public void discardMessage(View view){
+        finish();
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
     }

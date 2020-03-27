@@ -16,6 +16,7 @@ import android.widget.Toolbar;
 import com.example.mainactivity.CalendarObjects.CalendarView;
 import com.example.mainactivity.CalendarObjects.EventsList;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity{
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbar.inflateMenu(R.menu.menu_main);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
-        cv.updateCalendar();
 
+        cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler()
         {
             @Override
@@ -91,8 +92,6 @@ public class MainActivity extends AppCompatActivity{
         else{
             suffix = "th";
         }
-
-        Log.d(TAG, "DATE: " + dateToday[3]);
 
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
         toolbarTitle.setText(toolbarDate);

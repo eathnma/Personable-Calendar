@@ -48,7 +48,6 @@ public class EventsList extends AppCompatActivity {
     LinearLayout.LayoutParams layoutParams2;
 
     //EVENT LAYOUTS WITH BOXCONTAINER
-    RelativeLayout eventsContainer;
     FrameLayout frameLayout;
     LinearLayout eventLayout;
 
@@ -70,8 +69,6 @@ public class EventsList extends AppCompatActivity {
         dateClicked = intent.getStringExtra("DATE_CLICKED");
         parser = dateClicked.split(" ");
 
-        //eventsContainer = findViewById(R.id.events_container);
-
         //database
         db = new MyDatabase(this);
         helper = new MyDatabaseHelper(this);
@@ -88,14 +85,12 @@ public class EventsList extends AppCompatActivity {
         width = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, r.getDisplayMetrics()));
         height = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics()));
 
-
         layoutParams = new LinearLayout.LayoutParams(width, height);
         layoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
 
-
         setContainers();
         fillLayout();
-        
+
         scrollView.addView(parentContainer);
 
 
@@ -224,6 +219,7 @@ public class EventsList extends AppCompatActivity {
                 String timeone = cursor.getString(index2);
                 String timetwo = cursor.getString(index3);
                 String message = cursor.getString(index4);
+
                 // probably add location
                 String color = cursor.getString(index5);
                 String location = cursor.getString(index6);
@@ -247,12 +243,8 @@ public class EventsList extends AppCompatActivity {
     private void organizeEvents(ArrayList<String[]> mArrayList) {
         int dp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));
 
-        int AMorPM;
-
         //EVENT LAYOUTS
-
         LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
         TextView event;
         TextView eventTime;
         TextView eventDesc;
@@ -282,12 +274,38 @@ public class EventsList extends AppCompatActivity {
                 eventLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.textview_green));
             }
 
-            int heightOfEvent = height * (((mArrayList.get(i)[2]).charAt(0) - 48) - ((mArrayList.get(i)[1]).charAt(0) - 48));
-            Log.d(TAG, "HEIGHT " + heightOfEvent);
+            int hour2;
+            int hour1;
+
+            if((mArrayList.get(i)[2]).charAt(1) != ':' ){
+                char tenth = (mArrayList.get(i)[2]).charAt(0);
+                char oneth = (mArrayList.get(i)[2]).charAt(1);
+                String time = new StringBuilder().append(tenth).append(oneth).toString();
+                hour2 = Integer.parseInt(time);
+            }
+            else{
+                char oneth = (mArrayList.get(i)[2]).charAt(0);
+                hour2 = oneth - 48;
+            }
+
+            if((mArrayList.get(i)[1]).charAt(1) != ':' ){
+                char tenth = (mArrayList.get(i)[1]).charAt(0);
+                char oneth = (mArrayList.get(i)[1]).charAt(1);
+                String time = new StringBuilder().append(tenth).append(oneth).toString();
+                hour1 = Integer.parseInt(time);
+            }
+            else{
+                char oneth = (mArrayList.get(i)[1]).charAt(0);
+                hour1 = oneth - 48;
+            }
+
+            int heightOfEvent = height * Math.abs(((hour2) - (hour1)));
 
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            int marginTop = height * ((mArrayList.get(i)[1]).charAt(0) - 48);
+            int marginTop = height * (hour1);
             lp.setMargins(0, marginTop, 0, 0);
+
+
             lp.height = heightOfEvent;
             eventLayout.setLayoutParams(lp);
             eventLayout.setOrientation(LinearLayout.VERTICAL);
@@ -298,6 +316,7 @@ public class EventsList extends AppCompatActivity {
             event = new TextView(this);
             eventDesc = new TextView(this);
 
+            //Time Text View
             eventTime.setLayoutParams(rlp);
             eventTime.setTextColor(Color.WHITE);
             eventTime.setTypeface(ResourcesCompat.getFont(this, R.font.circular_medium));
@@ -305,12 +324,14 @@ public class EventsList extends AppCompatActivity {
             eventTime.setPadding(0, 0, 0, 30);
             eventTime.setText(mArrayList.get(i)[1] + " " + mArrayList.get(i)[2]);
 
+            //Event Title Text View
             event.setLayoutParams(rlp);
             event.setTextColor(Color.WHITE);
             event.setTypeface(ResourcesCompat.getFont(this, R.font.circular_medium));
             event.setTextSize(18);
             event.setText(mArrayList.get(i)[0]);
 
+            //Event Description Text View
             eventDesc.setLayoutParams(rlp);
             eventDesc.setTextColor(Color.WHITE);
             eventDesc.setMaxWidth(width * 2);
@@ -318,13 +339,13 @@ public class EventsList extends AppCompatActivity {
             eventDesc.setTextSize(12);
             eventDesc.setText(mArrayList.get(i)[3]);
 
+            //Add TextViews to event container
             eventLayout.addView(eventTime);
             eventLayout.addView(event);
             eventLayout.addView(eventDesc);
 
+            //Add event container to FrameLayout
             frameLayout.addView(eventLayout);
         }
-
-
     }
 }
