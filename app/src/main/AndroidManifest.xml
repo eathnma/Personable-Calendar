@@ -15,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CalendarObjects.ViewEvent"></activity>
+        <activity android:name=".UserSettings"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"

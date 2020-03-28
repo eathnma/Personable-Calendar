@@ -2,10 +2,12 @@ package com.example.mainactivity.CalendarObjects;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,8 +21,12 @@ import android.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.example.mainactivity.CalendarObjects.CalendarAdapter;
+import com.example.mainactivity.Database.Constants;
+import com.example.mainactivity.Database.MyDatabase;
+import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.R;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +35,7 @@ import java.util.HashSet;
 
 public class CalendarView extends LinearLayout {
     // calendar components
+    static final String TAG = "CalendarView";
     private LinearLayout header;
     private Button btnPrev;
     private Button btnNext;
@@ -37,7 +44,9 @@ public class CalendarView extends LinearLayout {
     private TextView txtDateYear;
     private GridView gridView;
     private Toolbar toolbar;
-
+    private MyDatabase db;
+    private MyDatabaseHelper helper;
+    private ArrayList<String> colorList;
     EventHandler eventHandler;
 
     private static final int DAYS_COUNT = 42;
@@ -104,7 +113,9 @@ public class CalendarView extends LinearLayout {
         loadDateFormat(attrs);
         assignUiElements(context);
         assignClickHandler();
+        //database stuff
 
+        //Assign colors
         updateCalendar();
     }
 
@@ -134,6 +145,9 @@ public class CalendarView extends LinearLayout {
         Calendar calendar = (Calendar) currentDate.clone();
         TextView dayOfWeek;
 
+        db = new MyDatabase(getContext());
+        helper = new MyDatabaseHelper(getContext());
+
         // determine the cell for current month's beginning
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         int monthBeginningCell = calendar.get(Calendar.DAY_OF_WEEK) - 1;
@@ -148,14 +162,13 @@ public class CalendarView extends LinearLayout {
         }
 
         // update grid
-        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events, currentDate));
+        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events, currentDate, setDayColor(), colorList));
 
         // update title
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM,yyyy,dd");
         dateToday = sdf.format(currentDate.getTime()).split(",");
 
         txtDisplayDate.setText(dateToday[1]);
-
 
         if(currentDate.get(Calendar.MONTH) == currentDateComparison.get(Calendar.MONTH)) {
             dayOfWeek = (TextView) findViewById(getResources().getIdentifier(dateToday[0], "id", "com.example.mainactivity"));
@@ -193,6 +206,28 @@ public class CalendarView extends LinearLayout {
             dayOfWeek.setTypeface(null, Typeface.NORMAL);
         }
 
+    }
+
+    private ArrayList<Integer> setDayColor(){
+        Cursor cursor = db.getData();
+
+        int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
+        int index1 = cursor.getColumnIndex(Constants.COLOR);
+
+        ArrayList<Integer> mArrayList = new ArrayList<>();
+        colorList = new ArrayList<>();
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            String date = cursor.getString(index0);
+            String[] parser = date.split(" ");
+            Log.d(TAG, "PARSE: " + parser[2]);
+            String color = cursor.getString(index1);
+            colorList.add(color);
+            mArrayList.add(Integer.parseInt(parser[2]));
+            cursor.moveToNext();
+        }
+        return mArrayList;
     }
 
     private void setColors(){

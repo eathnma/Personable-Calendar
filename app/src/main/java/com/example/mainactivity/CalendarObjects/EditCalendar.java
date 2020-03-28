@@ -164,13 +164,10 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             }
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("My Data", Context.MODE_PRIVATE);
-        String currentLocation = sharedPreferences.getString("currentlocation", DEFAULT);
+
 
         addLocation = (TextView) findViewById(R.id.addLocation);
-        if(currentLocation != DEFAULT){
-            addLocation.setText(currentLocation);
-        }
+
 
         //GRID LAYOUT SIX
         imgs[0]=findViewById(R.id.blueCircle);
@@ -252,6 +249,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     }
 
     public void discardMessage(View view){
+        finish();
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
     }
@@ -264,5 +262,13 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             editTimeRowTwo.setText(Integer.toString(hour) + ":" + Integer.toString(minute) + AM_PM);
         }
 
+    }
+
+    public void goBack(View v){
+        //finish();
+        Intent intent = new Intent(this, EventsList.class);
+        String dateClicked = getIntent().getStringExtra("DATECLICKED");
+        intent.putExtra("DATECLICKED", dateClicked);
+        startActivity(intent);
     }
 }

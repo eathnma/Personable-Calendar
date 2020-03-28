@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -19,6 +18,7 @@ import com.example.mainactivity.CalendarObjects.CalendarView;
 import com.example.mainactivity.CalendarObjects.EventsList;
 import com.example.mainactivity.CalendarObjects.ViewEvent;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity{
     TextView toolbarTitle;
     String[] dateToday;
     String toolbarDate;
-    private Button viewActivity;
+    MenuItem settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity{
         events.add(new Date());
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
         toolbar = (Toolbar) findViewById(R.id.actionBar);
-        toolbar.inflateMenu(R.menu.menu_main);
+        //toolbar.inflateMenu(R.menu.menu_main);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
-        cv.updateCalendar();
 
+        cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler()
         {
             @Override
@@ -62,18 +62,7 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public void setToolbarHeader(String[] dateToday){
         String suffix;
@@ -91,9 +80,13 @@ public class MainActivity extends AppCompatActivity{
             suffix = "th";
         }
 
-        Log.d(TAG, "DATE: " + dateToday[3]);
-
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
         toolbarTitle.setText(toolbarDate);
     }
+
+    public void startSettings(View v){
+        Intent intent = new Intent(this, UserSettings.class);
+        startActivity(intent);
+    }
+
 }
