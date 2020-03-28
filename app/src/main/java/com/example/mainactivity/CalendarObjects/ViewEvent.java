@@ -3,13 +3,16 @@ package com.example.mainactivity.CalendarObjects;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.R;
 
 import java.util.ArrayList;
@@ -38,6 +41,8 @@ public class ViewEvent extends AppCompatActivity {
     //layout row 5
     private View mapView;
 
+    MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +50,6 @@ public class ViewEvent extends AppCompatActivity {
 
         // layout row 1
         arrow = findViewById(R.id.arrow);
-        garbageButton = findViewById(R.id.garbageButton);
 
         // layout row 2
         circleView = findViewById(R.id.circleView);
@@ -61,7 +65,8 @@ public class ViewEvent extends AppCompatActivity {
 
         Intent i = getIntent();
         String dateClicked = i.getStringExtra("DATECLICKED");
-        String [] parser  = dateClicked.split(" ");
+
+        String[] parser  = dateClicked.split(" ");
         String MYD = parser[0] + " " + parser[1] + " " + parser[2];
 
         String[] stringData = i.getExtras().getStringArray("stringdata");
@@ -101,9 +106,36 @@ public class ViewEvent extends AppCompatActivity {
                 }
             }
         });
+
+        // delete the database object
+        garbageButton = findViewById(R.id.garbageButton);
+        garbageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = String.valueOf(titleView.getText());
+                Log.d(TAG, "onItemClick: You clicked on " + name);
+
+//                Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
+//                int itemID = -1;
+//                while(data.moveToNext()){
+//                    itemID = data.getInt(0);
+//                }
+//
+//                if(itemID >  -1){
+//                    Log.d(TAG,"onItemClick: the ID IS " + itemID);
+//                }
+//                else{
+//                    Log.d(TAG, "NO ID ASSOCIATED WITH NAME");
+//                }
+//
+//                mDatabaseHelper.deleteName(itemID,name);
+//                Log.d(TAG, "deleted " + itemID + " & "+ name + " from database");
+
+//                Intent intent = new Intent(getApplicationContext(), EventsList.class);
+//                finish();
+//                startActivity(intent);
+            }
+        });
     }
-
-
-
 
 }

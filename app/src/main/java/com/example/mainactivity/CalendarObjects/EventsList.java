@@ -246,7 +246,7 @@ public class EventsList extends AppCompatActivity {
                 String color = cursor.getString(index5);
                 String location = cursor.getString(index6);
 
-                s = new String[6];
+                String[] s = new String[6];
                 s[0] = title;
                 s[1] = timeone;
                 s[2] = timetwo;

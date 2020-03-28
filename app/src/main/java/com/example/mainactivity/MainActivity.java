@@ -60,15 +60,6 @@ public class MainActivity extends AppCompatActivity{
         dateToday = cv.returnDate();
         setToolbarHeader(dateToday);
 
-        viewActivity = (Button) findViewById(R.id.viewActivity);
-        viewActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, ViewEvent.class);
-                startActivity(i);
-            }
-        });
-
     }
 
     @Override
@@ -77,11 +68,6 @@ public class MainActivity extends AppCompatActivity{
         inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
-
-//    public void editCalendarIntent(View view){
-//        Intent i = new Intent(MainActivity.this, EventsList.class);
-//        startActivity(i);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -110,5 +96,4 @@ public class MainActivity extends AppCompatActivity{
         toolbarDate = dateToday[1] + " " + dateToday[3] + suffix + ", " + dateToday[2];
         toolbarTitle.setText(toolbarDate);
     }
-
 }

@@ -1,15 +1,22 @@
 package com.example.mainactivity.Database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
+
+import static com.example.mainactivity.Database.Constants.TABLE_NAME;
+import static com.example.mainactivity.Database.Constants.TITLE;
+import static com.example.mainactivity.Database.Constants.UID;
 
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
+    private static final String TAG = "TAG";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE "+
@@ -50,4 +57,22 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "exception onUpgrade() db", Toast.LENGTH_LONG).show();
         }
     }
+
+//    public Cursor getItemName(String name){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String query = "SELECT " + UID + " FROM " + TABLE_NAME +
+//                " WHERE " + TITLE + " = '" + name + "'";
+//        Cursor data = db.rawQuery(query, null);
+//        return data;
+//    }
+//
+//    public void deleteName(int id, String name){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
+//                + UID + " = '" + id + "'" +
+//                " AND " + TITLE + " = '" + name + "'";
+//        Log.d(TAG, "deleteName: query: " + query);
+//        Log.d(TAG, "deleteName: deleting" + name + " from database");
+//        db.execSQL(query);
+//    }
 }
