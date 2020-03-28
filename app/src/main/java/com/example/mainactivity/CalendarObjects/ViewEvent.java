@@ -2,6 +2,7 @@ package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -131,6 +132,10 @@ public class ViewEvent extends AppCompatActivity {
                 mDatabaseHelper.deleteName(itemID,name);
                 Log.d(TAG, "deleted " + itemID + " & "+ name + " from database");
 
+                int result = 1;
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", result);
+                setResult(Activity.RESULT_OK);
                 finish();
 
             }

@@ -67,6 +67,7 @@ public class EventsList extends AppCompatActivity {
 
     private Boolean refreshBoolean;
     int LAUNCH_EDIT_CALENDAR = 1;
+    int LAUNCH_VIEW_ACTIVITY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +119,7 @@ public class EventsList extends AppCompatActivity {
                 Intent viewActivity = new Intent(getApplicationContext(), ViewEvent.class);
                 viewActivity.putExtra( "DATECLICKED", dateClicked);
                 viewActivity.putExtra("stringdata", s);
-                startActivity(viewActivity);
+                startActivityForResult(viewActivity, LAUNCH_VIEW_ACTIVITY);
             }
         });
         }
@@ -379,6 +380,16 @@ public class EventsList extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == LAUNCH_EDIT_CALENDAR){
+            if(resultCode == Activity.RESULT_OK){
+                recreate();
+                Log.d(TAG,"this ran once");
+            }
+            if(resultCode == Activity.RESULT_CANCELED){
+                Log.d(TAG,"no result");
+            }
+        }
+
+        if(requestCode == LAUNCH_VIEW_ACTIVITY){
             if(resultCode == Activity.RESULT_OK){
                 recreate();
                 Log.d(TAG,"this ran once");
