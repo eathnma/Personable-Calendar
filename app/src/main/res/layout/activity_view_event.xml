@@ -36,7 +36,7 @@
 
                 <ImageView
                     android:id="@+id/garbageButton"
-                    android:layout_width="60dp"
+                    android:layout_width="55dp"
                     android:layout_height="35dp"
                     app:layout_column="2"
                     app:layout_row="0"
@@ -45,10 +45,152 @@
 
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
-                android:layout_height="125dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
                 app:layout_column="0"
                 app:layout_row="1">
 
+                <ImageView
+                    android:id="@+id/circleView"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    app:layout_gravity="center_vertical"
+                    app:srcCompat="@drawable/blue_circle" />
+
+                <TextView
+                    android:id="@+id/titleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/circular_bold"
+                    android:text="@string/activity_name"
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="12dp"
+                app:layout_column="0"
+                app:layout_row="3">
+
+                <View
+                    android:id="@+id/myRectangleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:background="@drawable/rectangle_line" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="10dp"
+                app:layout_column="0"
+                app:layout_row="4">
+
+                <TextView
+                    android:id="@+id/dateView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_medium"
+                    android:text="Thursday, March 5th"
+                    android:textColor="@android:color/black"
+                    android:textSize="17dp" />
+
+                <TextView
+                    android:id="@+id/timeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circular_medium"
+                    android:text="2:30 - 4:30PM"
+                    android:textColor="@android:color/black"
+                    android:textSize="14dp"
+                    app:layout_column="2"
+                    app:layout_gravity="center_vertical"
+                    app:layout_row="0" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginStart="35dp"
+                app:layout_column="0"
+                app:layout_row="5">
+
+                <TextView
+                    android:id="@+id/descriptionView"
+                    android:layout_width="match_parent"
+                    android:layout_height="78dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/circular_book"
+                    android:lineSpacingExtra="10dp"
+                    android:text="Thomas is planning on taking me on a lovely picnic and I’m very excited. "
+                    android:textSize="14sp"
+                    app:layout_column="0"
+                    app:layout_row="0" />
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="183dp"
+                android:layout_marginTop="30dp"
+                app:layout_column="0"
+                app:layout_row="6">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    app:layout_column="0"
+                    app:layout_row="0"
+                    app:srcCompat="@drawable/location_icon" />
+
+                <TextView
+                    android:id="@+id/locationView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="8888 University Dr, Burnaby, BC V5A 1S6"
+                    android:textColor="@android:color/black"
+                    app:layout_column="1"
+                    app:layout_gravity="center_vertical"
+                    app:layout_row="0" />
+
+                <View
+                    android:id="@+id/mapView"
+                    android:layout_width="313dp"
+                    android:layout_height="141dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/rectangle_line"
+                    app:layout_column="1"
+                    app:layout_row="1" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                app:layout_column="0"
+                app:layout_row="7">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/circular_book"
+                    android:text="View on Google Maps"
+                    android:textSize="13sp"
+                    app:layout_column="1"
+                    app:layout_row="0" />
             </androidx.gridlayout.widget.GridLayout>
 
         </androidx.gridlayout.widget.GridLayout>

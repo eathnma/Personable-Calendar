@@ -33,4 +33,8 @@
     <!--    search bar strings-->
     <string name="search_bar">Search Bar</string>
     <string name="search_hint">Enter Address, City or Zip Code</string>
+
+    <!--    view activity strings-->
+    <string name="activity_name">Date with Thomas</string>
+
 </resources>
