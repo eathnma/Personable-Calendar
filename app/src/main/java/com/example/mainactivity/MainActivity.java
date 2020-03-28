@@ -26,6 +26,7 @@ import com.example.mainactivity.CalendarObjects.ViewEvent;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity{
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity{
     String[] dateToday;
     String toolbarDate;
     MenuItem settings;
-
+    Calendar getHour;
     int hourOfDay;
 
     private SensorManager mySensorManager;
@@ -46,12 +47,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Sensor Stuff
+        getHour = Calendar.getInstance();
         mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-
-        //sensor Setupo
-
 
         //TESTING
         HashSet<Date> events = new HashSet<>();
@@ -109,7 +107,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void sensorSetup(){
-        hourOfDay = Calendar.get(Calendar.HOUR_OF_DAY);
+
         if(lightSensor != null){
             mySensorManager.registerListener(
                     lightSensorListener,
@@ -130,9 +128,9 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            Log.d(TAG, "HOUR: " + event.values[0]);
+            Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                if(event.values[0] < 0.5 && Calendar.get(Calendar.HOUR_OF_DAY) > 10) {
+                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 22 || getHour.get(Calendar.HOUR_OF_DAY) < 6)) {
 
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbarTitle.setTextColor(Color.WHITE);
