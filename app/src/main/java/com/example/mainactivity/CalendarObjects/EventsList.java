@@ -28,8 +28,6 @@ import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -49,7 +47,6 @@ public class EventsList extends AppCompatActivity {
     LinearLayout.LayoutParams layoutParams2;
 
     //EVENT LAYOUTS WITH BOXCONTAINER
-    RelativeLayout eventsContainer;
     FrameLayout frameLayout;
     LinearLayout eventLayout;
 
@@ -63,9 +60,8 @@ public class EventsList extends AppCompatActivity {
     MyDatabase db;
     MyDatabaseHelper helper;
 
-    private ArrayList<String[]> mArrayList = new ArrayList<String[]>();
+    private ArrayList<String[]> mArrayList = new ArrayList<>();
     private String s[];
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,18 +100,18 @@ public class EventsList extends AppCompatActivity {
         scrollView.addView(parentContainer);
 
         // once the eventlayout has been instantiated
-//        if(mArrayList.size() != 0){
-//            eventLayout.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
-//                viewActivity.putExtra( "DATECLICKED", dateClicked);
-//                viewActivity.putExtra("stringdata", s);
-//                startActivity(viewActivity);
-//                Log.d(TAG, Arrays.toString(s));
-//            }
-//        });
-//        }
+        if(mArrayList.size() != 0){
+            eventLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
+                viewActivity.putExtra( "DATECLICKED", dateClicked);
+                viewActivity.putExtra("stringdata", s);
+                startActivity(viewActivity);
+                Log.d(TAG, Arrays.toString(s));
+            }
+        });
+        }
     }
 
     private void fillLayout(){
@@ -208,11 +204,10 @@ public class EventsList extends AppCompatActivity {
 
     //next intent
     public void clickAddEvent(View v){
-        Intent editCalendarIntent = new Intent(getBaseContext(), EditCalendar.class);
+        Intent editCalendarIntent = new Intent(this, EditCalendar.class);
         editCalendarIntent.putExtra("DATECLICKED", dateClicked);
         startActivity(editCalendarIntent);
     }
-
 
     private void displayEvent(){
         Cursor cursor = db.getData();
@@ -225,7 +220,7 @@ public class EventsList extends AppCompatActivity {
         int index5 = cursor.getColumnIndex(Constants.COLOR);
         int index6 = cursor.getColumnIndex(Constants.LOCATION);
 
-        ArrayList mArrayList = new ArrayList<>();
+        mArrayList = new ArrayList<>();
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
@@ -245,7 +240,7 @@ public class EventsList extends AppCompatActivity {
                 String color = cursor.getString(index5);
                 String location = cursor.getString(index6);
 
-                String[] s = new String[6];
+                s = new String[6];
                 s[0] = title;
                 s[1] = timeone;
                 s[2] = timetwo;
@@ -273,7 +268,6 @@ public class EventsList extends AppCompatActivity {
         TextView event;
         TextView eventTime;
         TextView eventDesc;
-
 
         for (int i = 0; i < mArrayList.size(); i++) {
             Log.d(TAG, "TESTING " + mArrayList.get(i)[0] + " " + mArrayList.get(i)[1] + " " + mArrayList.get(i)[2] + " " + mArrayList.get(i)[3] + " " + mArrayList.get(i)[4]);
@@ -341,6 +335,5 @@ public class EventsList extends AppCompatActivity {
 
             frameLayout.addView(eventLayout);
         }
-
     }
 }

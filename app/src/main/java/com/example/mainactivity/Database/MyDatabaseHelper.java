@@ -8,6 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import static android.content.ContentValues.TAG;
+import static com.example.mainactivity.Database.Constants.TABLE_NAME;
+import static com.example.mainactivity.Database.Constants.TITLE;
+import static com.example.mainactivity.Database.Constants.UID;
+
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -15,17 +20,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE =
             "CREATE TABLE "+
-                    Constants.TABLE_NAME + " (" +
-                    Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    TABLE_NAME + " (" +
+                    UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     Constants.DATECLICKED + " TEXT, " +
-                    Constants.TITLE + " TEXT, " +
+                    TITLE + " TEXT, " +
                     Constants.TIMEONE + " TEXT, " +
                     Constants.TIMETWO + " TEXT, " +
                     Constants.MESSAGE + " TEXT, " +
                     Constants.COLOR + " TEXT, " +
                     Constants.LOCATION + " TEXT);";
 
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
+    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public MyDatabaseHelper(Context context){
         super(context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
@@ -53,21 +58,21 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-//    public Cursor getItemName(String name){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String query = "SELECT " + UID + " FROM " + TABLE_NAME +
-//                " WHERE " + TITLE + " = '" + name + "'";
-//        Cursor data = db.rawQuery(query, null);
-//        return data;
-//    }
-//
-//    public void deleteName(int id, String name){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
-//                + UID + " = '" + id + "'" +
-//                " AND " + TITLE + " = '" + name + "'";
-//        Log.d(TAG, "deleteName: query: " + query);
-//        Log.d(TAG, "deleteName: deleting" + name + " from database");
-//        db.execSQL(query);
-//    }
+    public Cursor getItemName(String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT " + UID + " FROM " + TABLE_NAME +
+                " WHERE " + TITLE + " = '" + name + "'";
+        Cursor data = db.rawQuery(query, null);
+        return data;
+    }
+
+    public void deleteName(int id, String name){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "DELETE FROM " + TABLE_NAME + " WHERE "
+                + UID + " = '" + id + "'" +
+                " AND " + TITLE + " = '" + name + "'";
+        Log.d(TAG, "deleteName: query: " + query);
+        Log.d(TAG, "deleteName: deleting" + name + " from database");
+        db.execSQL(query);
+    }
 }

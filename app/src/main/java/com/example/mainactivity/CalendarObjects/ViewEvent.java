@@ -115,25 +115,24 @@ public class ViewEvent extends AppCompatActivity {
                 String name = String.valueOf(titleView.getText());
                 Log.d(TAG, "onItemClick: You clicked on " + name);
 
-//                Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
-//                int itemID = -1;
-//                while(data.moveToNext()){
-//                    itemID = data.getInt(0);
-//                }
-//
-//                if(itemID >  -1){
-//                    Log.d(TAG,"onItemClick: the ID IS " + itemID);
-//                }
-//                else{
-//                    Log.d(TAG, "NO ID ASSOCIATED WITH NAME");
-//                }
-//
-//                mDatabaseHelper.deleteName(itemID,name);
-//                Log.d(TAG, "deleted " + itemID + " & "+ name + " from database");
+                Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
+                int itemID = -1;
+                while(data.moveToNext()){
+                    itemID = data.getInt(0);
+                }
 
-//                Intent intent = new Intent(getApplicationContext(), EventsList.class);
-//                finish();
-//                startActivity(intent);
+                if(itemID >  -1){
+                    Log.d(TAG,"onItemClick: the ID IS " + itemID);
+                }
+                else{
+                    Log.d(TAG, "NO ID ASSOCIATED WITH NAME");
+                }
+
+                mDatabaseHelper.deleteName(itemID,name);
+                Log.d(TAG, "deleted " + itemID + " & "+ name + " from database");
+
+                finish();
+
             }
         });
     }
