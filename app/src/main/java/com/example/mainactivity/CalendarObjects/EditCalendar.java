@@ -164,13 +164,10 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             }
         });
 
-        SharedPreferences sharedPreferences = getSharedPreferences("My Data", Context.MODE_PRIVATE);
-        String currentLocation = sharedPreferences.getString("currentlocation", DEFAULT);
+
 
         addLocation = (TextView) findViewById(R.id.addLocation);
-        if(currentLocation != DEFAULT){
-            addLocation.setText(currentLocation);
-        }
+
 
         //GRID LAYOUT SIX
         imgs[0]=findViewById(R.id.blueCircle);

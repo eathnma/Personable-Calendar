@@ -9,7 +9,8 @@
         />
 
     <item
-        android:title="edit "
+        android:title="Settings"
+        android:id="@+id/settings"
         app:showAsAction="never" />
 
     <item
