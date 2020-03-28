@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -63,6 +64,9 @@ public class EventsList extends AppCompatActivity {
 
     private ArrayList<String[]> mArrayList = new ArrayList<>();
     private String s[];
+
+    private Boolean refreshBoolean;
+    int LAUNCH_EDIT_CALENDAR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,7 +216,7 @@ public class EventsList extends AppCompatActivity {
     public void clickAddEvent(View v){
         Intent editCalendarIntent = new Intent(this, EditCalendar.class);
         editCalendarIntent.putExtra("DATECLICKED", dateClicked);
-        startActivity(editCalendarIntent);
+        startActivityForResult(editCalendarIntent, LAUNCH_EDIT_CALENDAR);
     }
 
     private void displayEvent(){
@@ -368,6 +372,20 @@ public class EventsList extends AppCompatActivity {
 
             //Add event container to FrameLayout
             frameLayout.addView(eventLayout);
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == LAUNCH_EDIT_CALENDAR){
+            if(resultCode == Activity.RESULT_OK){
+                recreate();
+                Log.d(TAG,"this ran once");
+            }
+            if(resultCode == Activity.RESULT_CANCELED){
+                Log.d(TAG,"no result");
+            }
         }
     }
 }

@@ -91,7 +91,17 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
         //GRID LAYOUT ONE
         saveButtonRowOne = (Button) findViewById(R.id.saveButton);
-//        saveButtonRowOne.setOnClickListener(this);
+        saveButtonRowOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int result = 1;
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", result);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        });
+
         arrowRowOne = (ImageView) findViewById(R.id.arrow);
         arrowRowOne.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -150,16 +160,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(EditCalendar.this, AddLocationActivity.class);
-//                SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPrefs.edit();
-//                editor.putString("title", addTitle.getText().toString());
-//                editor.putString("firstdate",editDateRowOne.getText().toString());
-//                editor.putString("firsttime",editTimeRowOne.getText().toString());
-//                editor.putString("seconddate",editDateRowTwo.getText().toString());
-//                editor.putString("secondtime",editTimeRowTwo.getText().toString());
-//                editor.putString("notifmessage",notificationMessage.getText().toString());
-//                editor.putString("choosecolor",chosenColor);
-//                editor.commit();
                 startActivityForResult(i, LAUNCH_SECOND_ACTIVITY);
             }
         });
@@ -189,30 +189,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
 //      instantiate database object
         db = new MyDatabase(this);
-
-//        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-//        String title = sharedPrefs.getString("title", DEFAULT);
-//        String firstdate = sharedPrefs.getString("firstdate", DEFAULT);
-//        String firsttime = sharedPrefs.getString("firsttime",DEFAULT);
-//        String seconddate = sharedPrefs.getString("seconddate",DEFAULT);
-//        String secondtime = sharedPrefs.getString("secondtime",DEFAULT);
-//        String notifmessage = sharedPrefs.getString("motifmessage",DEFAULT);
-//        String choosecolor = sharedPrefs.getString("choosecolor,",DEFAULT);
-
-//        if(title != DEFAULT || firstdate!= DEFAULT || firsttime !=DEFAULT ||
-//                seconddate != DEFAULT || secondtime != DEFAULT || notifmessage != DEFAULT ||
-//                choosecolor != DEFAULT){
-//            Toast.makeText(this, "No data found", Toast.LENGTH_LONG).show();
-//        } else {
-//            Toast.makeText(this, "Data retrieve success", Toast.LENGTH_LONG).show();
-//            addTitle.setText(title);
-//            editDateRowOne.setText(firstdate);
-//            editTimeRowOne.setText(firsttime);
-//            editDateRowTwo.setText(seconddate);
-//            editTimeRowTwo.setText(secondtime);
-//            notificationMessage.setText(notifmessage);
-//            chosenColor = choosecolor;
-//        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -249,7 +225,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     }
 
     public void discardMessage(View view){
-        finish();
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
     }
@@ -264,11 +239,11 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     }
 
-    public void goBack(View v){
-        //finish();
-        Intent intent = new Intent(this, EventsList.class);
-        String dateClicked = getIntent().getStringExtra("DATECLICKED");
-        intent.putExtra("DATECLICKED", dateClicked);
-        startActivity(intent);
-    }
+//    public void goBack(View v){
+//        //();
+//        Intent intent = new Intent(this, EventsList.class);
+//        String dateClicked = getIntent().getStringExtra("DATECLICKED");
+//        intent.putExtra("DATECLICKED", dateClicked);
+//        startActivity(intent);
+//    }
 }

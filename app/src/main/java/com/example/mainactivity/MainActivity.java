@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-
-
     public void setToolbarHeader(String[] dateToday){
         String suffix;
 
