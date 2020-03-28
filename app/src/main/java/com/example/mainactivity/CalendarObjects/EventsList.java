@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.mainactivity.CalendarObjects.EditCalendar;
@@ -66,7 +67,15 @@ public class EventsList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_list);
         intent = getIntent();
-        dateClicked = intent.getStringExtra("DATE_CLICKED");
+
+        if(intent.hasExtra("DATECLICKED")){
+            dateClicked = intent.getStringExtra("DATECLICKED");
+            Log.v(TAG, "RETURNED");
+        }
+        else if(intent.hasExtra("DATE_CLICKED")){
+            dateClicked = intent.getStringExtra("DATE_CLICKED");
+        }
+
         parser = dateClicked.split(" ");
 
         //database
@@ -186,7 +195,7 @@ public class EventsList extends AppCompatActivity {
 
     //next intent
     public void clickAddEvent(View v){
-        Intent editCalendarIntent = new Intent(getBaseContext(), EditCalendar.class);
+        Intent editCalendarIntent = new Intent(this, EditCalendar.class);
         editCalendarIntent.putExtra("DATECLICKED", dateClicked);
         startActivity(editCalendarIntent);
     }

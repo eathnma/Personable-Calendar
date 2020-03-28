@@ -263,4 +263,12 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         }
 
     }
+
+    public void goBack(View v){
+        //finish();
+        Intent intent = new Intent(this, EventsList.class);
+        String dateClicked = getIntent().getStringExtra("DATECLICKED");
+        intent.putExtra("DATECLICKED", dateClicked);
+        startActivity(intent);
+    }
 }

@@ -40,7 +40,12 @@ public class UserSettings extends AppCompatActivity {
 
         if(sharedPrefs.contains("name")){
             name = sharedPrefs.getString("name", null);
-            title.setText(name + "'s Settings");
+            if(name.charAt(name.length() - 1) == 's') {
+                title.setText(name + "' Settings");
+            }
+            else{
+                title.setText(name + "'s Settings");
+            }
         }
 
         color = null;
