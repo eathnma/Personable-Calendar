@@ -31,7 +31,7 @@
         <activity android:name=".CalendarObjects.AddLocationActivity" />
         <activity android:name=".CalendarObjects.EditCalendar" />
         <activity android:name=".CalendarObjects.EventsList" />
-        <activity android:name=".CalendarObjects.ViewEvent"/>
+        <activity android:name=".CalendarObjects.ViewEvent" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

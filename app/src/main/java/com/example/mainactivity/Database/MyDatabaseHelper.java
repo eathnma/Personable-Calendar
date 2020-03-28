@@ -20,10 +20,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String CREATE_TABLE =
             "CREATE TABLE "+
-                    TABLE_NAME + " (" +
-                    UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Constants.TABLE_NAME + " (" +
+                    Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     Constants.DATECLICKED + " TEXT, " +
-                    TITLE + " TEXT, " +
+                    Constants.TITLE + " TEXT, " +
                     Constants.TIMEONE + " TEXT, " +
                     Constants.TIMETWO + " TEXT, " +
                     Constants.MESSAGE + " TEXT, " +

@@ -110,11 +110,11 @@ public class EventsList extends AppCompatActivity {
             eventLayout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
+                Log.d(TAG, "click listener crash");
+                Intent viewActivity = new Intent(getApplicationContext(), ViewEvent.class);
                 viewActivity.putExtra( "DATECLICKED", dateClicked);
                 viewActivity.putExtra("stringdata", s);
                 startActivity(viewActivity);
-                Log.d(TAG, Arrays.toString(s));
             }
         });
         }
