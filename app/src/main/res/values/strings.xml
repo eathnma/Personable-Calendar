@@ -36,5 +36,5 @@
 
     <!--    view activity strings-->
     <string name="activity_name">Date with Thomas</string>
-
+    <string name="not_available">Not Available</string>
 </resources>

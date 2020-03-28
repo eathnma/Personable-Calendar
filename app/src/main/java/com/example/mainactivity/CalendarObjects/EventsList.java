@@ -31,6 +31,7 @@ import com.example.mainactivity.R;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EventsList extends AppCompatActivity {
     private static final String TAG = "EventsList";
@@ -62,6 +63,10 @@ public class EventsList extends AppCompatActivity {
     MyDatabase db;
     MyDatabaseHelper helper;
 
+    private ArrayList<String[]> mArrayList = new ArrayList<String[]>();
+    private String s[];
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,7 @@ public class EventsList extends AppCompatActivity {
         intent = getIntent();
         dateClicked = intent.getStringExtra("DATE_CLICKED");
         parser = dateClicked.split(" ");
+        Log.d(TAG, dateClicked);
 
         //eventsContainer = findViewById(R.id.events_container);
 
@@ -92,13 +98,25 @@ public class EventsList extends AppCompatActivity {
         layoutParams = new LinearLayout.LayoutParams(width, height);
         layoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
 
-
         setContainers();
         fillLayout();
         
         scrollView.addView(parentContainer);
 
+        // once the eventlayout has been instantiated
+        if(mArrayList.size() != 0){
+            eventLayout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
+                viewActivity.putExtra( "DATECLICKED", dateClicked);
+                viewActivity.putExtra("stringdata", s);
+                startActivity(viewActivity);
+//                Log.d(TAG, Arrays.toString(s));
 
+            }
+        });
+        }
     }
 
     private void fillLayout(){
@@ -208,7 +226,7 @@ public class EventsList extends AppCompatActivity {
         int index5 = cursor.getColumnIndex(Constants.COLOR);
         int index6 = cursor.getColumnIndex(Constants.LOCATION);
 
-        ArrayList<String[]> mArrayList = new ArrayList<>();
+        mArrayList = new ArrayList<String[]>();
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
@@ -228,7 +246,7 @@ public class EventsList extends AppCompatActivity {
                 String color = cursor.getString(index5);
                 String location = cursor.getString(index6);
 
-                String[] s = new String[6];
+                s = new String[6];
                 s[0] = title;
                 s[1] = timeone;
                 s[2] = timetwo;
@@ -324,7 +342,6 @@ public class EventsList extends AppCompatActivity {
 
             frameLayout.addView(eventLayout);
         }
-
 
     }
 }

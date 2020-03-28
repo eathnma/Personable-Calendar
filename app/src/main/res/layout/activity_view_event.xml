@@ -63,7 +63,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/circular_bold"
-                    android:text="@string/activity_name"
                     android:textColor="@android:color/black"
                     android:textSize="22sp" />
 
@@ -98,7 +97,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_medium"
-                    android:text="Thursday, March 5th"
                     android:textColor="@android:color/black"
                     android:textSize="17dp" />
 
@@ -107,7 +105,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_medium"
-                    android:text="2:30 - 4:30PM"
                     android:textColor="@android:color/black"
                     android:textSize="14dp"
                     app:layout_column="2"
@@ -130,7 +127,6 @@
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/circular_book"
                     android:lineSpacingExtra="10dp"
-                    android:text="Thomas is planning on taking me on a lovely picnic and I’m very excited. "
                     android:textSize="14sp"
                     app:layout_column="0"
                     app:layout_row="0" />
@@ -157,7 +153,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/circular_book"
-                    android:text="8888 University Dr, Burnaby, BC V5A 1S6"
                     android:textColor="@android:color/black"
                     app:layout_column="1"
                     app:layout_gravity="center_vertical"
@@ -166,7 +161,7 @@
                 <View
                     android:id="@+id/mapView"
                     android:layout_width="313dp"
-                    android:layout_height="141dp"
+                    android:layout_height="136dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/rectangle_line"
