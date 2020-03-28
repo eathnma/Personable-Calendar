@@ -104,19 +104,18 @@ public class EventsList extends AppCompatActivity {
         scrollView.addView(parentContainer);
 
         // once the eventlayout has been instantiated
-        if(mArrayList.size() != 0){
-            eventLayout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
-                viewActivity.putExtra( "DATECLICKED", dateClicked);
-                viewActivity.putExtra("stringdata", s);
-                startActivity(viewActivity);
+//        if(mArrayList.size() != 0){
+//            eventLayout.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                Intent viewActivity = new Intent(getBaseContext(), ViewEvent.class);
+//                viewActivity.putExtra( "DATECLICKED", dateClicked);
+//                viewActivity.putExtra("stringdata", s);
+//                startActivity(viewActivity);
 //                Log.d(TAG, Arrays.toString(s));
-
-            }
-        });
-        }
+//            }
+//        });
+//        }
     }
 
     private void fillLayout(){
@@ -226,7 +225,7 @@ public class EventsList extends AppCompatActivity {
         int index5 = cursor.getColumnIndex(Constants.COLOR);
         int index6 = cursor.getColumnIndex(Constants.LOCATION);
 
-        mArrayList = new ArrayList<String[]>();
+        ArrayList mArrayList = new ArrayList<>();
         cursor.moveToFirst();
 
         while(!cursor.isAfterLast()){
@@ -260,7 +259,7 @@ public class EventsList extends AppCompatActivity {
             }
 
             organizeEvents(mArrayList);
-        }
+    }
 
     private void organizeEvents(ArrayList<String[]> mArrayList) {
         int dp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));

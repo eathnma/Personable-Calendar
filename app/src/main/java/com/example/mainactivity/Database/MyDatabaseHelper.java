@@ -8,15 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
-import static com.example.mainactivity.Database.Constants.TABLE_NAME;
-import static com.example.mainactivity.Database.Constants.TITLE;
-import static com.example.mainactivity.Database.Constants.UID;
-
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
-    private static final String TAG = "TAG";
 
     private static final String CREATE_TABLE =
             "CREATE TABLE "+
