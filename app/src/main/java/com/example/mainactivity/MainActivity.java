@@ -4,6 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +24,9 @@ import com.example.mainactivity.CalendarObjects.EventsList;
 import com.example.mainactivity.CalendarObjects.ViewEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity{
@@ -29,11 +36,20 @@ public class MainActivity extends AppCompatActivity{
     String[] dateToday;
     String toolbarDate;
     MenuItem settings;
+    Calendar getHour;
+    int hourOfDay;
+
+    private SensorManager mySensorManager;
+    private Sensor lightSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getHour = Calendar.getInstance();
+        mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         //TESTING
         HashSet<Date> events = new HashSet<>();
@@ -42,6 +58,7 @@ public class MainActivity extends AppCompatActivity{
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         //toolbar.inflateMenu(R.menu.menu_main);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
+        sensorSetup();
 
         cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler()
@@ -86,5 +103,44 @@ public class MainActivity extends AppCompatActivity{
         Intent intent = new Intent(this, UserSettings.class);
         startActivity(intent);
     }
+
+    public void sensorSetup(){
+
+        if(lightSensor != null){
+            mySensorManager.registerListener(
+                    lightSensorListener,
+                    lightSensor,
+                    SensorManager.SENSOR_DELAY_NORMAL);
+
+        }
+    }
+
+    private final SensorEventListener lightSensorListener
+            = new SensorEventListener(){
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
+            if(event.sensor.getType() == Sensor.TYPE_LIGHT){
+                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 22 || getHour.get(Calendar.HOUR_OF_DAY) < 6)) {
+
+                    toolbar.setBackgroundColor(Color.BLACK);
+                    toolbarTitle.setTextColor(Color.WHITE);
+                }
+                else{
+                    toolbar.setBackgroundColor(Color.WHITE);
+                    toolbarTitle.setTextColor(Color.BLACK);
+                }
+
+            }
+        }
+
+    };
 
 }
