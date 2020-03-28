@@ -43,7 +43,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/circular_book"
-                    android:onClick="addActivity"
                     android:text="@string/save"
                     android:textSize="12sp"
                     app:layout_column="2"

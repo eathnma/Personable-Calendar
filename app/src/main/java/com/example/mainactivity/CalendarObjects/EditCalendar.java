@@ -94,6 +94,21 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         saveButtonRowOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String title = addTitle.getText().toString();
+                String timeOne = editTimeRowOne.getText().toString();
+                String timeTwo = editTimeRowTwo.getText().toString();
+                String message = notificationMessage.getText().toString();
+                String location = addLocation.getText().toString();
+                Intent intent = getIntent();
+                String dateClicked = intent.getStringExtra("DATECLICKED");
+//        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
+
+//        Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
+
+                long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked, location);
+
+                Toast.makeText(getApplicationContext(), title + timeOne + timeTwo + message + chosenColor + location + dateClicked, Toast.LENGTH_SHORT).show();
+
                 int result = 1;
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", result);
