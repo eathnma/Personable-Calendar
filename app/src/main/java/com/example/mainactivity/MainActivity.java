@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity{
         events.add(new Date());
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
         toolbar = (Toolbar) findViewById(R.id.actionBar);
-        //toolbar.inflateMenu(R.menu.menu_main);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         sensorSetup();
 
