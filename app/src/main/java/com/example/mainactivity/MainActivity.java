@@ -1,6 +1,5 @@
 package com.example.mainactivity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,9 +10,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,22 +17,18 @@ import android.widget.Toolbar;
 
 import com.example.mainactivity.CalendarObjects.CalendarView;
 import com.example.mainactivity.CalendarObjects.EventsList;
-import com.example.mainactivity.CalendarObjects.ViewEvent;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 public class MainActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
-    Toolbar toolbar;
-    TextView toolbarTitle;
-    String[] dateToday;
-    String toolbarDate;
-    MenuItem settings;
-    Calendar getHour;
+    private Toolbar toolbar;
+    private TextView toolbarTitle;
+    private String[] dateToday;
+    private String toolbarDate;
+    private Calendar getHour;
     private SensorManager mySensorManager;
     private Sensor lightSensor;
 
@@ -53,6 +45,7 @@ public class MainActivity extends AppCompatActivity{
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
         CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
+
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         sensorSetup();
@@ -126,7 +119,6 @@ public class MainActivity extends AppCompatActivity{
             Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
                 if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 22 || getHour.get(Calendar.HOUR_OF_DAY) < 6)) {
-
                     toolbar.setBackgroundColor(Color.BLACK);
                     toolbarTitle.setTextColor(Color.WHITE);
                 }
@@ -139,5 +131,6 @@ public class MainActivity extends AppCompatActivity{
         }
 
     };
+
 
 }

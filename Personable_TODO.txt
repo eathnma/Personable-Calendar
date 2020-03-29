@@ -1,0 +1,16 @@
+** KNOWN ERRORS TO FIX **
+- Main activity screen does not refresh to indicate an event is there unless you manually refresh
+- Only the most recently added event can be deleted at a time in EventsList
+- Back button from EventsList is broken
+- Memory leaks (more efficient code needed)
+
+
+** UNFINISHED **
+- User settings unfinished
+- Profile picture upload 
+- Add birthday
+- Nothing is done with the favourite color
+
+- Notifications and animations
+- Fully implement darkmode
+- Add event only shows in pm and in 24-hour clock

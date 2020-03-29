@@ -28,9 +28,6 @@ import com.example.mainactivity.R;
 import java.util.Calendar;
 
 public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
-
-    private static final String TAG = EditCalendar.class.getSimpleName();
-
     private String AM_PM;
 
     private int flag = 0;
@@ -66,9 +63,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     // add database object
     MyDatabase db;
 
-    // shared preferences
-    public static final String DEFAULT = "not available";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +95,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 String location = addLocation.getText().toString();
                 Intent intent = getIntent();
                 String dateClicked = intent.getStringExtra("DATECLICKED");
-//        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
-
-//        Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
-
                 long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked, location);
 
                 Toast.makeText(getApplicationContext(), title + timeOne + timeTwo + message + chosenColor + location + dateClicked, Toast.LENGTH_SHORT).show();
@@ -219,24 +209,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 // Write code for no result
             }
         }
-    }
-
-    public void addActivity(View view){
-        String title = addTitle.getText().toString();
-        String timeOne = editTimeRowOne.getText().toString();
-        String timeTwo = editTimeRowTwo.getText().toString();
-        String message = notificationMessage.getText().toString();
-        String location = addLocation.getText().toString();
-        Intent intent = getIntent();
-        String dateClicked = intent.getStringExtra("DATECLICKED");
-//        Toast.makeText(getApplicationContext(), dateClicked, Toast.LENGTH_SHORT).show();
-
-//        Toast.makeText(this, title + timeOne + timeTwo + message, Toast.LENGTH_SHORT).show();
-
-        long id = db.insertData(title, timeOne, timeTwo, message, chosenColor, dateClicked, location);
-
-        Toast.makeText(getApplicationContext(), title + timeOne + timeTwo + message + chosenColor + location + dateClicked, Toast.LENGTH_SHORT).show();
-
     }
 
     public void discardMessage(View view){

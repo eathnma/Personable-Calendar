@@ -37,37 +37,35 @@ public class EventsList extends AppCompatActivity {
     private static final String TAG = "EventsList";
     private int width, height;
 
-    TextView hour;
-    String toolbarDate;
-    ScrollView scrollView;
+    private TextView hour;
+    private String toolbarDate;
+    private ScrollView scrollView;
 
-    LinearLayout parentContainer;
-    LinearLayout timeline;
-    LinearLayout boxParent;
-    LinearLayout box;
-    LinearLayout.LayoutParams layoutParams;
-    LinearLayout.LayoutParams layoutParams2;
+    private LinearLayout parentContainer;
+    private LinearLayout timeline;
+    private LinearLayout boxParent;
+    private LinearLayout box;
+    private LinearLayout.LayoutParams layoutParams;
+    private LinearLayout.LayoutParams layoutParams2;
 
     //EVENT LAYOUTS WITH BOXCONTAINER
-    FrameLayout frameLayout;
-    LinearLayout eventLayout;
-
+    private FrameLayout frameLayout;
+    private LinearLayout eventLayout;
 
     private Resources r;
-    Toolbar toolbar;
-    String dateClicked;
-    String[] parser;
-    TextView toolbarTitle;
-    Intent intent;
-    MyDatabase db;
-    MyDatabaseHelper helper;
+    private Toolbar toolbar;
+    private String dateClicked;
+    private String[] parser;
+    private TextView toolbarTitle;
+    private Intent intent;
+    private MyDatabase db;
+    private MyDatabaseHelper helper;
 
     private ArrayList<String[]> mArrayList = new ArrayList<>();
     private String s[];
 
-    private Boolean refreshBoolean;
-    int LAUNCH_EDIT_CALENDAR = 1;
-    int LAUNCH_VIEW_ACTIVITY = 2;
+    private static final int LAUNCH_EDIT_CALENDAR = 1;
+    private static final int LAUNCH_VIEW_ACTIVITY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +73,9 @@ public class EventsList extends AppCompatActivity {
         setContentView(R.layout.activity_events_list);
         intent = getIntent();
 
-        if(intent.hasExtra("DATECLICKED")){
-            dateClicked = intent.getStringExtra("DATECLICKED");
-            Log.v(TAG, "RETURNED");
-        }
-        else if(intent.hasExtra("DATE_CLICKED")){
-            dateClicked = intent.getStringExtra("DATE_CLICKED");
-        }
-
+        //Variables that decide the day (1-31) pressed
+        dateClicked = intent.getStringExtra("DATE_CLICKED");
         parser = dateClicked.split(" ");
-        Log.d(TAG, dateClicked);
 
         //database
         db = new MyDatabase(this);
@@ -101,10 +92,12 @@ public class EventsList extends AppCompatActivity {
         r = getResources();
         width = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, r.getDisplayMetrics()));
         height = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics()));
-
+        //Layout parameter variables
         layoutParams = new LinearLayout.LayoutParams(width, height);
         layoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
 
+
+        //Layout Assignment
         setContainers();
         fillLayout();
 
@@ -209,8 +202,6 @@ public class EventsList extends AppCompatActivity {
         frameLayout.addView(boxParent);
         displayEvent();
         parentContainer.addView(frameLayout);
-        //Display event
-
     }
 
     //next intent
@@ -399,4 +390,5 @@ public class EventsList extends AppCompatActivity {
             }
         }
     }
+
 }

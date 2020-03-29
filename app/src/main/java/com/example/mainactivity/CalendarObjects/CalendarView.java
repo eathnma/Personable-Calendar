@@ -35,24 +35,22 @@ import java.util.HashSet;
 
 public class CalendarView extends LinearLayout {
     // calendar components
-    static final String TAG = "CalendarView";
-    private LinearLayout header;
+    static final String TAG = "MainActivity";
+
     private Button btnPrev;
     private Button btnNext;
-    private TextView txtDateDay;
     private TextView txtDisplayDate;
-    private TextView txtDateYear;
     private GridView gridView;
-    private Toolbar toolbar;
     private MyDatabase db;
     private MyDatabaseHelper helper;
     private ArrayList<String> colorList;
-    EventHandler eventHandler;
+    private ArrayList<Integer> month;
+    private EventHandler eventHandler;
 
     private static final int DAYS_COUNT = 42;
     private static final String DATE_FORMAT = "MMM yyyy";
     private String dateFormat;
-    String[] dateToday;
+    private String[] dateToday;
 
     private Calendar currentDate = Calendar.getInstance();
     private Calendar currentDateComparison = Calendar.getInstance();
@@ -68,7 +66,7 @@ public class CalendarView extends LinearLayout {
 
     private void assignUiElements(Context context) {
         // layout is inflated, assign local variables to components
-        header = findViewById(R.id.calendar_header);
+
         btnPrev = findViewById(R.id.buttonPrev);
         btnNext = findViewById(R.id.buttonNext);
         txtDisplayDate = findViewById(R.id.date_display_date);
@@ -162,7 +160,7 @@ public class CalendarView extends LinearLayout {
         }
 
         // update grid
-        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events, currentDate, setDayColor(), colorList));
+        gridView.setAdapter(new CalendarAdapter(getContext(), cells, events, currentDate, setDayColor(), month, colorList));
 
         // update title
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM,yyyy,dd");
@@ -175,7 +173,7 @@ public class CalendarView extends LinearLayout {
             dayOfWeek.setTextColor(Color.BLACK);
             dayOfWeek.setTypeface(null, Typeface.BOLD);
         }
-        else{
+        else   {
             //DO MORE EFFICIENTLY PLS
             dayOfWeek = (TextView) findViewById(R.id.Wednesday);
             dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
@@ -205,7 +203,6 @@ public class CalendarView extends LinearLayout {
             dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
             dayOfWeek.setTypeface(null, Typeface.NORMAL);
         }
-
     }
 
     private ArrayList<Integer> setDayColor(){
@@ -213,23 +210,66 @@ public class CalendarView extends LinearLayout {
 
         int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
         int index1 = cursor.getColumnIndex(Constants.COLOR);
-        Log.d(TAG, "CURSOR VALUE: " + cursor.getString(index0));
-        ArrayList<Integer> mArrayList = new ArrayList<>();
+
+        ArrayList<Integer> day = new ArrayList<>();
         colorList = new ArrayList<>();
+        month = new ArrayList<>();
 
         cursor.moveToFirst();
         while(!cursor.isAfterLast()){
             String date = cursor.getString(index0);
             String[] parser = date.split(" ");
-
             String color = cursor.getString(index1);
+
+            Log.d(TAG, "CURSOR VALUE: " + date);
+
             colorList.add(color);
-            mArrayList.add(Integer.parseInt(parser[2]));
+            day.add(Integer.parseInt(parser[2]));
+            month.add(monthToInt(parser[1]));
             cursor.moveToNext();
         }
-        return mArrayList;
+        return day;
     }
 
+    private int monthToInt(String month){
+        int monthInt = 0;
+
+        if(month.contentEquals("Feb")){
+            monthInt = 1;
+        }
+        else if(month.contentEquals("Mar")){
+            monthInt = 2;
+        }
+        else if(month.contentEquals("Apr")){
+            monthInt = 3;
+        }
+        else if(month.contentEquals("May")){
+            monthInt = 4;
+        }
+        else if(month.contentEquals("Jun")){
+            monthInt = 5;
+        }
+        else if(month.contentEquals("Jul")){
+            monthInt = 6;
+        }
+        else if(month.contentEquals("Aug")){
+            monthInt = 7;
+        }
+        else if(month.contentEquals("Sep")){
+            monthInt = 8;
+        }
+        else if(month.contentEquals("Oct")){
+            monthInt = 9;
+        }
+        else if(month.contentEquals("Nov")){
+            monthInt = 10;
+        }
+        else if(month.contentEquals("Dec")){
+            monthInt = 11;
+        }
+
+        return monthInt;
+    }
 
     public void setEventHandler(EventHandler eventHandler)
     {

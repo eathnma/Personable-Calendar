@@ -1,5 +1,4 @@
 package com.example.mainactivity.CalendarObjects;
-import android.database.Cursor;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,15 +23,19 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
     private static final String TAG = "CalendarAdapter";
     private ArrayList<Integer> dateWithEvents;
     private ArrayList<String> color;
+    private ArrayList<Integer> monthWithEvents;
 
-    public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays, Calendar calendar, ArrayList<Integer> dateWithEvents, ArrayList<String>color) {
+    public CalendarAdapter(Context context, ArrayList<Date> days, HashSet<Date> eventDays,
+                           Calendar calendar, ArrayList<Integer> dateWithEvents,
+                           ArrayList<Integer> monthWithEvents, ArrayList<String>color) {
+
         super(context, R.layout.custom_calendar_day, days);
-        this.eventDays = eventDays;
         inflater = LayoutInflater.from(context);
+        this.eventDays = eventDays;
         this.calendarCompare = (Calendar) calendar.clone();
         this.dateWithEvents = dateWithEvents;
         this.color = color;
-
+        this.monthWithEvents = monthWithEvents;
     }
 
     @Override
@@ -43,7 +46,6 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
         calendar.setTime(date);
         int day = calendar.get(Calendar.DATE);
         int month = calendar.get(Calendar.MONTH);
-        int year = calendar.get(Calendar.YEAR);
 
         // today
         Date today = new Date();
@@ -75,14 +77,13 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
 
                 //Iterate through arraylist that contains days with events. (For days that isn't the current day)
                 for(int i = 0; i < dateWithEvents.size(); i++){
-                    if(day == dateWithEvents.get(i)){
+                    if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
                         ((TextView) view).setTextColor(Color.WHITE);
                         Log.d(TAG, "COLOR: " + color.get(i));
                         decideColor(color.get(i),view);
                         break;
                     }
                 }
-
             }
         }
         else{
@@ -90,12 +91,13 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
             if (month != calendarCompare.get(Calendar.MONTH)) {
                 // if this day is outside current month, grey it out
                 ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
-            } else {
+            }
+            else {
                 // !*** CHECK FOR EVENT **
                 ((TextView) view).setTextColor(Color.parseColor("#969696"));
                 view.setBackgroundResource(R.drawable.text_view_circle);
                 for(int i = 0; i < dateWithEvents.size(); i++){
-                    if(day == dateWithEvents.get(i)){
+                    if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
                         ((TextView) view).setTextColor(Color.WHITE);
                         Log.d(TAG, "COLOR: " + color.get(i));
                         decideColor(color.get(i),view);
