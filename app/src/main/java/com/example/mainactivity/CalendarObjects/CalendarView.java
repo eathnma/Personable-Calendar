@@ -213,7 +213,7 @@ public class CalendarView extends LinearLayout {
 
         int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
         int index1 = cursor.getColumnIndex(Constants.COLOR);
-
+        Log.d(TAG, "CURSOR VALUE: " + cursor.getString(index0));
         ArrayList<Integer> mArrayList = new ArrayList<>();
         colorList = new ArrayList<>();
 
@@ -221,7 +221,7 @@ public class CalendarView extends LinearLayout {
         while(!cursor.isAfterLast()){
             String date = cursor.getString(index0);
             String[] parser = date.split(" ");
-            Log.d(TAG, "PARSE: " + parser[2]);
+
             String color = cursor.getString(index1);
             colorList.add(color);
             mArrayList.add(Integer.parseInt(parser[2]));
@@ -230,14 +230,6 @@ public class CalendarView extends LinearLayout {
         return mArrayList;
     }
 
-    private void setColors(){
-        GradientDrawable shape = (GradientDrawable) ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle);
-        shape.setColor(ContextCompat.getColor(getContext(), R.color.boxColor1));
-
-        ImageView color = findViewById(R.id.blueCircle);
-
-        color.setBackground(shape);
-    }
 
     public void setEventHandler(EventHandler eventHandler)
     {

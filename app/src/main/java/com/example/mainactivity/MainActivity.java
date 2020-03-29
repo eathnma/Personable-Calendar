@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity{
     String toolbarDate;
     MenuItem settings;
     Calendar getHour;
-    int hourOfDay;
-
     private SensorManager mySensorManager;
     private Sensor lightSensor;
 
