@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,6 +30,7 @@ import com.example.mainactivity.CalendarObjects.EditCalendar;
 import com.example.mainactivity.Database.Constants;
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
+import com.example.mainactivity.MainActivity;
 import com.example.mainactivity.R;
 
 import java.util.ArrayList;
@@ -62,7 +65,7 @@ public class EventsList extends AppCompatActivity {
     private MyDatabaseHelper helper;
 
     private ArrayList<String[]> mArrayList = new ArrayList<>();
-    private String s[];
+    private String[] s;
 
     private static final int LAUNCH_EDIT_CALENDAR = 1;
     private static final int LAUNCH_VIEW_ACTIVITY = 2;
@@ -104,6 +107,7 @@ public class EventsList extends AppCompatActivity {
         scrollView.addView(parentContainer);
 
         // once the eventlayout has been instantiated
+        /*
         if(mArrayList.size() != 0){
             eventLayout.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -116,6 +120,7 @@ public class EventsList extends AppCompatActivity {
             }
         });
         }
+        */
     }
 
     private void fillLayout(){
@@ -259,7 +264,7 @@ public class EventsList extends AppCompatActivity {
             organizeEvents(mArrayList);
     }
 
-    private void organizeEvents(ArrayList<String[]> mArrayList) {
+    private void organizeEvents(final ArrayList<String[]> mArrayList) {
         int dp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));
 
         //EVENT LAYOUTS
@@ -269,8 +274,6 @@ public class EventsList extends AppCompatActivity {
         TextView eventDesc;
 
         for (int i = 0; i < mArrayList.size(); i++) {
-            Log.d(TAG, "TESTING " + mArrayList.get(i)[0] + " " + mArrayList.get(i)[1] + " " + mArrayList.get(i)[2] + " " + mArrayList.get(i)[3] + " " + mArrayList.get(i)[4]);
-
             //Single event Layout
             eventLayout = new LinearLayout(this);
             if (mArrayList.get(i)[4].contentEquals("@colors/boxColor1")) {
@@ -362,6 +365,17 @@ public class EventsList extends AppCompatActivity {
             eventLayout.addView(event);
             eventLayout.addView(eventDesc);
 
+            String details = Arrays.toString(mArrayList.get(i));
+            eventLayout.setTag(details);
+            Log.d(TAG, "DETAILS " + details);
+            //Set OnClick Listener
+            eventLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                   toEdit(v);
+                }
+            });
+
             //Add event container to FrameLayout
             frameLayout.addView(eventLayout);
         }
@@ -389,6 +403,21 @@ public class EventsList extends AppCompatActivity {
                 Log.d(TAG,"no result");
             }
         }
+    }
+
+    public void backHome(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void toEdit(View v){
+        Intent intent = new Intent(this, ViewEvent.class);
+        String details = (String) v.getTag();
+        details = details.substring(1, details.length() - 1);
+        String[] parser = details.split(", ");
+        intent.putExtra( "DATECLICKED", dateClicked);
+        intent.putExtra("stringdata", parser);
+        startActivityForResult(intent, LAUNCH_VIEW_ACTIVITY);
     }
 
 }

@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mainactivity.Database.Constants;
+import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.R;
 
@@ -21,7 +23,7 @@ import java.util.Arrays;
 
 public class ViewEvent extends AppCompatActivity {
 
-    private static final String TAG = "EventArray";
+    private static final String TAG = "ViewEvent";
 
     //layout row 1
     private ImageView arrow;
@@ -43,6 +45,7 @@ public class ViewEvent extends AppCompatActivity {
     private View mapView;
 
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
+    MyDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +74,13 @@ public class ViewEvent extends AppCompatActivity {
         String MYD = parser[0] + " " + parser[1] + " " + parser[2];
 
         String[] stringData = i.getExtras().getStringArray("stringdata");
+        Log.d(TAG, "STRING DATA " +  Arrays.toString(stringData));
 
         if(stringData == null){
             Log.d(TAG, "this is null");
-        } else{
-            Log.d(TAG, Arrays.toString(stringData));
+        }
+        else{
+
             String title = stringData[0];
             String timeone = stringData[1];
             String timetwo = stringData[2];
@@ -141,5 +146,6 @@ public class ViewEvent extends AppCompatActivity {
             }
         });
     }
+
 
 }

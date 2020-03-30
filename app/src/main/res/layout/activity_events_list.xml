@@ -28,7 +28,7 @@
             android:layout_height="15dp"
             android:background="@drawable/arrow"
             android:layout_margin="15dp"
-            android:onClick=""
+            android:onClick="backHome"
             />
         <TextView
             android:id="@+id/toolbarTitle"
