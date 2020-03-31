@@ -1,15 +1,19 @@
 ** KNOWN ERRORS TO FIX **
 - Only the most recently added event can be deleted at a time in EventsList
 - Back button from EventsList is broken
-- Memory leaks (more efficient code needed)
-
 
 ** UNFINISHED **
 - User settings unfinished
+ 	- Upload photo
+	- Upload picture
+
 - Profile picture upload 
 - Add birthday
 - Nothing is done with the favourite color
+- ViewEvent does not show the location of the event
 
-- Notifications and animations
+- Notifications
 - Fully implement darkmode
 - Add event only shows in pm and in 24-hour clock
+- Animations (Son Nguyen Quang)
+- Button feedback

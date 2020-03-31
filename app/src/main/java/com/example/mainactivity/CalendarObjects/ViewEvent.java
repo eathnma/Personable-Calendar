@@ -45,7 +45,6 @@ public class ViewEvent extends AppCompatActivity {
     private View mapView;
 
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
-    MyDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +79,6 @@ public class ViewEvent extends AppCompatActivity {
             Log.d(TAG, "this is null");
         }
         else{
-
             String title = stringData[0];
             String timeone = stringData[1];
             String timetwo = stringData[2];
@@ -119,23 +117,15 @@ public class ViewEvent extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = String.valueOf(titleView.getText());
-                Log.d(TAG, "onItemClick: You clicked on " + name);
+                int itemID;
 
                 Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
-                int itemID = -1;
-                while(data.moveToNext()){
-                    itemID = data.getInt(0);
-                }
 
-                if(itemID >  -1){
-                    Log.d(TAG,"onItemClick: the ID IS " + itemID);
-                }
-                else{
-                    Log.d(TAG, "NO ID ASSOCIATED WITH NAME");
-                }
+
+                data.moveToNext();
+                itemID = data.getInt(0);
 
                 mDatabaseHelper.deleteName(itemID,name);
-                Log.d(TAG, "deleted " + itemID + " & "+ name + " from database");
 
                 int result = 1;
                 Intent returnIntent = new Intent();

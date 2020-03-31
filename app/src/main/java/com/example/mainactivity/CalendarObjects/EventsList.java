@@ -105,22 +105,6 @@ public class EventsList extends AppCompatActivity {
         fillLayout();
 
         scrollView.addView(parentContainer);
-
-        // once the eventlayout has been instantiated
-        /*
-        if(mArrayList.size() != 0){
-            eventLayout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "click listener crash");
-                Intent viewActivity = new Intent(getApplicationContext(), ViewEvent.class);
-                viewActivity.putExtra( "DATECLICKED", dateClicked);
-                viewActivity.putExtra("stringdata", s);
-                startActivityForResult(viewActivity, LAUNCH_VIEW_ACTIVITY);
-            }
-        });
-        }
-        */
     }
 
     private void fillLayout(){
