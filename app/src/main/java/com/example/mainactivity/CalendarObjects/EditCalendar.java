@@ -23,6 +23,7 @@ import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.DialogueObjects.DiscardDialogue;
 import com.example.mainactivity.DialogueObjects.TimePickerFragment;
 import com.example.mainactivity.DialogueObjects.TimePickerFragmentTwo;
+import com.example.mainactivity.Overlay;
 import com.example.mainactivity.R;
 
 import java.util.Calendar;
@@ -67,6 +68,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
+        stopService(new Intent(this, Overlay.class));
         //prevents the keyboard from showing up from EditText
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

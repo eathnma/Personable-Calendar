@@ -34,6 +34,7 @@ public class Overlay extends Service{
     private ArrayList<String> eventComparison;
     private TextView textView;
     private ImageView sonNguyenQuang;
+    private Calendar calendar;
 
     public Overlay() {
     }
@@ -50,7 +51,7 @@ public class Overlay extends Service{
         helper = new MyDatabaseHelper(this);
         eventDetails = null;
         events = new ArrayList<>();
-        eventComparison = new ArrayList<>();
+        //calendar = Calendar.getInstance();
 
         //getting the widget layout from xml using layout inflater
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.activity_overlay, null);
@@ -58,7 +59,7 @@ public class Overlay extends Service{
         //setting the layout parameters
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 PixelFormat.TRANSLUCENT);
@@ -72,8 +73,7 @@ public class Overlay extends Service{
         textView = mFloatingView.findViewById(R.id.message);
         sonNguyenQuang = mFloatingView.findViewById(R.id.SonNguyenQuang);
 
-        //Check if messages should be sent at the appropriate time
-        checkTime();
+
 
         //Text Generator
         String type = typeOfQuang();
@@ -87,9 +87,13 @@ public class Overlay extends Service{
             lp.width = 1437;
             lp.height = 555;
         }
+
         sonNguyenQuang.setLayoutParams(lp);
-        //Quang Car Disproportionately streched
-        //sonNguyenQuang.setBackgroundResource(getResources().getIdentifier("quang_car", "drawable", this.getPackageName()));
+        //Quang Car Disproportionately stretched
+        //Check if messages should be sent at the appropriate time
+        checkTime();
+        filterEvent();
+        sortMonth();
         sonNguyenQuang.setBackgroundResource(getResources().getIdentifier(type, "drawable", this.getPackageName()));
         animate(mFloatingView);
 
@@ -123,13 +127,13 @@ public class Overlay extends Service{
             int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
             int index1 = cursor.getColumnIndex(Constants.COLOR);
             int index2 = cursor.getColumnIndex(Constants.MESSAGE);
+            int index3 = cursor.getColumnIndex(Constants.TIMEONE);
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-                eventDetails = new String[4];
-                String date[];
-
+                eventDetails = new String[5];
                 eventDetails[0] = cursor.getString(index0);
+                String date[];
                 date = eventDetails[0].split(" ");
 
                 eventDetails[0] = date[1];
@@ -137,9 +141,7 @@ public class Overlay extends Service{
                 eventDetails[2] = cursor.getString(index1);
                 //message
                 eventDetails[3] = cursor.getString(index2);
-                Log.d(TAG, "DATE [1]: " + date[1]); //MONTH
-                Log.d(TAG, "DATE [2]: " + date[2]); //DAY OF MONTH
-                Log.d(TAG, "FULL STRING: " + eventDetails[0]);
+                eventDetails[4] = cursor.getString(index3);
                 events.add(eventDetails);
                 cursor.moveToNext();
             }
@@ -242,14 +244,58 @@ public class Overlay extends Service{
         }
     }
 
+    private void filterEvent(){
+        Log.d(TAG, "filterEvent Called");
+        int size = events.size();
+        //int month = calendar.get(Calendar.MONTH);
+        //int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int index = 0;
 
-    //Consult Ethan if we should make this productive
-    private void searchForNextEvent(ArrayList<String[]> events, int index){
-        if(checkMonth(events.get(index)[0]) == Calendar.MONTH){
-            if(Integer.parseInt(events.get(index)[1]) == Calendar.DAY_OF_MONTH){
-                //do something
+        while(index < size) {
+            if (checkMonth(events.get(index)[0]) == 1) {
+                if (!(Integer.parseInt(events.get(index)[1]) == 1)) {
+                    Log.d(TAG, "REMOVAL: " + (events.get(index)[1]));
+                    events.remove(index);
+                    size = events.size();
+
+                }
+            }
+            else{
+                events.remove(index);
+                size = events.size();
             }
         }
+    }
+
+    private void sortMonth(){
+        ArrayList<String[]> holderArrayList = new ArrayList<>();
+        String[] smallest;
+
+        for(int i = 0; i < events.size(); i++){
+            smallest = events.get(i);
+            for(int j = i + 1; j < events.size(); j++){
+                if(hourToInt(smallest[4]) > hourToInt(events.get(j)[4])){
+                    smallest = events.get(j);
+                    Log.d(TAG, "SMALLEST HOUR: " + smallest[4]);
+                }
+            }
+            holderArrayList.add(smallest);
+
+        }
+
+        for(int i = 0; i < holderArrayList.size(); i++){
+            Log.d(TAG, "LIST ITEM " + i + " " + holderArrayList.get(i)[4]);
+        }
+
+        events = new ArrayList<String[]>();
+        events = holderArrayList;
+
+    }
+
+    private int hourToInt(String hour){
+        String intHour = hour.substring(0, 2);
+        int hr = Integer.parseInt(intHour);
+        return hr;
     }
 
     private int checkMonth(String month){
