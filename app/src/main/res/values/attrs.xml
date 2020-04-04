@@ -3,4 +3,12 @@
     <declare-styleable name="CalendarView">
         <attr name="dateFormat" format="string"/>
     </declare-styleable>
+    
+    <declare-styleable name="ds">
+        <attr name="backgroundcolor" format="color" />
+        <attr name="cardbackground" format="color" />
+        <attr name="textcolor" format="color" />
+        <attr name="tintcolor" format="color" />
+        <attr name="buttoncolor" format="color" />
+    </declare-styleable>
 </resources>

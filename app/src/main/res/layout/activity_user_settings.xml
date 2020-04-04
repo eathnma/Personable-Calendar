@@ -118,108 +118,42 @@
             android:layout_marginLeft="50dp"
 
             >
-            <TextView
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/circular_bold"
-                android:text="Preferred Color"
-                android:textSize="20sp"
-                android:paddingVertical="10dp"
-                />
-                <LinearLayout
-                    android:layout_width="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="165dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <ImageView
-                        android:id="@+id/blueCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:contentDescription="#3a6ae8"
-                        android:padding="1dp"
-                        android:background="@drawable/blue_circle"
-                        app:layout_column="0"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
+                    android:layout_marginEnd="40dp"
+                    android:fontFamily="@font/circular_bold"
+                    android:paddingVertical="10dp"
+                    android:text="Night Mode"
+                    android:textSize="20sp" />
 
-                    <ImageView
-                        android:id="@+id/redCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="25dp"
-                        android:contentDescription="#ff6263"
-                        android:padding="1dp"
-                        android:background="@drawable/red_circle"
-                        app:layout_column="1"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
+                <Switch
+                    android:id="@+id/nightView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
+                    android:layout_weight="1"
+                    android:text="hi" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/yellowCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="25dp"
-                        android:contentDescription="#edbe2f"
-                        android:padding="1dp"
-                        android:background="@drawable/yellow_circle"
-                        app:layout_column="2"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
-
-                    <ImageView
-                        android:id="@+id/lightBlueCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="25dp"
-                        android:contentDescription="#46baed"
-                        android:padding="1dp"
-                        android:background="@drawable/light_blue_circle"
-                        app:layout_column="3"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
-
-                    <ImageView
-                        android:id="@+id/orangeCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="25dp"
-                        android:contentDescription="#fa7c19"
-                        android:background="@drawable/orange_circle"
-                        app:layout_column="4"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
-
-                    <ImageView
-                        android:id="@+id/greenCircle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginStart="25dp"
-                        android:contentDescription="#1bcdbf"
-                        android:padding="1dp"
-                        android:background="@drawable/green_circle"
-                        app:layout_column="5"
-                        app:layout_row="0"
-                        android:onClick="getColor"
-                        />
-                </LinearLayout>
         </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
             android:layout_marginHorizontal="50dp"
+            android:layout_marginVertical="20dp"
             android:fontFamily="@font/circular_book"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:text="save"
             android:onClick="saved"
-            />
+            android:text="save"
+            android:textColor="#000000"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </LinearLayout>

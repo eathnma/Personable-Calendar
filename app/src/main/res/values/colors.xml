@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--    light theme -->
     <color name="colorPrimary">#f3f5fa</color>
     <color name="colorPrimaryDark">#5a5a5a</color>
     <color name="colorAccent">#f1f1f1</color>
+
+    <!-- dark theme -->
+    <color name="colorPrimaryNight">#303437</color>
+    <color name="colorPrimaryDarkNight">#5a5a5a</color>
+    <color name="colorAccentNight">#383C3F</color>
 
     <color name="boxColor1">#3a6ae8</color>
     <color name="boxColor2">#ff6263</color>

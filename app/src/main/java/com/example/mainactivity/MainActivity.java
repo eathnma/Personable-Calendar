@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         getHour = Calendar.getInstance();
         mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
@@ -71,7 +69,6 @@ public class MainActivity extends AppCompatActivity{
         });
         dateToday = cv.returnDate();
         setToolbarHeader(dateToday);
-
     }
 
     @Override
