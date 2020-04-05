@@ -55,9 +55,7 @@ public class CalendarView extends LinearLayout {
     private Calendar currentDate = Calendar.getInstance();
     private Calendar currentDateComparison = Calendar.getInstance();
 
-    public CalendarView(Context context) {
-        super(context);
-    }
+    public CalendarView(Context context) { super(context); }
 
     public CalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);

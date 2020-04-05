@@ -159,8 +159,8 @@
                     app:layout_gravity="center_vertical"
                     app:layout_row="0" />
 
-                <View
-                    android:id="@+id/mapView"
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/user_list_map"
                     android:layout_width="313dp"
                     android:layout_height="136dp"
                     android:layout_marginStart="10dp"

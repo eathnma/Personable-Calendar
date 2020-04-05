@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +30,7 @@ public class UserSettings extends AppCompatActivity {
     private ImageView birthdayImageView;
     private TextView title;
     private Switch nightView;
+    private Button saveButton;
 
     private int night;
 
@@ -56,6 +60,7 @@ public class UserSettings extends AppCompatActivity {
         pictureImageView = findViewById(R.id.picture);
         birthdayImageView = findViewById(R.id.birthday);
         title = findViewById(R.id.title);
+        saveButton = findViewById(R.id.saveButton);
 
         nightView = (Switch) findViewById(R.id.nightView);
 
@@ -82,6 +87,13 @@ public class UserSettings extends AppCompatActivity {
                 editor.commit();
             }
         });
+
+
+        night = sharedPrefs.getInt("night", 0);
+        if(night == 1){
+            nameTextView.setTextColor(Color.BLACK);
+            saveButton.setTextColor(Color.WHITE);
+        }
 
         if(sharedPrefs.contains("name")){
             name = sharedPrefs.getString("name", null);

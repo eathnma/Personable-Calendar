@@ -124,7 +124,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             }
         });
 
-
         //GRID LAYOUT TWO
         addTitle = (EditText) findViewById(R.id.addTitle);
 
@@ -217,6 +216,9 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
             // set top left arrow to white
             arrowRowOne.setImageResource(R.drawable.white_arrow);
+            addTitle.setTextColor(Color.WHITE);
+            addTitle.setHintTextColor(Color.GRAY);
+            saveButtonRowOne.setTextColor(Color.WHITE);
             notificationMessage.setHintTextColor(Color.GRAY);
             notificationMessage.setTextColor(Color.BLACK);
         }

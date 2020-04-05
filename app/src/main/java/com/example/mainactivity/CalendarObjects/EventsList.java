@@ -1,11 +1,14 @@
 package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -61,6 +64,8 @@ public class EventsList extends AppCompatActivity {
     private ArrayList<String[]> mArrayList = new ArrayList<>();
     private String[] s;
 
+    private int night;
+
     private static final int LAUNCH_EDIT_CALENDAR = 1;
     private static final int LAUNCH_VIEW_ACTIVITY = 2;
 
@@ -100,6 +105,28 @@ public class EventsList extends AppCompatActivity {
         fillLayout();
 
         scrollView.addView(parentContainer);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        night = sharedPrefs.getInt("night", 0);
+
+        if(night == 1){
+            night = sharedPrefs.getInt("night", 0);
+            Log.d(TAG, String.valueOf(night));
+
+            // if darkmode else, skip
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                setTheme(R.style.darktheme);
+            } else setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            // individual styling
+//            arrowRowOne.setImageResource(R.drawable.white_arrow);
+//            addTitle.setTextColor(Color.WHITE);
+//            addTitle.setHintTextColor(Color.GRAY);
+//            saveButtonRowOne.setTextColor(Color.WHITE);
+//            notificationMessage.setHintTextColor(Color.GRAY);
+//            notificationMessage.setTextColor(Color.BLACK);
+        }
     }
 
     private void fillLayout(){
@@ -179,7 +206,6 @@ public class EventsList extends AppCompatActivity {
         timeline.setPadding(0, paddingTop, 0, -paddingTop);
         timeline.setOrientation(LinearLayout.VERTICAL);
         timeline.setTag("timeline");
-
 
         //add timeline and boxes to parent container
         parentContainer.addView(timeline);
