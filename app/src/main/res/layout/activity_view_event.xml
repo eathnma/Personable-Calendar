@@ -160,6 +160,7 @@
                     app:layout_row="0" />
 
                 <com.google.android.gms.maps.MapView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/user_list_map"
                     android:layout_width="313dp"
                     android:layout_height="136dp"

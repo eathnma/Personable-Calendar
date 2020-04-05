@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.Activity;
@@ -66,7 +68,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
     //implementing maps
     private MapView mMapView;
-
 
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
 
@@ -205,7 +206,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     @Nullable
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_view_event, container, false);
         mMapView = view.findViewById(R.id.user_list_map);
