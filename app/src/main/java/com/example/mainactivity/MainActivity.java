@@ -42,12 +42,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-//        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-//            setTheme(R.style.darktheme);
-//        } else setTheme(R.style.AppTheme);
-//
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

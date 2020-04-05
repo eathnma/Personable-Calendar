@@ -16,5 +16,5 @@ public class Constants {
 
 
 //  if it doesn't work, try changing the database version
-    public static final int DATABASE_VERSION = 18;
+    public static final int DATABASE_VERSION = 19;
 }
