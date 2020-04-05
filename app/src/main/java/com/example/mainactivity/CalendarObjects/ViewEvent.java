@@ -1,6 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -86,12 +87,14 @@ public class ViewEvent extends AppCompatActivity {
             String color = stringData[4];
             String location = stringData[5];
 
+            Log.d(TAG, "COLOR TAG: " + color);
+
             // within the string
             titleView.setText(title);
             timeView.setText(timeone + " - " + timetwo);
             descriptionView.setText(message);
             locationView.setText(location);
-
+            decideColor(color, circleView);
             // set date (change format of this soon)
             dateView.setText(MYD);
         }
@@ -137,5 +140,24 @@ public class ViewEvent extends AppCompatActivity {
         });
     }
 
-
+    public void decideColor(String color, View v){
+        if(color.contentEquals("@colors/boxColor1")){
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.blue_circle));
+        }
+        else if(color.contentEquals("@colors/boxColor2")){
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.red_circle));
+        }
+        else if(color.contentEquals("@colors/boxColor3")){
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.yellow_circle));
+        }
+        else if(color.contentEquals("@colors/boxColor4")){
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.light_blue_circle));
+        }
+        else if(color.contentEquals("@colors/boxColor5")){
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.orange_circle));
+        }
+        else{
+            v.setBackground(ContextCompat.getDrawable(this, R.drawable.green_circle));
+        }
+    }
 }

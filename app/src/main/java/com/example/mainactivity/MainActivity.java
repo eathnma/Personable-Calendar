@@ -2,13 +2,18 @@ package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -31,11 +36,15 @@ public class MainActivity extends AppCompatActivity{
     private Calendar getHour;
     private SensorManager mySensorManager;
     private Sensor lightSensor;
+    private static final int SYSTEM_ALERT_WINDOW_PERMISSION = 2084;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Alarm Schedule
+        schedule();
 
         getHour = Calendar.getInstance();
         mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -69,16 +78,28 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        askPermission();
+        finish();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+    }
+
     public void setToolbarHeader(String[] dateToday){
         String suffix;
 
-        if(dateToday[3].contentEquals("1") || dateToday[3].contentEquals("31") || dateToday[3].contentEquals("21")){
+        if(dateToday[3].contentEquals("01") || dateToday[3].contentEquals("31") || dateToday[3].contentEquals("21")){
             suffix = "st";
         }
-        else if(dateToday[3].contentEquals("2") || dateToday[3].contentEquals("22")){
+        else if(dateToday[3].contentEquals("02") || dateToday[3].contentEquals("22")){
             suffix = "nd";
         }
-        else if(dateToday[3].contentEquals("3") || dateToday[3].contentEquals("23")){
+        else if(dateToday[3].contentEquals("03") || dateToday[3].contentEquals("23")){
             suffix = "rd";
         }
         else{
@@ -102,6 +123,14 @@ public class MainActivity extends AppCompatActivity{
                     lightSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
 
+        }
+    }
+
+    private void askPermission(){
+        if(!Settings.canDrawOverlays(this)){
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, SYSTEM_ALERT_WINDOW_PERMISSION);
         }
     }
 
@@ -132,5 +161,12 @@ public class MainActivity extends AppCompatActivity{
 
     };
 
+
+    public void schedule(){
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, PeriodicReminder.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
+    }
 
 }

@@ -54,8 +54,9 @@
                     android:id="@+id/circleView"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
+                    android:background="@drawable/blue_circle"
                     app:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/blue_circle" />
+                     />
 
                 <TextView
                     android:id="@+id/titleView"
