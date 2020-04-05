@@ -1,4 +1,5 @@
 package com.example.mainactivity.CalendarObjects;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,6 +60,9 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
 
         //If the calendar currently being viewed is the current month
         if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)) {
+            //Check for birthday
+            SharedPreferences sharedPref =  getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
 
             if (month != calendarToday.get(Calendar.MONTH)) {
                 // if this day is outside current month, grey it out
@@ -106,9 +110,28 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 }
             }
         }
-
         // set text
         ((TextView)view).setText(String.valueOf(calendar.get(Calendar.DATE)));
+
+        //SET TEXT VIEW CIRCLE TO BIRTHDAY
+            //Check for birthday
+            SharedPreferences sharedPref = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            if (sharedPref.contains("birthday month") && sharedPref.contains("birthday day")) {
+                int bdayMonth = sharedPref.getInt("birthday month", 0);
+                int bday = sharedPref.getInt("birthday day", 0);
+
+                if(day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake_day);
+                }
+                else if (day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake);
+                }
+            }
+
+
+
 
         return view;
     }
