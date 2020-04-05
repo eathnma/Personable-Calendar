@@ -5,32 +5,26 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
-import com.example.mainactivity.CalendarObjects.EditCalendar;
 import com.example.mainactivity.Database.Constants;
 import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.MainActivity;
+import com.example.mainactivity.Overlay;
 import com.example.mainactivity.R;
 
 import java.util.ArrayList;
@@ -74,6 +68,7 @@ public class EventsList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_list);
+        stopService(new Intent(this, Overlay.class));
         intent = getIntent();
 
         //Variables that decide the day (1-31) pressed

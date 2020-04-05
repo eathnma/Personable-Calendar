@@ -2,6 +2,9 @@ package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -40,7 +43,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //Alarm Schedule
+        schedule();
 
         getHour = Calendar.getInstance();
         mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -79,6 +83,11 @@ public class MainActivity extends AppCompatActivity{
         super.onPause();
         askPermission();
         finish();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
     }
 
     public void setToolbarHeader(String[] dateToday){
@@ -123,10 +132,6 @@ public class MainActivity extends AppCompatActivity{
                     Uri.parse("package:" + getPackageName()));
             startActivityForResult(intent, SYSTEM_ALERT_WINDOW_PERMISSION);
         }
-        else{
-            Intent intent = new Intent(this, Overlay.class);
-            startService(intent);
-        }
     }
 
     private final SensorEventListener lightSensorListener
@@ -156,5 +161,12 @@ public class MainActivity extends AppCompatActivity{
 
     };
 
+
+    public void schedule(){
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, PeriodicReminder.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
+    }
 
 }

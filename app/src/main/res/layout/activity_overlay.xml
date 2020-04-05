@@ -22,12 +22,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="215px"
                     android:background="@drawable/textbox"
-                    android:fontFamily="@font/circular_black"
+
                     android:paddingVertical="20dp"
                     android:paddingLeft="20dp"
                     android:layout_alignParentBottom="true"
 
-                    android:paddingRight="250px"
+                    android:paddingRight="30dp"
                     android:text="TESTING TESTING TESTING TESTING TESTING"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />
@@ -37,6 +37,7 @@
                         android:layout_width="431px"
                         android:layout_height="590px"
                         android:maxWidth="2000px"
+                        android:layout_alignParentBottom="true"
                         android:layout_alignParentRight="true"
                          />
 

@@ -3,9 +3,11 @@ package com.example.mainactivity;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,51 +17,42 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.mainactivity.Database.Constants;
-import com.example.mainactivity.Database.MyDatabase;
-import com.example.mainactivity.Database.MyDatabaseHelper;
+import androidx.annotation.Nullable;
+
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 
 public class Overlay extends Service{
     public static final String TAG = "Overlay";
     private WindowManager mWindowManager;
     private View mFloatingView;
-    private MyDatabase db;
-    private MyDatabaseHelper helper;
-    private String[] eventDetails;
-    private ArrayList<String[]> events;
-    private ArrayList<String> eventComparison;
     private TextView textView;
     private ImageView sonNguyenQuang;
-    private Calendar calendar;
-
-    public Overlay() {
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    private String messageIntent = null;
+    private SharedPreferences sharedPrefs;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        db = new MyDatabase(this);
-        helper = new MyDatabaseHelper(this);
-        eventDetails = null;
-        events = new ArrayList<>();
-        //calendar = Calendar.getInstance();
-
         //getting the widget layout from xml using layout inflater
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.activity_overlay, null);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+
+        if(sharedPrefs.contains("message")){
+            messageIntent = sharedPrefs.getString("message", null);
+        }
+
+        Log.d(TAG, "MESSAGE INTENT: " + messageIntent );
+
+
 
         //setting the layout parameters
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 PixelFormat.TRANSLUCENT);
@@ -73,38 +66,47 @@ public class Overlay extends Service{
         textView = mFloatingView.findViewById(R.id.message);
         sonNguyenQuang = mFloatingView.findViewById(R.id.SonNguyenQuang);
 
-
-
-        //Text Generator
         String type = typeOfQuang();
         textView.setText(messageGenerator(type));
         ViewGroup.LayoutParams lp = sonNguyenQuang.getLayoutParams();
-        if(type.contentEquals("quang_hang")){
-            lp.width = 361;
-            lp.height = 586;
-        }
-        else if(type.contentEquals("quang_car")){
-            lp.width = 1437;
-            lp.height = 555;
+
+        if(!(type.contentEquals("quang_smile"))){
+            lp.width = 512;
+            lp.height = 531;
         }
 
         sonNguyenQuang.setLayoutParams(lp);
-        //Quang Car Disproportionately stretched
-        //Check if messages should be sent at the appropriate time
-        checkTime();
-        filterEvent();
-        sortMonth();
         sonNguyenQuang.setBackgroundResource(getResources().getIdentifier(type, "drawable", this.getPackageName()));
         animate(mFloatingView);
+        editor.putString("message", null);
+        editor.commit();
+
+        final Handler handler = new Handler();
+
+        //Not perfect
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                mWindowManager.removeView(mFloatingView);
+                stopSelf();
+            }
+        }, 8000);
+
+
 
     }
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
-        if (mFloatingView != null){
-            mWindowManager.removeView(mFloatingView);
-        }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void animate(View v){
@@ -114,37 +116,12 @@ public class Overlay extends Service{
         ObjectAnimator pause = ObjectAnimator.ofFloat(v, "y", 0);
         pause.setDuration(6000);
 
-        ObjectAnimator animatorYDown = ObjectAnimator.ofFloat(v, "y", 500f);
+        ObjectAnimator animatorYDown = ObjectAnimator.ofFloat(v, "y", 600f);
         animatorYDown.setDuration(500);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playSequentially(animatorY, pause, animatorYDown);
         animatorSet.start();
 
-    }
-    private void checkTime(){
-            Cursor cursor = db.getData();
-
-            int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
-            int index1 = cursor.getColumnIndex(Constants.COLOR);
-            int index2 = cursor.getColumnIndex(Constants.MESSAGE);
-            int index3 = cursor.getColumnIndex(Constants.TIMEONE);
-
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
-                eventDetails = new String[5];
-                eventDetails[0] = cursor.getString(index0);
-                String date[];
-                date = eventDetails[0].split(" ");
-
-                eventDetails[0] = date[1];
-                eventDetails[1] = date[2];
-                eventDetails[2] = cursor.getString(index1);
-                //message
-                eventDetails[3] = cursor.getString(index2);
-                eventDetails[4] = cursor.getString(index3);
-                events.add(eventDetails);
-                cursor.moveToNext();
-            }
     }
 
     private String messageGenerator(String version){
@@ -194,7 +171,7 @@ public class Overlay extends Service{
             addString(partyIntroVariant, introduction);
         }
 
-        String commandVariantsPrefix[] = {"Make sure to ", "Don't forget, ", "Remember ", "Just reminding you that " };
+        String commandVariantsPrefix[] = {"Make sure you remember that ", "Don't forget, ", "Remember ", "Just reminding you that " };
         String commandVariantsSuffix[] = {" is coming up!", " is happening soon!", " is about to start!"};
 
         int a, b, c, d;
@@ -204,8 +181,8 @@ public class Overlay extends Service{
         c = diceRoll(commandVariantsPrefix.length);
         d = diceRoll(commandVariantsSuffix.length);
 
-        if(eventDetails != null) {
-            message = introduction.get(b) + sonNameVariants[a] + commandVariantsPrefix[c] + eventDetails[3] + commandVariantsSuffix[d];
+        if(messageIntent != null) {
+            message = introduction.get(b) + sonNameVariants[a] + commandVariantsPrefix[c] + messageIntent + commandVariantsSuffix[d];
         }
         else{
             message = "You have no upcoming events";
@@ -242,97 +219,6 @@ public class Overlay extends Service{
         for(int i = 0; i < strings.length; i++){
             arrayList.add(strings[i]);
         }
-    }
-
-    private void filterEvent(){
-        Log.d(TAG, "filterEvent Called");
-        int size = events.size();
-        //int month = calendar.get(Calendar.MONTH);
-        //int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int index = 0;
-
-        while(index < size) {
-            if (checkMonth(events.get(index)[0]) == 1) {
-                if (!(Integer.parseInt(events.get(index)[1]) == 1)) {
-                    Log.d(TAG, "REMOVAL: " + (events.get(index)[1]));
-                    events.remove(index);
-                    size = events.size();
-
-                }
-            }
-            else{
-                events.remove(index);
-                size = events.size();
-            }
-        }
-    }
-
-    private void sortMonth(){
-        ArrayList<String[]> holderArrayList = new ArrayList<>();
-        String[] smallest;
-
-        for(int i = 0; i < events.size(); i++){
-            smallest = events.get(i);
-            for(int j = i + 1; j < events.size(); j++){
-                if(hourToInt(smallest[4]) > hourToInt(events.get(j)[4])){
-                    smallest = events.get(j);
-                    Log.d(TAG, "SMALLEST HOUR: " + smallest[4]);
-                }
-            }
-            holderArrayList.add(smallest);
-
-        }
-
-        for(int i = 0; i < holderArrayList.size(); i++){
-            Log.d(TAG, "LIST ITEM " + i + " " + holderArrayList.get(i)[4]);
-        }
-
-        events = new ArrayList<String[]>();
-        events = holderArrayList;
-
-    }
-
-    private int hourToInt(String hour){
-        String intHour = hour.substring(0, 2);
-        int hr = Integer.parseInt(intHour);
-        return hr;
-    }
-
-    private int checkMonth(String month){
-        if(month.contentEquals("Jan")){
-            return 0;
-        }
-        else if(month.contentEquals("Feb")){
-            return 1;
-        }
-        else if(month.contentEquals("Mar")){
-            return 2;
-        }
-        else if(month.contentEquals("Apr")){
-            return 3;
-        }
-        else if(month.contentEquals("May")){
-            return 4;
-        }
-        else if(month.contentEquals("Jun")){
-            return 5;
-        }
-        else if(month.contentEquals("Jul")){
-            return 6;
-        }
-        else if(month.contentEquals("Aug")){
-            return 7;
-        }
-        else if(month.contentEquals("Sep")){
-            return 8;
-        }
-        else if(month.contentEquals("Oct")){
-            return 9;
-        }
-        else if(month.contentEquals("Nov")){
-            return 10;
-        }
-        return 11;
     }
 
 }
