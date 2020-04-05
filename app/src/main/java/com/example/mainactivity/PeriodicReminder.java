@@ -5,9 +5,14 @@ import android.content.Intent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.example.mainactivity.Database.Constants;
 import com.example.mainactivity.Database.MyDatabase;
@@ -140,6 +145,18 @@ public class PeriodicReminder extends IntentService {
 
         }
 
+        int index = 0;
+        int size = holderArrayList.size();
+        while(index < size){
+            if(hourToInt(holderArrayList.get(index)[4]) < calendar.get(Calendar.HOUR_OF_DAY)){
+                holderArrayList.remove(index);
+                size = holderArrayList.size();
+            }
+            else{
+                index++;
+            }
+        }
+
         events = new ArrayList<>();
         events = holderArrayList;
 
@@ -192,4 +209,28 @@ public class PeriodicReminder extends IntentService {
         }
         return 11;
     }
+
+    private void changeColor(String colorResource, TextView tv){
+        Drawable background = tv.getBackground();
+        if(colorResource.contentEquals("@color/boxColor1")){
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor1));
+        }
+        else if(colorResource.contentEquals("@color/boxColor2")){
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor2));
+        }
+        else if(colorResource.contentEquals("@color/boxColor3")){
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor3));
+        }
+        else if(colorResource.contentEquals("@color/boxColor4")){
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor4));
+        }
+        else if(colorResource.contentEquals("@color/boxColor5")){
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor5));
+        }
+        else{
+            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor6));
+
+        }
+    }
+
 }

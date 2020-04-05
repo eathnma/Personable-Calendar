@@ -7,8 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 
 import java.util.ArrayList;
@@ -78,11 +84,11 @@ public class Overlay extends Service{
         sonNguyenQuang.setLayoutParams(lp);
         sonNguyenQuang.setBackgroundResource(getResources().getIdentifier(type, "drawable", this.getPackageName()));
         animate(mFloatingView);
+        vibrate();
         editor.putString("message", null);
         editor.commit();
 
         final Handler handler = new Handler();
-
         //Not perfect
         handler.postDelayed(new Runnable() {
             @Override
@@ -220,6 +226,17 @@ public class Overlay extends Service{
             arrayList.add(strings[i]);
         }
     }
+
+    private void vibrate(){
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            //deprecated in API 26
+            vibrator.vibrate(500);
+        }
+    }
+
 
 }
 
