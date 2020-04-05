@@ -1,6 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -66,6 +67,17 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        // if darkmode else, skip
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darktheme);
+        } else setTheme(R.style.AppTheme);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        arrowRowOne = (ImageView) findViewById(R.id.arrow);
+        arrowRowOne.setImageResource(R.drawable.white_arrow);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
         stopService(new Intent(this, Overlay.class));
@@ -109,13 +121,13 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             }
         });
 
-        arrowRowOne = (ImageView) findViewById(R.id.arrow);
         arrowRowOne.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 discardMessage(v);
             }
         });
+
 
         //GRID LAYOUT TWO
         addTitle = (EditText) findViewById(R.id.addTitle);

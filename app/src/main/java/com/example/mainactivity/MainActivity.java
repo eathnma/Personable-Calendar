@@ -1,8 +1,11 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -10,6 +13,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +41,13 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+//            setTheme(R.style.darktheme);
+//        } else setTheme(R.style.AppTheme);
+//
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -69,6 +80,13 @@ public class MainActivity extends AppCompatActivity{
         });
         dateToday = cv.returnDate();
         setToolbarHeader(dateToday);
+    }
+
+    private int getTheme(String theme){
+        if(theme.equals("black")) return R.style.darktheme;
+        if(theme.equals("white")) return R.style.AppTheme;
+
+        return android.R.style.Theme;
     }
 
     @Override
@@ -137,7 +155,7 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-            Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
+//            Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
                 if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 22 || getHour.get(Calendar.HOUR_OF_DAY) < 6)) {
                     toolbar.setBackgroundColor(Color.BLACK);
@@ -152,6 +170,5 @@ public class MainActivity extends AppCompatActivity{
         }
 
     };
-
 
 }

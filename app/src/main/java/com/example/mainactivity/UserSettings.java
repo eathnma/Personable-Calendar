@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.mainactivity.CalendarObjects.EventsList;
+
 public class UserSettings extends AppCompatActivity {
     static final String TAG = "UserSettings";
     public static final String KEY_ISNIGHTMODE = "isNightMode";
@@ -26,6 +28,8 @@ public class UserSettings extends AppCompatActivity {
     private ImageView birthdayImageView;
     private TextView title;
     private Switch nightView;
+
+    private int night;
 
     private String birthday;
     private String color;
@@ -41,9 +45,9 @@ public class UserSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
 
-        AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES);
-
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+            setTheme(R.style.darktheme);
+        } else setTheme(R.style.AppTheme);
 
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
@@ -54,18 +58,27 @@ public class UserSettings extends AppCompatActivity {
 
         nightView = (Switch) findViewById(R.id.nightView);
 
+        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES){
+            nightView.setChecked(true);
+        }
+
         nightView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sharedPref =  getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
                 if(isChecked){
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    saveNightModeState(true);
+                    night = 1;
+                    editor.putInt("night", night);
                     recreate();
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    saveNightModeState(false);
+                    night = 0;
+                    editor.putInt("night", night);
                     recreate();
                 }
+                editor.commit();
             }
         });
 
@@ -78,25 +91,6 @@ public class UserSettings extends AppCompatActivity {
                 title.setText(name + "'s Settings");
             }
         }
-
-        color = null;
-
-    }
-
-    private void saveNightModeState(boolean nightMode){
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.putBoolean(KEY_ISNIGHTMODE, nightMode);
-        editor.apply();
-    }
-
-    public void checkNightModeActivated(){
-        if(sharedPrefs.getBoolean(KEY_ISNIGHTMODE, false)){
-            nightView.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            nightView.setChecked(false);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
     }
 
     private boolean getName(){
@@ -108,18 +102,13 @@ public class UserSettings extends AppCompatActivity {
         return false;
     }
 
-    public void getColor(View v){
-        color = v.getContentDescription().toString();
-    }
 
     public void saved(View v){
-
         if(getName()){
             //save to shared prefs
             SharedPreferences sharedPref =  getSharedPreferences("MyData", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("name", name);
-            editor.putString("color", color);
             editor.commit();
             Toast.makeText(this, "Saved!", Toast.LENGTH_SHORT).show();
         }
@@ -127,7 +116,9 @@ public class UserSettings extends AppCompatActivity {
             //toast for failure
             Toast.makeText(this, "Invalid Name", Toast.LENGTH_SHORT).show();
         }
-    }
 
+        Intent intent = new Intent(UserSettings.this, MainActivity.class);
+        startActivity(intent);
+    }
 
 }
