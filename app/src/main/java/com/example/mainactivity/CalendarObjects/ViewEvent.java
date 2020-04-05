@@ -1,11 +1,15 @@
 package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +48,10 @@ public class ViewEvent extends AppCompatActivity {
 
     //layout row 5
     private View mapView;
+
+    //for shared preferences dark mode
+    private int night;
+
 
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
 
@@ -124,7 +132,6 @@ public class ViewEvent extends AppCompatActivity {
 
                 Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
 
-
                 data.moveToNext();
                 itemID = data.getInt(0);
 
@@ -138,6 +145,27 @@ public class ViewEvent extends AppCompatActivity {
 
             }
         });
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        night = sharedPrefs.getInt("night", 0);
+
+        if(night == 1){
+            night = sharedPrefs.getInt("night", 0);
+            Log.d(TAG, String.valueOf(night));
+
+            // if darkmode else, skip
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                setTheme(R.style.darktheme);
+            } else setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            // specialized styling
+            arrow.setImageResource(R.drawable.white_arrow);
+            titleView.setTextColor(Color.WHITE);
+            dateView.setTextColor(Color.WHITE);
+            timeView.setTextColor(Color.WHITE);
+            locationView.setTextColor(Color.WHITE);
+        }
     }
 
     public void decideColor(String color, View v){

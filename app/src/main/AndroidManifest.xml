@@ -26,8 +26,6 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name=".UserSettings" />
-
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -39,11 +37,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <receiver
-            android:name=".AlarmReceiver"
-            android:process=":remote" >
-        </receiver>
-
+        <activity android:name=".UserSettings" />
         <activity android:name=".CalendarObjects.AddLocationActivity" />
         <activity android:name=".CalendarObjects.EditCalendar" />
         <activity android:name=".CalendarObjects.EventsList" />

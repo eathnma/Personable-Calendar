@@ -1,6 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.DialogFragment;
 import androidx.gridlayout.widget.GridLayout;
 
@@ -9,7 +10,9 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -30,6 +33,8 @@ import java.util.Calendar;
 
 public class EditCalendar extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     private String AM_PM;
+    static final String TAG = "EditCalendar";
+
 
     private int flag = 0;
     private static final int FLAG_START_ONE = 1;
@@ -63,9 +68,11 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     // add database object
     MyDatabase db;
+    private int night;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
         stopService(new Intent(this, Overlay.class));
@@ -116,6 +123,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 discardMessage(v);
             }
         });
+
 
         //GRID LAYOUT TWO
         addTitle = (EditText) findViewById(R.id.addTitle);
@@ -171,10 +179,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             }
         });
 
-
-
         addLocation = (TextView) findViewById(R.id.addLocation);
-
 
         //GRID LAYOUT SIX
         imgs[0]=findViewById(R.id.blueCircle);
@@ -196,6 +201,26 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
 //      instantiate database object
         db = new MyDatabase(this);
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        night = sharedPrefs.getInt("night", 0);
+
+        if(night == 1){
+            night = sharedPrefs.getInt("night", 0);
+            Log.d(TAG, String.valueOf(night));
+
+            // if darkmode else, skip
+            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+                setTheme(R.style.darktheme);
+            } else setTheme(R.style.AppTheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+            // set top left arrow to white
+            arrowRowOne.setImageResource(R.drawable.white_arrow);
+            notificationMessage.setHintTextColor(Color.GRAY);
+            notificationMessage.setTextColor(Color.BLACK);
+        }
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

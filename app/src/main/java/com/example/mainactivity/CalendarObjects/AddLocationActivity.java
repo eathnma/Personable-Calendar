@@ -55,9 +55,6 @@ import java.util.List;
 
 public class AddLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
-//    putting the location into to a string
-//    https://www.youtube.com/watch?v=MWowf5SkiOE
-
     private static final String TAG = AddLocationActivity.class.getSimpleName();
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
