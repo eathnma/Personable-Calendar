@@ -303,6 +303,7 @@ public class EventsList extends AppCompatActivity {
             int hour2;
             int hour1;
 
+            //Decide position for hour 2 (ending time)
             if((mArrayList.get(i)[2]).charAt(1) != ':' ){
                 char tenth = (mArrayList.get(i)[2]).charAt(0);
                 char oneth = (mArrayList.get(i)[2]).charAt(1);
@@ -313,7 +314,12 @@ public class EventsList extends AppCompatActivity {
                 char oneth = (mArrayList.get(i)[2]).charAt(0);
                 hour2 = oneth - 48;
             }
+            //Check if AM or PM
+            if((mArrayList.get(i)[2]).charAt(mArrayList.get(i)[2].length() - 2) == 'P' ){
+                hour2 += 12;
+            }
 
+            //Decide position for hour 1 (starting time)
             if((mArrayList.get(i)[1]).charAt(1) != ':' ){
                 char tenth = (mArrayList.get(i)[1]).charAt(0);
                 char oneth = (mArrayList.get(i)[1]).charAt(1);
@@ -323,6 +329,10 @@ public class EventsList extends AppCompatActivity {
             else{
                 char oneth = (mArrayList.get(i)[1]).charAt(0);
                 hour1 = oneth - 48;
+            }
+            // Check if AM or PM
+            if((mArrayList.get(i)[1]).charAt(mArrayList.get(i)[1].length() - 2) == 'P' ){
+                hour1 += 12;
             }
 
             int heightOfEvent = height * Math.abs(((hour2) - (hour1)));
