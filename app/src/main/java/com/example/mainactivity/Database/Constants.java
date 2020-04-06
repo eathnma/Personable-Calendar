@@ -14,8 +14,6 @@ public class Constants {
     public static final String COLOR = "Color";
     public static final String LOCATION = "Location";
 
-
-//  if it doesn't work, try changing the database version
     public static final int DATABASE_VERSION = 23;
 
 }
