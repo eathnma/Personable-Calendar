@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity{
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, PeriodicReminder.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, 3000, pendingIntent);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
     }
 
     //Will return true if nightmode is enabled

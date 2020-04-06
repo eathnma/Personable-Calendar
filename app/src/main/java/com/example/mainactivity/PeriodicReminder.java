@@ -32,7 +32,7 @@ public class PeriodicReminder extends IntentService {
 
     public PeriodicReminder() {
         super("PeriodicReminder");
-       // Log.d("PeriodicReminder", "PERIODIC_REMINDER");
+        Log.d("PeriodicReminder", "PERIODIC_REMINDER");
 
         handler = new Handler();
         db = new MyDatabase(this);
@@ -169,7 +169,12 @@ public class PeriodicReminder extends IntentService {
         if(hour.charAt(1) == ':') {
             intHour = hour.substring(0, 1);
         }
+
         int hr = Integer.parseInt(intHour);
+        if(hour.charAt(hour.length() - 2) == 'P'){
+            hr += 12;
+        }
+
         return hr;
     }
 
