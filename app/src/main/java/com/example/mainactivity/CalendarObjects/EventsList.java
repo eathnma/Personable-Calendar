@@ -233,7 +233,7 @@ public class EventsList extends AppCompatActivity {
                 s[2] = timetwo;
                 s[3] = message;
                 s[4] = color;
-                
+
                 if(color == null) {
                     s[4] = "@colors/boxColor6";
                 }
