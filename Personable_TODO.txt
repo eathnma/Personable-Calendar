@@ -1,10 +1,5 @@
 ** KNOWN ERRORS TO FIX **
-- Back button from EventsList is broken
-- Putting Calendar object and checking for current date breaks the app
-     *It seems that there are too many things happening in overlay service for my phone to accept it as a safe
-      application. Try starting a secondary service that only checks for time and date then animating only on 
-      Overlay service. This may solve problem below as well.
-- Unable to open other services (such as keyboard) when overlay service is running
+- Clicking the birthday day in Main crashes the app
 
 ** UNFINISHED **
 - User settings unfinished

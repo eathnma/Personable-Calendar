@@ -43,7 +43,6 @@ public class UserSettings extends AppCompatActivity {
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
         nameTextView = findViewById(R.id.addName);
-        pictureImageView = findViewById(R.id.picture);
         birthdayImageView = findViewById(R.id.birthday);
         title = findViewById(R.id.title);
 
