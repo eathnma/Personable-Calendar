@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Handler;
@@ -36,7 +37,7 @@ public class Overlay extends Service{
     private TextView textView;
     private ImageView sonNguyenQuang;
     private String messageIntent = null;
-    private SharedPreferences sharedPrefs;
+    private String messageColor = null;
 
     @Override
     public void onCreate() {
@@ -49,9 +50,10 @@ public class Overlay extends Service{
 
         if(sharedPrefs.contains("message")){
             messageIntent = sharedPrefs.getString("message", null);
+            if(sharedPrefs.contains("messageColor")){
+                messageColor = sharedPrefs.getString("messageColor", null);
+            }
         }
-
-        Log.d(TAG, "MESSAGE INTENT: " + messageIntent );
 
 
 
@@ -74,6 +76,9 @@ public class Overlay extends Service{
 
         String type = typeOfQuang();
         textView.setText(messageGenerator(type));
+        if(messageColor != null) {
+            changeColor(messageColor, textView);
+        }
         ViewGroup.LayoutParams lp = sonNguyenQuang.getLayoutParams();
 
         if(!(type.contentEquals("quang_smile"))){
@@ -89,7 +94,6 @@ public class Overlay extends Service{
         editor.commit();
 
         final Handler handler = new Handler();
-        //Not perfect
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -116,6 +120,7 @@ public class Overlay extends Service{
     }
 
     private void animate(View v){
+        Log.d(TAG, "ANIMATING");
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(v, "y", 0f);
         animatorY.setDuration(1000);
 
@@ -234,6 +239,28 @@ public class Overlay extends Service{
         } else {
             //deprecated in API 26
             vibrator.vibrate(500);
+        }
+    }
+
+    private void changeColor(String colorResource, TextView tv){
+        Drawable background = tv.getBackground();
+        if(colorResource.contentEquals("@colors/boxColor1")){
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor1));
+        }
+        else if(colorResource.contentEquals("@colors/boxColor2")){
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor2));
+        }
+        else if(colorResource.contentEquals("@colors/boxColor3")){
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor3));
+        }
+        else if(colorResource.contentEquals("@colors/boxColor4")){
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor4));
+        }
+        else if(colorResource.contentEquals("@colors/boxColor5")){
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor5));
+        }
+        else{
+            ((GradientDrawable) background).setColor(ContextCompat.getColor(this, R.color.boxColor6));
         }
     }
 

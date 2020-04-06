@@ -7,6 +7,7 @@
     android:orientation="vertical"
     android:background="#ffffff"
     tools:context=".MainActivity"
+    android:id="@+id/parent"
     >
     <Toolbar
         android:id="@+id/actionBar"

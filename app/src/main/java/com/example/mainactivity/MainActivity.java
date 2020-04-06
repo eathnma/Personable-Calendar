@@ -1,7 +1,6 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -15,10 +14,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -62,7 +60,14 @@ public class MainActivity extends AppCompatActivity{
 
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
-        sensorSetup();
+
+        if(isNightMode()){
+            LinearLayout parent = findViewById(R.id.parent);
+            parent.setBackgroundColor(Color.parseColor("#303437"));
+            toolbar.setBackgroundColor(Color.parseColor("#383C3F"));
+            toolbarTitle.setTextColor(Color.WHITE);
+        }
+        //sensorSetup();
 
         cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler() {
@@ -77,45 +82,17 @@ public class MainActivity extends AppCompatActivity{
             }
         });
         dateToday = cv.returnDate();
+
+
+
+
         setToolbarHeader(dateToday);
-
-        // here thomas
-//        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-//        night = sharedPrefs.getInt("night", 0);
-//
-//        Log.d(TAG, String.valueOf(night));
-//        if(night == 1){
-//            night = sharedPrefs.getInt("night", 0);
-//            Log.d(TAG, String.valueOf(night));
-//
-//            // if darkmode else, skip
-//            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-//                setTheme(R.style.darktheme);
-//            } else setTheme(R.style.AppTheme);
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-        // individual styling
-//            arrowRowOne.setImageResource(R.drawable.white_arrow);
-//            addTitle.setTextColor(Color.WHITE);
-//            addTitle.setHintTextColor(Color.GRAY);
-//            saveButtonRowOne.setTextColor(Color.WHITE);
-//            notificationMessage.setHintTextColor(Color.GRAY);
-//            notificationMessage.setTextColor(Color.BLACK);
-//      }
-    }
-
-    private int getTheme(String theme){
-        if(theme.equals("black")) return R.style.darktheme;
-        if(theme.equals("white")) return R.style.AppTheme;
-
-        return android.R.style.Theme;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         askPermission();
-        //finish();
     }
 
     @Override
@@ -199,7 +176,16 @@ public class MainActivity extends AppCompatActivity{
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, PeriodicReminder.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
+        manager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 3000, 5000, pendingIntent);
+    }
+
+    //Will return true if nightmode is enabled
+    private boolean isNightMode(){
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        if(sharedPrefs.getInt("night", 0) == 1){
+            return true;
+        }
+        return false;
     }
 
 }

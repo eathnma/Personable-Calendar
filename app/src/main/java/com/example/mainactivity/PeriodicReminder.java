@@ -24,19 +24,16 @@ import java.util.Calendar;
 public class PeriodicReminder extends IntentService {
     private static final String TAG = "PeriodicReminder";
     private MyDatabase db;
-    private MyDatabaseHelper helper;
     private String[] eventDetails;
     private ArrayList<String[]> events;
     private Calendar calendar;
-    private Handler handler;
+
 
     public PeriodicReminder() {
         super("PeriodicReminder");
         Log.d("PeriodicReminder", "PERIODIC_REMINDER");
 
-        handler = new Handler();
         db = new MyDatabase(this);
-        helper = new MyDatabaseHelper(this);
         eventDetails = null;
         events = new ArrayList<>();
         calendar = Calendar.getInstance();
@@ -57,11 +54,16 @@ public class PeriodicReminder extends IntentService {
         if(events.size() > 0){
             //start overlay
             Intent overlayIntent = new Intent(this, Overlay.class);
+            Log.d("PeriodicReminder", "PERIODIC_REMINDER");
             if(sharedPrefs.contains("message") && sharedPrefs.getString("message", null) != null){
+                Log.d("PeriodicReminder", "HOUR_OF_DAY: " + calendar.get(Calendar.HOUR_OF_DAY));
+                Log.d("PeriodicReminder", "hourToInt " +  hourToInt(events.get(0)[4]));
                 if(!(sharedPrefs.getString("message", null)).contentEquals(events.get(0)[3]) ||
                       calendar.get(Calendar.HOUR_OF_DAY) < hourToInt(events.get(0)[4])){
                     editor.putString("message", events.get(0)[3]);
+                    editor.putString("messageColor", events.get(0)[2]);
                     editor.commit();
+                    Log.d("PeriodicReminder", "COMMIT");
                     startService(overlayIntent);
                 }
 
@@ -94,7 +96,8 @@ public class PeriodicReminder extends IntentService {
                 date = eventDetails[0].split(" ");
                 eventDetails[0] = date[1]; // Month
                 eventDetails[1] = date[2]; // Day
-                eventDetails[2] = cursor.getString(index1);
+                eventDetails[2] = cursor.getString(index1); //color
+                Log.d("PeriodicReminder", "COLOR " + eventDetails[2]);
                 //message
                 eventDetails[3] = cursor.getString(index2);
                 eventDetails[4] = cursor.getString(index3); //time one
@@ -168,8 +171,13 @@ public class PeriodicReminder extends IntentService {
         if(hour.charAt(1) == ':') {
             intHour = hour.substring(0, 1);
         }
-        int hr = Integer.parseInt(intHour);
-        return hr;
+
+        int hr = 0;
+        int hourAdd = Integer.parseInt(intHour);
+        if(hour.charAt(hour.length() - 2) == 'P'){
+            hr = 12;
+        }
+        return hr + hourAdd;
     }
 
     //Converts the string of each month to an int that is parsable by Calendar class
@@ -210,27 +218,6 @@ public class PeriodicReminder extends IntentService {
         return 11;
     }
 
-    private void changeColor(String colorResource, TextView tv){
-        Drawable background = tv.getBackground();
-        if(colorResource.contentEquals("@color/boxColor1")){
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor1));
-        }
-        else if(colorResource.contentEquals("@color/boxColor2")){
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor2));
-        }
-        else if(colorResource.contentEquals("@color/boxColor3")){
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor3));
-        }
-        else if(colorResource.contentEquals("@color/boxColor4")){
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor4));
-        }
-        else if(colorResource.contentEquals("@color/boxColor5")){
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor5));
-        }
-        else{
-            ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor6));
 
-        }
-    }
 
 }

@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/background_stroke"
         android:layout_alignParentBottom="true"
+        android:id="@+id/footer"
         >
         <!-- edit style later -->
         <Button

@@ -183,7 +183,8 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             // if darkmode else, skip
             if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
                 setTheme(R.style.darktheme);
-            } else setTheme(R.style.AppTheme);
+            }
+            else setTheme(R.style.AppTheme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
             // specialized styling
