@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     private SensorManager mySensorManager;
     private Sensor lightSensor;
     private static final int SYSTEM_ALERT_WINDOW_PERMISSION = 2084;
+    private int night;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +52,22 @@ public class MainActivity extends AppCompatActivity{
         schedule();
 
         getHour = Calendar.getInstance();
-        mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
         //TESTING
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
-        CalendarView cv = ((CalendarView)findViewById(R.id.calendar_view));
+        CalendarView cv = ((CalendarView) findViewById(R.id.calendar_view));
 
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         sensorSetup();
 
         cv.updateCalendar();
-        cv.setEventHandler(new CalendarView.EventHandler()
-        {
+        cv.setEventHandler(new CalendarView.EventHandler() {
             @Override
-            public void onDayClick(Date date)
-            {
+            public void onDayClick(Date date) {
                 // start activity
                 Intent intent = new Intent(MainActivity.this, EventsList.class);
                 Toast.makeText(MainActivity.this, date.toString(), Toast.LENGTH_SHORT).show();
@@ -79,6 +78,30 @@ public class MainActivity extends AppCompatActivity{
         });
         dateToday = cv.returnDate();
         setToolbarHeader(dateToday);
+
+        // here thomas
+//        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+//        night = sharedPrefs.getInt("night", 0);
+//
+//        Log.d(TAG, String.valueOf(night));
+//        if(night == 1){
+//            night = sharedPrefs.getInt("night", 0);
+//            Log.d(TAG, String.valueOf(night));
+//
+//            // if darkmode else, skip
+//            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+//                setTheme(R.style.darktheme);
+//            } else setTheme(R.style.AppTheme);
+//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        // individual styling
+//            arrowRowOne.setImageResource(R.drawable.white_arrow);
+//            addTitle.setTextColor(Color.WHITE);
+//            addTitle.setHintTextColor(Color.GRAY);
+//            saveButtonRowOne.setTextColor(Color.WHITE);
+//            notificationMessage.setHintTextColor(Color.GRAY);
+//            notificationMessage.setTextColor(Color.BLACK);
+//      }
     }
 
     private int getTheme(String theme){
@@ -92,7 +115,7 @@ public class MainActivity extends AppCompatActivity{
     protected void onPause() {
         super.onPause();
         askPermission();
-        finish();
+//        finish();
     }
 
     @Override

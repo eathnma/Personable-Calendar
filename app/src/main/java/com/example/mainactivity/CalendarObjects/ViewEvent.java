@@ -1,32 +1,50 @@
 package com.example.mainactivity.CalendarObjects;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
 import androidx.core.content.ContextCompat;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.View;
+
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mainactivity.Database.Constants;
-import com.example.mainactivity.Database.MyDatabase;
 import com.example.mainactivity.Database.MyDatabaseHelper;
 import com.example.mainactivity.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
-public class ViewEvent extends AppCompatActivity {
+
+public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = "ViewEvent";
 
@@ -52,6 +70,8 @@ public class ViewEvent extends AppCompatActivity {
     //for shared preferences dark mode
     private int night;
 
+    //implementing maps
+    private GoogleMap mMap;
 
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
 
@@ -108,7 +128,7 @@ public class ViewEvent extends AppCompatActivity {
         }
 
         // layout row 5
-        mapView = findViewById(R.id.mapView);
+        mapView = findViewById(R.id.user_list_map);
         mapView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +186,14 @@ public class ViewEvent extends AppCompatActivity {
             timeView.setTextColor(Color.WHITE);
             locationView.setTextColor(Color.WHITE);
         }
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.user_list_map);
+        mapFragment.getMapAsync(this);
+
     }
+
+
+
 
     public void decideColor(String color, View v){
         if(color.contentEquals("@colors/boxColor1")){
@@ -188,4 +215,40 @@ public class ViewEvent extends AppCompatActivity {
             v.setBackground(ContextCompat.getDrawable(this, R.drawable.green_circle));
         }
     }
+
+    public LatLng getLocationFromAddress(Context context,String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+        return p1;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        LatLng specLoc = getLocationFromAddress(getApplicationContext(),String.valueOf(locationView.getText()));
+
+        // Add a marker in Sydney, Australia, and move the camera.
+        LatLng sydney = specLoc;
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
 }

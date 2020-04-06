@@ -70,6 +70,8 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
     MyDatabase db;
     private int night;
 
+    private String adjustedMin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,7 +90,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
         if(c.get(Calendar.AM_PM) == 1){
             AM_PM = "PM";
-        } else{
+        } else {
             AM_PM = "AM";
         }
 
@@ -123,7 +125,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 discardMessage(v);
             }
         });
-
 
         //GRID LAYOUT TWO
         addTitle = (EditText) findViewById(R.id.addTitle);
@@ -217,6 +218,9 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
             // set top left arrow to white
             arrowRowOne.setImageResource(R.drawable.white_arrow);
+            addTitle.setTextColor(Color.WHITE);
+            addTitle.setHintTextColor(Color.GRAY);
+            saveButtonRowOne.setTextColor(Color.WHITE);
             notificationMessage.setHintTextColor(Color.GRAY);
             notificationMessage.setTextColor(Color.BLACK);
         }
@@ -245,12 +249,37 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {
-        if(flag == FLAG_START_ONE) {
-            editTimeRowOne.setText(Integer.toString(hour) + ":" + Integer.toString(minute) + AM_PM);
-        } else if(flag == FLAG_START_TWO){
-            editTimeRowTwo.setText(Integer.toString(hour) + ":" + Integer.toString(minute) + AM_PM);
-        }
+        if (flag == FLAG_START_ONE) {
+            // change 24 hour clock to display 12
+            if (hour >= 12) {
+                hour = 1 + hour - 13;
+                AM_PM = "PM";
+            } else {
+                AM_PM = "AM";
+            }
 
+            if(minute <= 9){
+              adjustedMin = String.format("%02d", minute);
+                Log.d(TAG, String.format("%02d", minute));
+            }
+
+            editTimeRowOne.setText(Integer.toString(hour) + ":" + adjustedMin + AM_PM);
+        } else if (flag == FLAG_START_TWO) {
+            // change 24 hour clock to display 12
+            if (hour >= 12) {
+                hour = 1 + hour - 13;
+                AM_PM = "PM";
+            } else {
+                AM_PM = "AM";
+            }
+
+            if(minute <= 9){
+                adjustedMin = String.format("%02d", minute);
+                Log.d(TAG, String.format("%02d", minute));
+            }
+
+            editTimeRowTwo.setText(Integer.toString(hour) + ":" +  adjustedMin + AM_PM);
+        }
     }
 
 }
