@@ -82,6 +82,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         // layout row 1
         arrow = findViewById(R.id.arrow);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), EventsList.class);
+                startActivity(i);
+            }
+        });
 
         // layout row 2
         circleView = findViewById(R.id.circleView);
