@@ -143,7 +143,6 @@ public class UserSettings extends AppCompatActivity {
                         editor.putInt("birthday month", monthOfYear);
                         editor.putInt("birthday day", dayOfMonth);
                         editor.commit();
-                        Log.d("UserSettings", "Birthday Month: " + monthOfYear + " " + "Birth day: " + dayOfMonth);
                     }
                 }, year, month, day);
         datePickerDialog.show();
