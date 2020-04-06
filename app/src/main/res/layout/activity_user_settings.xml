@@ -153,11 +153,8 @@
             android:fontFamily="@font/circular_book"
             android:textColor="#f4f4f4"
             android:textSize="15sp"
-            android:text="Save"
             android:onClick="saved"
             android:text="save"
-            android:textColor="#000000"
-            android:textSize="16sp" />
             android:padding="15dp"
             />
     </LinearLayout>
