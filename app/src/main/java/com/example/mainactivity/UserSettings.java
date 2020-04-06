@@ -36,11 +36,11 @@ public class UserSettings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        stopService(new Intent(getApplicationContext(), Overlay.class));
+        //stopService(new Intent(getApplicationContext(), Overlay.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
 
-        stopService(new Intent(this, Overlay.class));
+        //stopService(new Intent(this, Overlay.class));
 
         if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
             setTheme(R.style.darktheme);

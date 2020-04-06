@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
         <service
             android:name=".PeriodicReminder"
-            android:exported="false"></service>
+            android:exported="false"/>
         <service
             android:name=".Overlay"
             android:enabled="true"

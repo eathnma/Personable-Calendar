@@ -62,6 +62,7 @@ public class PeriodicReminder extends IntentService {
                       calendar.get(Calendar.HOUR_OF_DAY) < hourToInt(events.get(0)[4])){
                     editor.putString("message", events.get(0)[3]);
                     editor.commit();
+                    Log.d(TAG, "SUSPECT");
                     startService(overlayIntent);
                 }
 
@@ -229,7 +230,6 @@ public class PeriodicReminder extends IntentService {
         }
         else{
             ((ShapeDrawable) background).getPaint().setColor(ContextCompat.getColor(this, R.color.boxColor6));
-
         }
     }
 
