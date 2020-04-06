@@ -1,4 +1,5 @@
 ** KNOWN ERRORS TO FIX **
+- Clicking the birthday day in Main crashes the app
 
 ** UNFINISHED **
 - User settings unfinished

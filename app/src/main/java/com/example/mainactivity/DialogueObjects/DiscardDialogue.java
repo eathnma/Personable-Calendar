@@ -35,7 +35,6 @@ public class DiscardDialogue extends AppCompatDialogFragment {
              Intent intent= new Intent (getActivity(), EventsList.class);
              startActivity(intent);
 
-//           Toast.makeText(getActivity(), "this works", Toast.LENGTH_SHORT).show();
             }
         });
 

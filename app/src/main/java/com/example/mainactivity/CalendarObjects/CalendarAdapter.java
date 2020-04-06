@@ -1,4 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -8,6 +11,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
+
 import com.example.mainactivity.R;
 
 import java.util.ArrayList;
@@ -59,6 +65,8 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
 
         //If the calendar currently being viewed is the current month
         if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)) {
+            //Check for birthday
+            SharedPreferences sharedPref =  getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
             if (month != calendarToday.get(Calendar.MONTH)) {
                 // if this day is outside current month, grey it out
@@ -68,7 +76,23 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 // if it is today, set it to blue/bold
                 ((TextView) view).setTextColor(Color.BLACK);
                 ((TextView) view).setGravity(Gravity.CENTER);
+
+                //Iterate through arraylist that contains days with events. (For days that isn't the current day)
                 view.setBackgroundResource(R.drawable.text_view_circle_selected);
+
+                for(int i = 0; i < dateWithEvents.size(); i++){
+                    if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
+                        Drawable background = view.getBackground();
+                        ((TextView) view).setTextColor(Color.WHITE);
+
+                        decideColorWithStroke(color.get(i), background);
+
+                        Log.d(TAG, "COLOR: " + color.get(i));
+                        decideColor(color.get(i),view);
+                        break;
+                    }
+                }
+
             }
             else {
                 // !*** CHECK FOR EVENT **
@@ -79,11 +103,11 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 for(int i = 0; i < dateWithEvents.size(); i++){
                     if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
                         ((TextView) view).setTextColor(Color.WHITE);
-                        Log.d(TAG, "COLOR: " + color.get(i));
                         decideColor(color.get(i),view);
                         break;
                     }
                 }
+
             }
         }
         else{
@@ -96,6 +120,7 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 // !*** CHECK FOR EVENT **
                 ((TextView) view).setTextColor(Color.parseColor("#969696"));
                 view.setBackgroundResource(R.drawable.text_view_circle);
+                //Iterate through all the dates that have events
                 for(int i = 0; i < dateWithEvents.size(); i++){
                     if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
                         ((TextView) view).setTextColor(Color.WHITE);
@@ -106,31 +131,78 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 }
             }
         }
-
         // set text
         ((TextView)view).setText(String.valueOf(calendar.get(Calendar.DATE)));
 
+        //SET TEXT VIEW CIRCLE TO BIRTHDAY
+            //Check for birthday
+
+        /*
+            SharedPreferences sharedPref = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            if (sharedPref.contains("birthday month") && sharedPref.contains("birthday day")) {
+                int bdayMonth = sharedPref.getInt("birthday month", 0);
+                int bday = sharedPref.getInt("birthday day", 0);
+
+                if(day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake_day);
+                }
+                else if (day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake);
+                }
+            }
+            */
+            
         return view;
     }
 
     private void decideColor(String color, View view){
-        if(color.contentEquals("@colors/boxColor1")){
-            view.setBackgroundResource(R.drawable.blue_circle);
+        if(color != null && view != null) {
+            if (color.contentEquals("@colors/boxColor1")) {
+                view.setBackgroundResource(R.drawable.blue_circle);
+            }
+            else if (color.contentEquals("@colors/boxColor2")) {
+                view.setBackgroundResource(R.drawable.red_circle);
+            }
+            else if (color.contentEquals("@colors/boxColor3")) {
+                view.setBackgroundResource(R.drawable.yellow_circle);
+            }
+            else if (color.contentEquals("@colors/boxColor4")) {
+                view.setBackgroundResource(R.drawable.light_blue_circle);
+            }
+            else if (color.contentEquals("@colors/boxColor5")) {
+                view.setBackgroundResource(R.drawable.orange_circle);
+            }
+            else if (color.contentEquals("@colors/boxColor6")) {
+                view.setBackgroundResource(R.drawable.green_circle);
+            }
         }
-        else if(color.contentEquals("@colors/boxColor2")){
-            view.setBackgroundResource(R.drawable.red_circle);
-        }
-        else if(color.contentEquals("@colors/boxColor3")){
-            view.setBackgroundResource(R.drawable.yellow_circle);
-        }
-        else if(color.contentEquals("@colors/boxColor4")){
-            view.setBackgroundResource(R.drawable.light_blue_circle);
-        }
-        else if(color.contentEquals("@colors/boxColor5")){
-            view.setBackgroundResource(R.drawable.orange_circle);
-        }
-        else if(color.contentEquals("@colors/boxColor6")){
+        else if(color == null){
             view.setBackgroundResource(R.drawable.green_circle);
+        }
+    }
+
+    private void decideColorWithStroke(String color, Drawable view) {
+        if (view instanceof ShapeDrawable && color != null && view != null) {
+            if (color.contentEquals("@colors/boxColor1")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor1));
+            }
+            else if (color.contentEquals("@colors/boxColor2")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor2));
+            }
+            else if (color.contentEquals("@colors/boxColor3")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor3));
+            }
+            else if (color.contentEquals("@colors/boxColor4")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor4));
+            }
+            else if (color.contentEquals("@colors/boxColor5")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor5));
+            }
+            else if (color.contentEquals("@colors/boxColor6")) {
+                ((ShapeDrawable) view).getPaint().setColor(ContextCompat.getColor(getContext(), R.color.boxColor6));
+            }
         }
     }
 
