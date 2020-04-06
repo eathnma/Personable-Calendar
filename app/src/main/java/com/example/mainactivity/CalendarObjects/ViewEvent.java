@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -215,34 +216,37 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    public GeoPoint getLocationFromAddress(String strAddress){
+    public LatLng getLocationFromAddress(Context context,String strAddress) {
 
-        Geocoder coder = new Geocoder(this);
+        Geocoder coder = new Geocoder(context);
         List<Address> address;
-        GeoPoint p1 = null;
+        LatLng p1 = null;
 
         try {
-            address = coder.getFromLocationName(strAddress,5);
-            if (address==null) {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
                 return null;
             }
-            Address location=address.get(0);
-            location.getLatitude();
-            location.getLongitude();
 
-            p1 = new GeoPoint((double) (location.getLatitude() * 1E6),
-                    (double) (location.getLongitude() * 1E6));
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
 
-            return p1;
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
         }
+        return p1;
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        LatLng specLoc = getLocationFromAddress(getApplicationContext(),String.valueOf(locationView.getText()));
+
         // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = new LatLng(-34, 151);
+        LatLng sydney = specLoc;
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
