@@ -16,8 +16,6 @@ public class Constants {
 
 
 //  if it doesn't work, try changing the database version
-    public static final int DATABASE_VERSION = 21;
+    public static final int DATABASE_VERSION = 22;
 
-    //map view code
-    public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 }

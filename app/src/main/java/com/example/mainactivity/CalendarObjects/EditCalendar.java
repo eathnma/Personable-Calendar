@@ -261,6 +261,8 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             if(minute <= 9){
               adjustedMin = String.format("%02d", minute);
                 Log.d(TAG, String.format("%02d", minute));
+            } else {
+                adjustedMin = String.valueOf(minute);
             }
 
             editTimeRowOne.setText(Integer.toString(hour) + ":" + adjustedMin + AM_PM);
@@ -276,6 +278,8 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             if(minute <= 9){
                 adjustedMin = String.format("%02d", minute);
                 Log.d(TAG, String.format("%02d", minute));
+            } else {
+                adjustedMin = String.valueOf(minute);
             }
 
             editTimeRowTwo.setText(Integer.toString(hour) + ":" +  adjustedMin + AM_PM);

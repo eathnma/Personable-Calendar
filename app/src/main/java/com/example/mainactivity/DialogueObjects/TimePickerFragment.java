@@ -22,11 +22,6 @@ public class TimePickerFragment extends DialogFragment {
         int hour = c.get(Calendar.HOUR);
         int minute = c.get(Calendar.MINUTE);
 
-//        if(hour >= 12){
-//            hour = 1 + hour -13;
-//        }
-
-
         return new TimePickerDialog(getActivity(), R.style.TimePicker, (TimePickerDialog.OnTimeSetListener) getActivity(), hour, minute, DateFormat.is24HourFormat(getActivity()));
 
     }
