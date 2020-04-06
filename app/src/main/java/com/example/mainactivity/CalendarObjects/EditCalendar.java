@@ -74,7 +74,6 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
         stopService(new Intent(this, Overlay.class));
@@ -153,8 +152,15 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 flag = FLAG_START_ONE;
             }
         });
-        //
-        editTimeRowOne.setText(Integer.toString(hour) + ":" + Integer.toString(minute) + AM_PM);
+
+        if(minute <= 9){
+            adjustedMin = String.format("%02d", minute);
+            Log.d(TAG, String.format("%02d", minute));
+        } else {
+            adjustedMin = String.valueOf(minute);
+        }
+
+        editTimeRowOne.setText(Integer.toString(hour) + ":" + adjustedMin + AM_PM);
 
         //onClick opens the TIME DIALOGUE ( ROW TWO )
         editTimeRowTwo.setOnClickListener(new View.OnClickListener(){
@@ -165,7 +171,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 flag = FLAG_START_TWO;
             }
         });
-        editTimeRowTwo.setText(Integer.toString(hourPlusOne) + ":" + Integer.toString(minute)+ AM_PM);
+        editTimeRowTwo.setText(Integer.toString(hourPlusOne) + ":" + adjustedMin + AM_PM);
 
         //GRID LAYOUT FOUR
         notificationMessage = (EditText) findViewById(R.id.notificationMessage);
@@ -182,7 +188,16 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
         addLocation = (TextView) findViewById(R.id.addLocation);
 
-        //GRID LAYOUT SIX
+        chooseColor();
+
+//      instantiate database object
+        db = new MyDatabase(this);
+
+        nightMode();
+
+    }
+
+    private void chooseColor(){
         imgs[0]=findViewById(R.id.blueCircle);
         imgs[1]=findViewById(R.id.redCircle);
         imgs[2]=findViewById(R.id.yellowCircle);
@@ -199,10 +214,10 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 }
             });
         }
+    }
 
-//      instantiate database object
-        db = new MyDatabase(this);
 
+    private void nightMode(){
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         night = sharedPrefs.getInt("night", 0);
 
@@ -224,9 +239,9 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             notificationMessage.setHintTextColor(Color.GRAY);
             notificationMessage.setTextColor(Color.BLACK);
         }
-
     }
 
+    // retrieve location from google maps api
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -237,11 +252,12 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 addLocation.setText(currentlocation);
             }
             if(resultCode == Activity.RESULT_CANCELED){
-                // Write code for no result
+                // write code for no result
             }
         }
     }
 
+    // triggered by back button
     public void discardMessage(View view){
         DiscardDialogue discardDialogue = new DiscardDialogue();
         discardDialogue.show(getSupportFragmentManager(), "example dialogue");
@@ -249,8 +265,8 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     public void onTimeSet(TimePicker view, int hour, int minute) {
+        // FLAG = first Timepicker dialogue
         if (flag == FLAG_START_ONE) {
-            // change 24 hour clock to display 12
             if (hour >= 12) {
                 hour = 1 + hour - 13;
                 AM_PM = "PM";
@@ -258,6 +274,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 AM_PM = "AM";
             }
 
+            // set string to display double digits (01:1)
             if(minute <= 9){
               adjustedMin = String.format("%02d", minute);
                 Log.d(TAG, String.format("%02d", minute));
@@ -265,7 +282,10 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 adjustedMin = String.valueOf(minute);
             }
 
+            // set time text from data
             editTimeRowOne.setText(Integer.toString(hour) + ":" + adjustedMin + AM_PM);
+
+            // FLAG = second Timepicker dialogue
         } else if (flag == FLAG_START_TWO) {
             // change 24 hour clock to display 12
             if (hour >= 12) {
@@ -275,6 +295,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 AM_PM = "AM";
             }
 
+            // set string to display double digits (01:1)
             if(minute <= 9){
                 adjustedMin = String.format("%02d", minute);
                 Log.d(TAG, String.format("%02d", minute));
@@ -282,6 +303,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
                 adjustedMin = String.valueOf(minute);
             }
 
+            // set time text from data
             editTimeRowTwo.setText(Integer.toString(hour) + ":" +  adjustedMin + AM_PM);
         }
     }

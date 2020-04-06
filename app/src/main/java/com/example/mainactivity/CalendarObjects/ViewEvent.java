@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import androidx.core.content.ContextCompat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,6 +75,7 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
     //implementing maps
     private GoogleMap mMap;
 
+    //load database helped
     MyDatabaseHelper mDatabaseHelper = new MyDatabaseHelper(this);
 
     @Override
@@ -82,13 +85,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         // layout row 1
         arrow = findViewById(R.id.arrow);
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), EventsList.class);
-                startActivity(i);
-            }
-        });
 
         // layout row 2
         circleView = findViewById(R.id.circleView);
@@ -101,20 +97,30 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         // layout row 4
         locationView = findViewById(R.id.locationView);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), EventsList.class);
+                startActivity(i);
+            }
+        });
 
+        // retrieves date clicked string from previous intent
         Intent i = getIntent();
         String dateClicked = i.getStringExtra("DATECLICKED");
 
+        // parses the date data into MYD
         String[] parser  = dateClicked.split(" ");
         String MYD = parser[0] + " " + parser[1] + " " + parser[2];
 
+        // retrieves string array from intent
         String[] stringData = i.getExtras().getStringArray("stringdata");
-        Log.d(TAG, "STRING DATA " +  Arrays.toString(stringData));
 
         if(stringData == null){
             Log.d(TAG, "this is null");
         }
         else{
+            // grabs data from String array -> into individual strings
             String title = stringData[0];
             String timeone = stringData[1];
             String timetwo = stringData[2];
@@ -122,14 +128,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             String color = stringData[4];
             String location = stringData[5];
 
-            Log.d(TAG, "COLOR TAG: " + color);
+//            Log.d(TAG, "COLOR TAG: " + color);
 
-            // within the string
+            // place data into XML
             titleView.setText(title);
             timeView.setText(timeone + " - " + timetwo);
             descriptionView.setText(message);
             locationView.setText(location);
             decideColor(color, circleView);
+
             // set date (change format of this soon)
             dateView.setText(MYD);
         }
@@ -157,22 +164,32 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
                 String name = String.valueOf(titleView.getText());
                 int itemID;
 
+                // go through cursor object and retrieve name
                 Cursor data = mDatabaseHelper.getItemName(name); // returns name of database
-
                 data.moveToNext();
                 itemID = data.getInt(0);
 
+                // DELETE item from database
                 mDatabaseHelper.deleteName(itemID,name);
 
+                // returning intent to EventsList
                 int result = 1;
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result", result);
                 setResult(Activity.RESULT_OK);
                 finish();
-
             }
         });
 
+        // if nightmode -> sharedpref = 1, run nightMode
+        nightMode();
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.user_list_map);
+        mapFragment.getMapAsync(this);
+
+    }
+
+    public void nightMode(){
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         night = sharedPrefs.getInt("night", 0);
 
@@ -194,15 +211,9 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             timeView.setTextColor(Color.WHITE);
             locationView.setTextColor(Color.WHITE);
         }
-        MapFragment mapFragment = (MapFragment) getFragmentManager()
-                .findFragmentById(R.id.user_list_map);
-        mapFragment.getMapAsync(this);
-
     }
 
-
-
-
+    // displays circle colour based on clicked event
     public void decideColor(String color, View v){
         if(color.contentEquals("@colors/boxColor1")){
             v.setBackground(ContextCompat.getDrawable(this, R.drawable.blue_circle));
@@ -224,14 +235,13 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
-    public LatLng getLocationFromAddress(Context context,String strAddress) {
-
+    // parse address to LAT LNG
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
         Geocoder coder = new Geocoder(context);
         List<Address> address;
         LatLng p1 = null;
 
         try {
-            // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
             if (address == null) {
                 return null;
@@ -247,16 +257,29 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
         return p1;
     }
 
+    // google maps oncreate function
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng specLoc = getLocationFromAddress(getApplicationContext(),String.valueOf(locationView.getText()));
+        if(locationView.getText().equals("Add Location")){
+            LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
 
-        // Add a marker in Sydney, Australia, and move the camera.
-        LatLng sydney = specLoc;
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            @SuppressLint("MissingPermission") android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+            double userLat = lastKnownLocation.getLatitude();
+            double userLong = lastKnownLocation.getLongitude();
+
+            LatLng loc = new LatLng(userLat, userLong);
+            mMap.addMarker(new MarkerOptions().position(loc).title("Marker in Specified Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+
+        } else {
+            LatLng specLoc = getLocationFromAddress(getApplicationContext(),String.valueOf(locationView.getText()));
+            LatLng loc = specLoc;
+            mMap.addMarker(new MarkerOptions().position(loc).title("Marker in Specified Location"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        }
     }
 
 }
