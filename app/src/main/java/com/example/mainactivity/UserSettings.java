@@ -1,6 +1,5 @@
 package com.example.mainactivity;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -9,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,12 +15,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-
 import java.util.Calendar;
 
 public class UserSettings extends AppCompatActivity {
@@ -30,8 +25,6 @@ public class UserSettings extends AppCompatActivity {
     public static final String KEY_ISNIGHTMODE = "isNightMode";
 
     private EditText nameTextView;
-    private ImageView pictureImageView;
-    private ImageView birthdayImageView;
     private TextView title;
     private Switch nightView;
     private Button saveButton;
@@ -39,12 +32,7 @@ public class UserSettings extends AppCompatActivity {
     private int night;
 
     private String birthday;
-    private String color;
     private String name;
-    private String profilePicture;
-
-    SharedPreferences sharedPrefs;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +49,6 @@ public class UserSettings extends AppCompatActivity {
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
         nameTextView = findViewById(R.id.addName);
-        birthdayImageView = findViewById(R.id.birthday);
         title = findViewById(R.id.title);
         saveButton = findViewById(R.id.saveButton);
 
@@ -137,7 +124,7 @@ public class UserSettings extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    //Save birthday once set
     public void setBirthday(View v){
         // Get Current Date
         final Calendar c = Calendar.getInstance();
@@ -147,7 +134,6 @@ public class UserSettings extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.DatePicker,
                 new DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 

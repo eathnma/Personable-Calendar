@@ -1,6 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -106,6 +107,12 @@ public class CalendarView extends LinearLayout {
     private void initControl(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.activity_calendar, this);
+
+        if(isNightMode()){
+            LinearLayout linearLayout = findViewById(R.id.parent);
+            linearLayout.setBackgroundColor(Color.parseColor("#303437"));
+        }
+
         loadDateFormat(attrs);
         assignUiElements(context);
         assignClickHandler();
@@ -164,42 +171,55 @@ public class CalendarView extends LinearLayout {
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE,MMMM,yyyy,dd");
         dateToday = sdf.format(currentDate.getTime()).split(",");
 
+        if(isNightMode()){
+            txtDisplayDate.setTextColor(Color.WHITE);
+        }
         txtDisplayDate.setText(dateToday[1]);
 
         if(currentDate.get(Calendar.MONTH) == currentDateComparison.get(Calendar.MONTH)) {
             dayOfWeek = (TextView) findViewById(getResources().getIdentifier(dateToday[0], "id", "com.example.mainactivity"));
-            dayOfWeek.setTextColor(Color.BLACK);
+            if(!isNightMode()){
+                dayOfWeek.setTextColor(Color.BLACK);
+            }
+            else{
+                dayOfWeek.setTextColor(Color.WHITE);
+            }
             dayOfWeek.setTypeface(null, Typeface.BOLD);
         }
         else   {
             //DO MORE EFFICIENTLY PLS
-            dayOfWeek = (TextView) findViewById(R.id.Wednesday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+            for(int i = 0; i < 7; i++){
+                if(i == 0){
+                    dayOfWeek = (TextView) findViewById(R.id.Monday);
+                }
+                else if(i == 1){
+                    dayOfWeek = (TextView) findViewById(R.id.Tuesday);
+                }
+                else if(i == 2){
+                    dayOfWeek = (TextView) findViewById(R.id.Wednesday);
+                }
+                else if(i == 3){
+                    dayOfWeek = (TextView) findViewById(R.id.Thursday);
+                }
+                else if(i == 4){
+                    dayOfWeek = (TextView) findViewById(R.id.Friday);
+                }
+                else if(i == 5){
+                    dayOfWeek = (TextView) findViewById(R.id.Saturday);
+                }
+                else{
+                    dayOfWeek = (TextView) findViewById(R.id.Sunday);
+                }
 
-            dayOfWeek = (TextView) findViewById(R.id.Thursday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
+                if(!isNightMode()) {
+                    dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
+                }
+                else{
+                    dayOfWeek.setTextColor(Color.parseColor("#C4C4C4"));
+                }
+                dayOfWeek.setTypeface(null, Typeface.NORMAL);
+            }
 
-            dayOfWeek = (TextView) findViewById(R.id.Friday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
-
-            dayOfWeek = (TextView) findViewById(R.id.Saturday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
-
-            dayOfWeek = (TextView) findViewById(R.id.Sunday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
-
-            dayOfWeek = (TextView) findViewById(R.id.Monday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
-
-            dayOfWeek = (TextView) findViewById(R.id.Tuesday);
-            dayOfWeek.setTextColor(ContextCompat.getColor(getContext(), R.color.textColor));
-            dayOfWeek.setTypeface(null, Typeface.NORMAL);
         }
     }
 
@@ -282,6 +302,15 @@ public class CalendarView extends LinearLayout {
 
     public String[] returnDate(){
         return dateToday;
+    }
+
+    //Will return true if nightmode is enabled
+    private boolean isNightMode(){
+        SharedPreferences sharedPrefs = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        if(sharedPrefs.getInt("night", 0) == 1){
+            return true;
+        }
+        return false;
     }
 }
 

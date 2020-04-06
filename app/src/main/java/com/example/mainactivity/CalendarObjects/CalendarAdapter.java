@@ -1,6 +1,7 @@
 package com.example.mainactivity.CalendarObjects;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -63,6 +64,19 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
             view = inflater.inflate(R.layout.custom_calendar_day, parent, false);
         }
 
+        if(isNightMode()){
+            Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle);
+            ((GradientDrawable) background).setColor(Color.parseColor("#494949"));
+            background = ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle_selected);
+            ((GradientDrawable) background).setColor(Color.parseColor("#494949"));
+        }
+        else {
+            Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle);
+            ((GradientDrawable) background).setColor(Color.parseColor("#EDEDED"));
+            background = ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle_selected);
+            ((GradientDrawable) background).setColor(Color.parseColor("#EDEDED"));
+        }
+
         //If the calendar currently being viewed is the current month
         if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)) {
             //Check for birthday
@@ -71,10 +85,16 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
             if (month != calendarToday.get(Calendar.MONTH)) {
                 // if this day is outside current month, grey it out
                 ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
+                if(isNightMode()){
+                    ((TextView) view).setTextColor(Color.parseColor("#999999"));
+                }
             }
             else if (day == calendarToday.get(Calendar.DATE)) {
                 // if it is today, set it to blue/bold
                 ((TextView) view).setTextColor(Color.BLACK);
+                if(isNightMode()){
+                    ((TextView)view).setTextColor(Color.WHITE);
+                }
                 ((TextView) view).setGravity(Gravity.CENTER);
 
                 //Iterate through arraylist that contains days with events. (For days that isn't the current day)
@@ -206,5 +226,12 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
         }
     }
 
-
+    //Will return true if nightmode is enabled
+    private boolean isNightMode(){
+        SharedPreferences sharedPrefs = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        if(sharedPrefs.getInt("night", 0) == 1){
+            return true;
+        }
+        return false;
+    }
 }

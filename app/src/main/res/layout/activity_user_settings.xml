@@ -82,34 +82,6 @@
                     android:background="@drawable/ic_cake" />
             </LinearLayout>
 
-        <!-- Set Profile Picture -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginVertical="30dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/circular_bold"
-                android:textSize="20sp"
-                android:text="Profile Picture"
-                android:layout_marginBottom="10dp"
-                />
-            <ImageView
-                android:id="@+id/picture"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:text="Upload picture"
-                />
-        </LinearLayout>
 
         <!-- Set favourite Color -->
         <LinearLayout

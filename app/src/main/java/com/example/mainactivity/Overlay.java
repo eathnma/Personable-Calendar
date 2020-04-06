@@ -116,6 +116,7 @@ public class Overlay extends Service{
     }
 
     private void animate(View v){
+        Log.d(TAG, "ANIMATING");
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(v, "y", 0f);
         animatorY.setDuration(1000);
 

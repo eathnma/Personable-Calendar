@@ -32,7 +32,7 @@ public class PeriodicReminder extends IntentService {
 
     public PeriodicReminder() {
         super("PeriodicReminder");
-        Log.d("PeriodicReminder", "PERIODIC_REMINDER");
+       // Log.d("PeriodicReminder", "PERIODIC_REMINDER");
 
         handler = new Handler();
         db = new MyDatabase(this);

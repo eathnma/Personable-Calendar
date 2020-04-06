@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toolbar;
@@ -48,6 +50,7 @@ public class EventsList extends AppCompatActivity {
     private LinearLayout.LayoutParams layoutParams;
     private LinearLayout.LayoutParams layoutParams2;
 
+    private RelativeLayout footer;
     //EVENT LAYOUTS WITH BOXCONTAINER
     private FrameLayout frameLayout;
     private LinearLayout eventLayout;
@@ -84,11 +87,18 @@ public class EventsList extends AppCompatActivity {
         db = new MyDatabase(this);
         helper = new MyDatabaseHelper(this);
 
-        //Toolbar stuff
+
         toolbarDate = intent.getStringExtra("TOOLBAR");
         toolbar = findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(toolbarDate);
+        footer = findViewById(R.id.footer);
+        //Toolbar stuff
+        if(isNightMode()){
+            toolbarTitle.setTextColor(Color.WHITE);
+            toolbar.setBackgroundColor(Color.parseColor("#383C3F"));
+            footer.setBackgroundColor(Color.parseColor("#383C3F"));
+        }
 
         //Scrollview containers
         scrollView = findViewById(R.id.scrollViewContainer);
@@ -105,28 +115,6 @@ public class EventsList extends AppCompatActivity {
         fillLayout();
 
         scrollView.addView(parentContainer);
-
-        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-        night = sharedPrefs.getInt("night", 0);
-
-        if(night == 1){
-            night = sharedPrefs.getInt("night", 0);
-            Log.d(TAG, String.valueOf(night));
-
-            // if darkmode else, skip
-            if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
-                setTheme(R.style.darktheme);
-            } else setTheme(R.style.AppTheme);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
-            // individual styling
-//            arrowRowOne.setImageResource(R.drawable.white_arrow);
-//            addTitle.setTextColor(Color.WHITE);
-//            addTitle.setHintTextColor(Color.GRAY);
-//            saveButtonRowOne.setTextColor(Color.WHITE);
-//            notificationMessage.setHintTextColor(Color.GRAY);
-//            notificationMessage.setTextColor(Color.BLACK);
-        }
     }
 
     private void fillLayout(){
@@ -155,6 +143,10 @@ public class EventsList extends AppCompatActivity {
 
     private void setHourParams(int setHour, String ampm, int id){
         hour = new TextView(this);
+        //ENABLE NIGHTMODE FOR TIMELINE (12 am - 11:59 pm)
+        if(isNightMode()){
+            hour.setTextColor(Color.parseColor("#ffffff"));
+        }
         hour.setLayoutParams(layoutParams);
         hour.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         hour.setGravity(Gravity.CENTER_VERTICAL);
@@ -176,6 +168,9 @@ public class EventsList extends AppCompatActivity {
         box.setLayoutParams(layoutParams2);
         box.setId(id);
         box.setBackground(ContextCompat.getDrawable(this, R.drawable.background_stroke));
+        if(isNightMode()){
+            box.setBackground(ContextCompat.getDrawable(this, R.drawable.background_stroke_night));
+        }
         box.setOrientation(LinearLayout.HORIZONTAL);
 
     }
@@ -208,6 +203,9 @@ public class EventsList extends AppCompatActivity {
         timeline.setTag("timeline");
 
         //add timeline and boxes to parent container
+        if(isNightMode()){
+            parentContainer.setBackgroundColor(Color.parseColor("#303437"));
+        }
         parentContainer.addView(timeline);
         frameLayout.addView(boxParent);
         displayEvent();
@@ -438,6 +436,16 @@ public class EventsList extends AppCompatActivity {
         intent.putExtra( "DATECLICKED", dateClicked);
         intent.putExtra("stringdata", parser);
         startActivityForResult(intent, LAUNCH_VIEW_ACTIVITY);
+    }
+
+    //Will return true if nightmode is enabled
+    private boolean isNightMode(){
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        night = sharedPrefs.getInt("night", 0);
+        if(night == 1){
+            return true;
+        }
+        return false;
     }
 
 }
