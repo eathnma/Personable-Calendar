@@ -32,7 +32,8 @@
                     android:layout_height="20dp"
                     android:contentDescription="@string/to_do"
                     app:layout_gravity="center_vertical"
-                    app:srcCompat="@drawable/arrow" />
+                    app:srcCompat="@drawable/arrow"
+                    android:onClick="onClickBack"/>
 
                 <ImageView
                     android:id="@+id/garbageButton"

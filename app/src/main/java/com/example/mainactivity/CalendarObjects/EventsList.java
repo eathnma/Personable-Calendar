@@ -424,20 +424,20 @@ public class EventsList extends AppCompatActivity {
                 recreate();
                 Log.d(TAG,"this ran once");
             }
-            if(resultCode == Activity.RESULT_CANCELED){
+            else if(resultCode == Activity.RESULT_CANCELED){
                 Log.d(TAG,"no result");
             }
         }
-
-        if(requestCode == LAUNCH_VIEW_ACTIVITY){
+        else if(requestCode == LAUNCH_VIEW_ACTIVITY){
             if(resultCode == Activity.RESULT_OK){
                 recreate();
                 Log.d(TAG,"this ran once");
             }
-            if(resultCode == Activity.RESULT_CANCELED){
+            else if(resultCode == Activity.RESULT_CANCELED){
                 Log.d(TAG,"no result");
             }
         }
+
     }
 
     //Intent to go back to MainActivity

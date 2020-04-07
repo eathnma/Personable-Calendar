@@ -97,13 +97,6 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
 
         // layout row 4
         locationView = findViewById(R.id.locationView);
-        arrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), EventsList.class);
-                startActivity(i);
-            }
-        });
 
         // retrieves date clicked string from previous intent
         Intent i = getIntent();
@@ -280,6 +273,15 @@ public class ViewEvent extends AppCompatActivity implements OnMapReadyCallback {
             mMap.addMarker(new MarkerOptions().position(loc).title("Marker in Specified Location"));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
         }
+    }
+
+    //Go back to previous Activity when back button is pressed
+    public void onClickBack(View v){
+        int result = 1;
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("result", result);
+        setResult(Activity.RESULT_OK);
+        finish();
     }
 
 }

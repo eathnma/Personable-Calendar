@@ -77,6 +77,7 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_calendar);
         stopService(new Intent(this, Overlay.class));
+
         //prevents the keyboard from showing up from EditText
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -228,7 +229,8 @@ public class EditCalendar extends AppCompatActivity implements TimePickerDialog.
             // if darkmode else, skip
             if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
                 setTheme(R.style.darktheme);
-            } else setTheme(R.style.AppTheme);
+            }
+            else setTheme(R.style.AppTheme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
 
             // set top left arrow to white

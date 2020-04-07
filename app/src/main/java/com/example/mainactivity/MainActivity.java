@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity{
         @Override
         public void onSensorChanged(SensorEvent event) {
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 17) && sharedPrefs.contains("flag")) {
+                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) < 10) && sharedPrefs.contains("flag")) {
                     if(sharedPrefs.getInt("flag", 0) != 2){
                         editor.putInt("flag", 2);
                         editor.putInt("night", 1);
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity{
                         startActivity(intent);
                     }
                 }
-                else if(event.values[0] > 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) < 17) && sharedPrefs.contains("flag")) {
+                else if(event.values[0] > 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 10) && sharedPrefs.contains("flag")) {
                     if(sharedPrefs.getInt("flag", 0) != 1 ){
                         editor.putInt("flag", 1);
                         editor.putInt("night", 0);
