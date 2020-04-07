@@ -31,8 +31,6 @@ public class PeriodicReminder extends IntentService {
 
     public PeriodicReminder() {
         super("PeriodicReminder");
-        Log.d("PeriodicReminder", "PERIODIC_REMINDER");
-
         db = new MyDatabase(this);
         eventDetails = null;
         events = new ArrayList<>();
@@ -54,10 +52,7 @@ public class PeriodicReminder extends IntentService {
         if(events.size() > 0){
             //start overlay
             Intent overlayIntent = new Intent(this, Overlay.class);
-            Log.d("PeriodicReminder", "PERIODIC_REMINDER");
             if(sharedPrefs.contains("message") && sharedPrefs.getString("message", null) != null){
-                Log.d("PeriodicReminder", "HOUR_OF_DAY: " + calendar.get(Calendar.HOUR_OF_DAY));
-                Log.d("PeriodicReminder", "hourToInt " +  hourToInt(events.get(0)[4]));
                 if(!(sharedPrefs.getString("message", null)).contentEquals(events.get(0)[3]) ||
                       calendar.get(Calendar.HOUR_OF_DAY) < hourToInt(events.get(0)[4])){
                     editor.putString("message", events.get(0)[3]);
@@ -82,7 +77,7 @@ public class PeriodicReminder extends IntentService {
         Cursor cursor = db.getData();
         int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
         int index1 = cursor.getColumnIndex(Constants.COLOR);
-        int index2 = cursor.getColumnIndex(Constants.MESSAGE);
+        int index2 = cursor.getColumnIndex(Constants.TITLE);
         int index3 = cursor.getColumnIndex(Constants.TIMEONE);
 
 
@@ -97,9 +92,7 @@ public class PeriodicReminder extends IntentService {
                 eventDetails[0] = date[1]; // Month
                 eventDetails[1] = date[2]; // Day
                 eventDetails[2] = cursor.getString(index1); //color
-                Log.d("PeriodicReminder", "COLOR " + eventDetails[2]);
-                //message
-                eventDetails[3] = cursor.getString(index2);
+                eventDetails[3] = cursor.getString(index2); //message
                 eventDetails[4] = cursor.getString(index3); //time one
                 events.add(eventDetails);
                 cursor.moveToNext();

@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -59,7 +58,7 @@ public class Overlay extends Service{
 
         //setting the layout parameters
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -120,7 +119,6 @@ public class Overlay extends Service{
     }
 
     private void animate(View v){
-        Log.d(TAG, "ANIMATING");
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(v, "y", 0f);
         animatorY.setDuration(1000);
 

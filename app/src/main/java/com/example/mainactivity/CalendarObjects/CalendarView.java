@@ -126,12 +126,12 @@ public class CalendarView extends LinearLayout {
     {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CalendarView);
 
-        try
-        {
+        try {
             // try to load provided date format, and fallback to default otherwise
             dateFormat = ta.getString(R.styleable.CalendarView_dateFormat);
-            if (dateFormat == null)
+            if (dateFormat == null) {
                 dateFormat = DATE_FORMAT;
+            }
         }
         finally
         {
@@ -186,8 +186,7 @@ public class CalendarView extends LinearLayout {
             }
             dayOfWeek.setTypeface(null, Typeface.BOLD);
         }
-        else   {
-            //DO MORE EFFICIENTLY PLS
+        else{
             for(int i = 0; i < 7; i++){
                 if(i == 0){
                     dayOfWeek = (TextView) findViewById(R.id.Monday);

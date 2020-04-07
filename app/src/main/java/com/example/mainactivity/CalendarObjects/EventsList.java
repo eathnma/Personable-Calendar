@@ -19,6 +19,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -63,6 +64,7 @@ public class EventsList extends AppCompatActivity {
     private Intent intent;
     private MyDatabase db;
     private MyDatabaseHelper helper;
+    private ImageView arrow;
 
     private ArrayList<String[]> mArrayList = new ArrayList<>();
     private String[] s;
@@ -92,12 +94,15 @@ public class EventsList extends AppCompatActivity {
         toolbar = findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
         toolbarTitle.setText(toolbarDate);
+        arrow = toolbar.findViewById(R.id.arrow);
+        arrow.setImageResource(R.drawable.arrow);
         footer = findViewById(R.id.footer);
         //Toolbar stuff
         if(isNightMode()){
             toolbarTitle.setTextColor(Color.WHITE);
             toolbar.setBackgroundColor(Color.parseColor("#383C3F"));
             footer.setBackgroundColor(Color.parseColor("#383C3F"));
+            arrow.setImageResource(R.drawable.white_arrow);
         }
 
         //Scrollview containers
@@ -203,6 +208,7 @@ public class EventsList extends AppCompatActivity {
         timeline.setTag("timeline");
 
         //add timeline and boxes to parent container
+
         if(isNightMode()){
             parentContainer.setBackgroundColor(Color.parseColor("#303437"));
         }

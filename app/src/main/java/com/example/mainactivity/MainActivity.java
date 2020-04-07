@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity{
     private SensorManager mySensorManager;
     private Sensor lightSensor;
     private static final int SYSTEM_ALERT_WINDOW_PERMISSION = 2084;
-    private int night;
+    private SharedPreferences sharedPrefs;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,13 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        editor = sharedPrefs.edit();
+        if(!sharedPrefs.contains("flag")){
+            editor.putInt("flag", 0);
+            editor.commit();
+            //1 for day, 2 for night, 0 for user default
+        }
         //Alarm Schedule
         schedule();
 
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
             toolbar.setBackgroundColor(Color.parseColor("#383C3F"));
             toolbarTitle.setTextColor(Color.WHITE);
         }
-        //sensorSetup();
+        sensorSetup();
 
         cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler() {
@@ -126,13 +134,11 @@ public class MainActivity extends AppCompatActivity{
     }
 
     public void sensorSetup(){
-
         if(lightSensor != null){
             mySensorManager.registerListener(
                     lightSensorListener,
                     lightSensor,
                     SensorManager.SENSOR_DELAY_NORMAL);
-
         }
     }
 
@@ -155,22 +161,32 @@ public class MainActivity extends AppCompatActivity{
 
         @Override
         public void onSensorChanged(SensorEvent event) {
-//            Log.d(TAG, "HOUR: " + getHour.get(Calendar.HOUR_OF_DAY));
             if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 22 || getHour.get(Calendar.HOUR_OF_DAY) < 6)) {
-                    toolbar.setBackgroundColor(Color.BLACK);
-                    toolbarTitle.setTextColor(Color.WHITE);
+                if(event.values[0] < 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) > 17) && sharedPrefs.contains("flag")) {
+                    if(sharedPrefs.getInt("flag", 0) != 2){
+                        editor.putInt("flag", 2);
+                        editor.putInt("night", 1);
+                        editor.commit();
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
                 }
-                else{
-                    toolbar.setBackgroundColor(Color.WHITE);
-                    toolbarTitle.setTextColor(Color.BLACK);
+                else if(event.values[0] > 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) < 17) && sharedPrefs.contains("flag")) {
+                    if(sharedPrefs.getInt("flag", 0) != 1){
+                        editor.putInt("flag", 1);
+                        editor.putInt("night", 0);
+                        editor.commit();
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+                    }
                 }
 
             }
         }
 
     };
-
 
     public void schedule(){
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);

@@ -27,7 +27,7 @@
                     android:paddingLeft="20dp"
                     android:layout_alignParentBottom="true"
 
-                    android:paddingRight="35dp"
+                    android:paddingRight="85dp"
                     android:text="TESTING TESTING TESTING TESTING TESTING"
                     android:textColor="#ffffff"
                     android:textSize="10sp" />

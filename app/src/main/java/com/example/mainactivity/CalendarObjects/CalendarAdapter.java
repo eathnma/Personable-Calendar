@@ -3,7 +3,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,6 +63,16 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
             view = inflater.inflate(R.layout.custom_calendar_day, parent, false);
         }
 
+        SharedPreferences sharedPref = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        int bdayMonth = -1;
+        int bday = 0;
+        boolean bdayIsSet = false;
+
+        if (sharedPref.contains("birthday month") && sharedPref.contains("birthday day")) {
+            bdayMonth = sharedPref.getInt("birthday month", -1);
+            bday = sharedPref.getInt("birthday day", 0);
+        }
+
         if(isNightMode()){
             Drawable background = ContextCompat.getDrawable(getContext(), R.drawable.text_view_circle);
             ((GradientDrawable) background).setColor(Color.parseColor("#494949"));
@@ -78,10 +87,8 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
         }
 
         //If the calendar currently being viewed is the current month
-        if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)) {
+        if(calendarToday.get(Calendar.MONTH) == calendarCompare.get(Calendar.MONTH)){
             //Check for birthday
-            SharedPreferences sharedPref =  getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
             if (month != calendarToday.get(Calendar.MONTH)) {
                 // if this day is outside current month, grey it out
                 ((TextView) view).setTextColor(Color.parseColor("#d9d9d9"));
@@ -97,7 +104,7 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 }
                 ((TextView) view).setGravity(Gravity.CENTER);
 
-                //Iterate through arraylist that contains days with events. (For days that isn't the current day)
+                //Iterate through arraylist that contains days with events.
                 view.setBackgroundResource(R.drawable.text_view_circle_selected);
 
                 for(int i = 0; i < dateWithEvents.size(); i++){
@@ -107,12 +114,15 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
 
                         decideColorWithStroke(color.get(i), background);
 
-                        Log.d(TAG, "COLOR: " + color.get(i));
                         decideColor(color.get(i),view);
                         break;
                     }
                 }
-
+                if(day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake_day);
+                    bdayIsSet = true;
+                }
             }
             else {
                 // !*** CHECK FOR EVENT **
@@ -127,8 +137,14 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                         break;
                     }
                 }
+                if (day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake);
+                    bdayIsSet = true;
+                }
 
             }
+
         }
         else{
             //Checks when you check through other months that isnt the current one
@@ -144,36 +160,25 @@ public class CalendarAdapter extends ArrayAdapter<Date> {
                 for(int i = 0; i < dateWithEvents.size(); i++){
                     if(day == dateWithEvents.get(i) && month == monthWithEvents.get(i)){
                         ((TextView) view).setTextColor(Color.WHITE);
-                        Log.d(TAG, "COLOR: " + color.get(i));
                         decideColor(color.get(i),view);
                         break;
                     }
                 }
+
+                if (day == bday && month == bdayMonth) {
+                    ((TextView) view).setText("");
+                    view.setBackgroundResource(R.drawable.cake);
+                    bdayIsSet = true;
+                }
             }
         }
         // set text
-        ((TextView)view).setText(String.valueOf(calendar.get(Calendar.DATE)));
-
-        //SET TEXT VIEW CIRCLE TO BIRTHDAY
-            //Check for birthday
-
-        /*
-            SharedPreferences sharedPref = getContext().getSharedPreferences("MyData", Context.MODE_PRIVATE);
-            if (sharedPref.contains("birthday month") && sharedPref.contains("birthday day")) {
-                int bdayMonth = sharedPref.getInt("birthday month", 0);
-                int bday = sharedPref.getInt("birthday day", 0);
-
-                if(day == bday && month == bdayMonth) {
-                    ((TextView) view).setText("");
-                    view.setBackgroundResource(R.drawable.cake_day);
-                }
-                else if (day == bday && month == bdayMonth) {
-                    ((TextView) view).setText("");
-                    view.setBackgroundResource(R.drawable.cake);
-                }
-            }
-            */
-            
+        if(bdayIsSet){
+            ((TextView) view).setText("");
+        }
+        else {
+            ((TextView) view).setText(String.valueOf(calendar.get(Calendar.DATE)));
+        }
         return view;
     }
 

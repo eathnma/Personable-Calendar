@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -31,20 +30,19 @@ public class UserSettings extends AppCompatActivity {
 
     private int night;
 
-    private String birthday;
     private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //stopService(new Intent(getApplicationContext(), Overlay.class));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
 
-        //stopService(new Intent(this, Overlay.class));
-
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES){
+        if(isNightMode()){
             setTheme(R.style.darktheme);
-        } else setTheme(R.style.AppTheme);
+        }
+        else{
+            setTheme(R.style.AppTheme);
+        }
 
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 
@@ -56,6 +54,10 @@ public class UserSettings extends AppCompatActivity {
 
         if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES){
             nightView.setChecked(true);
+        }
+
+        if(!isNightMode()){
+            nightView.setChecked(false);
         }
 
         nightView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -78,15 +80,16 @@ public class UserSettings extends AppCompatActivity {
             }
         });
 
-
-        night = sharedPrefs.getInt("night", 0);
-        if(night == 1){
+        if(isNightMode()){
             nameTextView.setTextColor(Color.BLACK);
             saveButton.setTextColor(Color.WHITE);
         }
 
         if(sharedPrefs.contains("name")){
             name = sharedPrefs.getString("name", null);
+            if(name == null || name.length() <= 0){
+                name = "User";
+            }
             if(name.charAt(name.length() - 1) == 's') {
                 title.setText(name + "' Settings");
             }
@@ -94,10 +97,11 @@ public class UserSettings extends AppCompatActivity {
                 title.setText(name + "'s Settings");
             }
         }
+
     }
 
     private boolean getName(){
-        if(nameTextView.getText().toString() != null || nameTextView.getText().toString().charAt(0) != ' ') {
+        if(nameTextView.getText().toString() != null || nameTextView.getText().toString().length() > 0) {
             name = nameTextView.getText().toString();
             return true;
         }
@@ -138,7 +142,7 @@ public class UserSettings extends AppCompatActivity {
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
                         // Add birthday to shared preferences
-                        SharedPreferences sharedPref =  getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPref = getSharedPreferences("MyData", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putInt("birthday month", monthOfYear);
                         editor.putInt("birthday day", dayOfMonth);
@@ -147,4 +151,15 @@ public class UserSettings extends AppCompatActivity {
                 }, year, month, day);
         datePickerDialog.show();
     }
+
+    //Will return true if nightmode is enabled
+    private boolean isNightMode(){
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        if(sharedPrefs.getInt("night", 0) == 1){
+            return true;
+        }
+        return false;
+    }
+
+
 }
