@@ -52,7 +52,6 @@ public class EventsList extends AppCompatActivity {
     private LinearLayout.LayoutParams layoutParams2;
 
     private RelativeLayout footer;
-    //EVENT LAYOUTS WITH BOXCONTAINER
     private FrameLayout frameLayout;
     private LinearLayout eventLayout;
 
@@ -89,7 +88,7 @@ public class EventsList extends AppCompatActivity {
         db = new MyDatabase(this);
         helper = new MyDatabaseHelper(this);
 
-
+        //Instantiating toolbar elements
         toolbarDate = intent.getStringExtra("TOOLBAR");
         toolbar = findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
@@ -97,6 +96,7 @@ public class EventsList extends AppCompatActivity {
         arrow = toolbar.findViewById(R.id.arrow);
         arrow.setImageResource(R.drawable.arrow);
         footer = findViewById(R.id.footer);
+
         //Toolbar stuff
         if(isNightMode()){
             toolbarTitle.setTextColor(Color.WHITE);
@@ -110,10 +110,10 @@ public class EventsList extends AppCompatActivity {
         r = getResources();
         width = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 75, r.getDisplayMetrics()));
         height = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics()));
+
         //Layout parameter variables
         layoutParams = new LinearLayout.LayoutParams(width, height);
         layoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height);
-
 
         //Layout Assignment
         setContainers();
@@ -128,8 +128,11 @@ public class EventsList extends AppCompatActivity {
             if(i == 0){
                 setHourParams(12 , "am", i);
             }
+
+            //Add the boxes to the box parent
             instantiateBoxes(i);
             boxParent.addView(box);
+            //Add the times to the timeline
             timeline.addView(hour);
         }
         for(int i = 0; i < 13; i++){
@@ -146,9 +149,9 @@ public class EventsList extends AppCompatActivity {
         }
     }
 
+    //Set hour parameters for each hour textView
     private void setHourParams(int setHour, String ampm, int id){
         hour = new TextView(this);
-        //ENABLE NIGHTMODE FOR TIMELINE (12 am - 11:59 pm)
         if(isNightMode()){
             hour.setTextColor(Color.parseColor("#ffffff"));
         }
@@ -159,6 +162,7 @@ public class EventsList extends AppCompatActivity {
         hour.setText(setHour + " " + ampm);
     }
 
+    //Sets an empty box for hour textView (for 12am -start and 12am -end)
     private void setHourParams(int id){
         hour = new TextView(this);
         hour.setLayoutParams(layoutParams);
@@ -168,6 +172,7 @@ public class EventsList extends AppCompatActivity {
         hour.setText(" ");
     }
 
+    //Instantiate a box which determines where the events will be displayed
     private void instantiateBoxes(int id){
         box = new LinearLayout(this);
         box.setLayoutParams(layoutParams2);
@@ -180,6 +185,7 @@ public class EventsList extends AppCompatActivity {
 
     }
 
+    //Container to all the boxes
     private void setContainers(){
         //first child container to scrollview
         parentContainer = new LinearLayout(this);
@@ -225,6 +231,7 @@ public class EventsList extends AppCompatActivity {
         startActivityForResult(editCalendarIntent, LAUNCH_EDIT_CALENDAR);
     }
 
+    //Pull event data from database
     private void displayEvent(){
         Cursor cursor = db.getData();
 
@@ -264,6 +271,7 @@ public class EventsList extends AppCompatActivity {
                 s[3] = message;
                 s[4] = color;
 
+                //If no color is chosen, choose green
                 if(color == null) {
                     s[4] = "@colors/boxColor6";
                 }
@@ -278,6 +286,7 @@ public class EventsList extends AppCompatActivity {
             organizeEvents(mArrayList);
     }
 
+    //Organize events on to the timeline (chronogically accurate to the hour)
     private void organizeEvents(final ArrayList<String[]> mArrayList) {
         int dp = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 20, r.getDisplayMetrics()));
 
@@ -429,11 +438,13 @@ public class EventsList extends AppCompatActivity {
         }
     }
 
+    //Intent to go back to MainActivity
     public void backHome(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
+    //Intent that goes to edit selected event
     public void toEdit(View v){
         Intent intent = new Intent(this, ViewEvent.class);
         String details = (String) v.getTag();

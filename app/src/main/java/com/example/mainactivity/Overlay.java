@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +40,13 @@ public class Overlay extends Service{
     @Override
     public void onCreate() {
         super.onCreate();
-        //getting the widget layout from xml using layout inflater
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.activity_overlay, null);
 
+        //SharedPreferences
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();
 
+        //Get the title from shared preferences from PeriodicReminder service
         if(sharedPrefs.contains("message")){
             messageIntent = sharedPrefs.getString("message", null);
             if(sharedPrefs.contains("messageColor")){
@@ -54,9 +54,7 @@ public class Overlay extends Service{
             }
         }
 
-
-
-        //setting the layout parameters
+        //Setting the layout parameters
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -65,26 +63,32 @@ public class Overlay extends Service{
                 PixelFormat.TRANSLUCENT);
 
 
-        //getting windows services and adding the floating view to it
+        //Getting windows services and adding the floating view to it
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         mWindowManager.addView(mFloatingView, params);
 
+        //Default location of the textview is below the viewport, so the notification pops up from below
         mFloatingView.setTranslationY(500f);
         textView = mFloatingView.findViewById(R.id.message);
         sonNguyenQuang = mFloatingView.findViewById(R.id.SonNguyenQuang);
 
+        //Determines which image of Son will show up
         String type = typeOfQuang();
         textView.setText(messageGenerator(type));
+
+        //The color of the notification is stored in UserPreferences from PeriodicReminder
         if(messageColor != null) {
             changeColor(messageColor, textView);
         }
         ViewGroup.LayoutParams lp = sonNguyenQuang.getLayoutParams();
 
+        //The different images have varying dimensions, this block handles it so that the dimensions are proportional
         if(!(type.contentEquals("quang_smile"))){
             lp.width = 512;
             lp.height = 531;
         }
 
+        //Set layout parameters
         sonNguyenQuang.setLayoutParams(lp);
         sonNguyenQuang.setBackgroundResource(getResources().getIdentifier(type, "drawable", this.getPackageName()));
         animate(mFloatingView);
@@ -92,6 +96,7 @@ public class Overlay extends Service{
         editor.putString("message", null);
         editor.commit();
 
+        //Remove mFloatingView from WindowManager. This needs to be done explicitly before onDestroy can be called.
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -101,8 +106,6 @@ public class Overlay extends Service{
                 stopSelf();
             }
         }, 8000);
-
-
 
     }
 
@@ -119,12 +122,15 @@ public class Overlay extends Service{
     }
 
     private void animate(View v){
+        //ObjectAnimator class that animates the ViewGroup object
         ObjectAnimator animatorY = ObjectAnimator.ofFloat(v, "y", 0f);
         animatorY.setDuration(1000);
 
+        //Pause so the user can read
         ObjectAnimator pause = ObjectAnimator.ofFloat(v, "y", 0);
         pause.setDuration(6000);
 
+        //Come back down
         ObjectAnimator animatorYDown = ObjectAnimator.ofFloat(v, "y", 600f);
         animatorYDown.setDuration(500);
         AnimatorSet animatorSet = new AnimatorSet();
@@ -133,16 +139,18 @@ public class Overlay extends Service{
 
     }
 
+    //Message generator to add variety in how Son notifies you
     private String messageGenerator(String version){
         String message;
 
-
+        //Different ways for Son to title himself
         String sonNameVariants[] = {"Son ", "Son Boulders ", "Son Nguyen-Quang ", "Big Bad Boulders ", "xXBoulder_Master1994Xx ", "xXMaître_des_RochersXx ",
                                      "Fils Boulders ", "Gros Mauvais Rochers "
         };
 
         ArrayList<String> introduction = new ArrayList<>();
 
+        //Different introductions
         String introductionVariantsGeneral[] = {"Hi I'm ", "What's up, I'm ", "Hey, I'm ", "How you doin, I'm ",
                   "It's a'me, ",
                  "The name's ",
@@ -153,6 +161,7 @@ public class Overlay extends Service{
 
         addString(introductionVariantsGeneral, introduction);
 
+        //To add personality to the various versions of Son, different Son's will have different personalities
         if(version.contentEquals("quang_car")) {
             String carIntroVariants[] = {"*Vroom* *Vroom*. What's up ", "*BEEP* *BEEP* GET OUT OF MY DAMN WAY. Oh Hi there, ", "*SKRRRRRRR*. Like the sound of that? I'm ",
                     "You probably already know me, But in case you live under a rock, I'm ",
@@ -185,11 +194,13 @@ public class Overlay extends Service{
 
         int a, b, c, d;
 
+        //Of the StringArrays, randomly pick one from each string array for dedicated structure
         a = diceRoll(sonNameVariants.length);
         b = diceRoll(introduction.size());
         c = diceRoll(commandVariantsPrefix.length);
         d = diceRoll(commandVariantsSuffix.length);
 
+        //If messageIntent is null, there are no events (error handling)
         if(messageIntent != null) {
             message = introduction.get(b) + sonNameVariants[a] + commandVariantsPrefix[c] + messageIntent + commandVariantsSuffix[d];
         }
@@ -201,11 +212,15 @@ public class Overlay extends Service{
     }
 
     private int diceRoll(int arrayLength){
+        //Function used to determine (pseudo)random outputs. Used to determine which version of Son is shown.
+        //Also used to determine which beginning, middle and end of message is displayed
+
         int indexReturn = 0;
         indexReturn = (int) (Math.random()  * arrayLength);
         return indexReturn;
     }
 
+    //Determines which version of Son is shown
     private String typeOfQuang(){
         int index = diceRoll(5);
         String type;
@@ -224,22 +239,25 @@ public class Overlay extends Service{
         return type;
     }
 
+    //Appends strings together
     private void addString(String[] strings, ArrayList<String> arrayList){
         for(int i = 0; i < strings.length; i++){
             arrayList.add(strings[i]);
         }
     }
 
+    //Vibrate function used. Vibrates when notification pops up
     private void vibrate(){
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createOneShot(1000, VibrationEffect.DEFAULT_AMPLITUDE));
-        } else {
-            //deprecated in API 26
+        }
+        else {
             vibrator.vibrate(500);
         }
     }
 
+    //Used to change the color of the textbox from the notifcation
     private void changeColor(String colorResource, TextView tv){
         Drawable background = tv.getBackground();
         if(colorResource.contentEquals("@colors/boxColor1")){

@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
+
         //Flag to determine if user defaults the themes to automatic
         if(!sharedPrefs.contains("flag")){
             //1 for day, 2 for night, 0 for user default
@@ -56,21 +56,23 @@ public class MainActivity extends AppCompatActivity{
             editor.commit();
 
         }
-        //Alarm Schedule
+        //Schedules the periodic notifications
         schedule();
 
         getHour = Calendar.getInstance();
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         lightSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
 
-        //TESTING
+        //Instantiating Calendar View class
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
         CalendarView cv = ((CalendarView) findViewById(R.id.calendar_view));
 
+        //Toolbar instantiation
         toolbar = (Toolbar) findViewById(R.id.actionBar);
         toolbarTitle = toolbar.findViewById(R.id.toolbarTitle);
 
+        //Check if NightMode is enabled
         if(isNightMode()){
             LinearLayout parent = findViewById(R.id.parent);
             parent.setBackgroundColor(Color.parseColor("#303437"));
@@ -79,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
         }
         sensorSetup();
 
+        //Updating CalendarView to check if events are scheduled
         cv.updateCalendar();
         cv.setEventHandler(new CalendarView.EventHandler() {
             @Override
@@ -93,9 +96,6 @@ public class MainActivity extends AppCompatActivity{
         });
         dateToday = cv.returnDate();
 
-
-
-
         setToolbarHeader(dateToday);
     }
 
@@ -107,9 +107,11 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onResume(){
+
         super.onResume();
     }
 
+    //Determine the suffix for the day in Toolbar
     public void setToolbarHeader(String[] dateToday){
         String suffix;
 
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity{
         toolbarTitle.setText(toolbarDate);
     }
 
+    //Start user settings Activity
     public void startSettings(View v){
         Intent intent = new Intent(this, UserSettings.class);
         startActivity(intent);
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    //If the user does not have "display over other apps" enabled, then ask for permission
     private void askPermission(){
         if(!Settings.canDrawOverlays(this)){
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -152,6 +156,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    //Setting up lightSensor
     private final SensorEventListener lightSensorListener
             = new SensorEventListener(){
 
@@ -190,6 +195,7 @@ public class MainActivity extends AppCompatActivity{
 
     };
 
+    //Schedules the periodic reminder of the notification
     public void schedule(){
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, PeriodicReminder.class);

@@ -49,6 +49,7 @@ public class PeriodicReminder extends IntentService {
             filterEvent();
         }
 
+        //If an event still exists for the day even after filtering through, then an event must exist for today
         if(events.size() > 0){
             //start overlay
             Intent overlayIntent = new Intent(this, Overlay.class);
@@ -73,6 +74,7 @@ public class PeriodicReminder extends IntentService {
 
     }
 
+    //Fills ArrayList with the events stored in the database
     private boolean checkTime(){
         Cursor cursor = db.getData();
         int index0 = cursor.getColumnIndex(Constants.DATECLICKED);
@@ -99,9 +101,11 @@ public class PeriodicReminder extends IntentService {
             }
             return true;
         }
+        //If false is returned, no event exists in the database
         return false;
     }
 
+    //Filters event if there is an event upcoming today
     private void filterEvent(){
         int size = events.size();
         int month = calendar.get(Calendar.MONTH);
@@ -109,16 +113,20 @@ public class PeriodicReminder extends IntentService {
         int index = 0;
 
         while(index < size) {
+            //If the event is planned for this month, then continue
             if (checkMonth(events.get(index)[0]) == month) {
+                //If the event exists in the month, but on another day from today, remove
                 if (!(Integer.parseInt(events.get(index)[1]) == day)) {
                     events.remove(index);
                     size = events.size();
                 }
                 else{
+                    //If there is an even scheduled this month and is today, continue
                     index++;
                 }
             }
             else{
+                //If event exists outside of the month, remove
                 events.remove(index);
                 size = events.size();
             }
@@ -130,6 +138,7 @@ public class PeriodicReminder extends IntentService {
         ArrayList<String[]> holderArrayList = new ArrayList<>();
         String[] smallest;
 
+        //Sort arrayList from earliest to latest
         for(int i = 0; i < events.size(); i++){
             smallest = events.get(i);
             for(int j = i + 1; j < events.size(); j++){
@@ -144,6 +153,7 @@ public class PeriodicReminder extends IntentService {
         int index = 0;
         int size = holderArrayList.size();
         while(index < size){
+            //If the event has already passed today, then remove it
             if(hourToInt(holderArrayList.get(index)[4]) < calendar.get(Calendar.HOUR_OF_DAY)){
                 holderArrayList.remove(index);
                 size = holderArrayList.size();
@@ -167,9 +177,11 @@ public class PeriodicReminder extends IntentService {
 
         int hr = 0;
         int hourAdd = Integer.parseInt(intHour);
+
         if(hour.charAt(hour.length() - 2) == 'P'){
             hr = 12;
         }
+
         return hr + hourAdd;
     }
 

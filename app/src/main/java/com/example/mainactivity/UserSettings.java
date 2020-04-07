@@ -37,7 +37,10 @@ public class UserSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
-        Log.d(TAG, "CHECK: "  + isNightMode());
+
+        //Determines if night mode is enabled for UserSettings activity
+
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         if(isNightMode()){
             setTheme(R.style.darktheme);
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -47,14 +50,14 @@ public class UserSettings extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
 
-        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
-
+        //Insantiating ViewGroup objects
         nameTextView = findViewById(R.id.addName);
         title = findViewById(R.id.title);
         saveButton = findViewById(R.id.saveButton);
 
         nightView = (Switch) findViewById(R.id.nightView);
 
+        //The nightmode switch will be enabled if darkmode is already activated (through light sensor)
         if(isNightMode()){
             nightView.setChecked(true);
         }
@@ -62,7 +65,7 @@ public class UserSettings extends AppCompatActivity {
             nightView.setChecked(false);
         }
 
-
+        //Setting click listener for the manual night mode switch
         nightView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,6 +92,7 @@ public class UserSettings extends AppCompatActivity {
             saveButton.setTextColor(Color.WHITE);
         }
 
+        //If the user has entered a name previously in the settings, then use [Name]'s Settings as title
         if(sharedPrefs.contains("name")){
             name = sharedPrefs.getString("name", null);
             if(name == null || name.length() <= 0){
@@ -104,6 +108,7 @@ public class UserSettings extends AppCompatActivity {
 
     }
 
+    //Gets the name from EditTextView object
     private boolean getName(){
         if(nameTextView.getText().toString() != null || nameTextView.getText().toString().length() > 0) {
             name = nameTextView.getText().toString();
@@ -113,7 +118,7 @@ public class UserSettings extends AppCompatActivity {
         return false;
     }
 
-
+    //Save everything to SharedPreferences file once the save button is pressed
     public void saved(View v){
         if(getName()){
             //save to shared prefs
@@ -128,6 +133,7 @@ public class UserSettings extends AppCompatActivity {
             Toast.makeText(this, "Invalid Name", Toast.LENGTH_SHORT).show();
         }
 
+        //Go back to MainActivity intent once button is saved
         Intent intent = new Intent(UserSettings.this, MainActivity.class);
         startActivity(intent);
     }
