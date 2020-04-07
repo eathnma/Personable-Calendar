@@ -49,10 +49,12 @@ public class MainActivity extends AppCompatActivity{
 
         sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
+        //Flag to determine if user defaults the themes to automatic
         if(!sharedPrefs.contains("flag")){
+            //1 for day, 2 for night, 0 for user default
             editor.putInt("flag", 0);
             editor.commit();
-            //1 for day, 2 for night, 0 for user default
+
         }
         //Alarm Schedule
         schedule();
@@ -173,7 +175,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 }
                 else if(event.values[0] > 0.5 && (getHour.get(Calendar.HOUR_OF_DAY) < 17) && sharedPrefs.contains("flag")) {
-                    if(sharedPrefs.getInt("flag", 0) != 1){
+                    if(sharedPrefs.getInt("flag", 0) != 1 ){
                         editor.putInt("flag", 1);
                         editor.putInt("night", 0);
                         editor.commit();

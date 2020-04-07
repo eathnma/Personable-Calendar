@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -36,11 +37,13 @@ public class UserSettings extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_settings);
-
+        Log.d(TAG, "CHECK: "  + isNightMode());
         if(isNightMode()){
             setTheme(R.style.darktheme);
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setTheme(R.style.AppTheme);
         }
 
@@ -52,13 +55,13 @@ public class UserSettings extends AppCompatActivity {
 
         nightView = (Switch) findViewById(R.id.nightView);
 
-        if(AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_YES){
+        if(isNightMode()){
             nightView.setChecked(true);
         }
-
-        if(!isNightMode()){
+        else{
             nightView.setChecked(false);
         }
+
 
         nightView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -70,7 +73,8 @@ public class UserSettings extends AppCompatActivity {
                     night = 1;
                     editor.putInt("night", night);
                     recreate();
-                } else {
+                }
+                else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                     night = 0;
                     editor.putInt("night", night);
