@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity{
 
         sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
         editor = sharedPrefs.edit();
-
         //Flag to determine if user defaults the themes to automatic
         if(!sharedPrefs.contains("flag")){
             //1 for day, 2 for night, 0 for user default

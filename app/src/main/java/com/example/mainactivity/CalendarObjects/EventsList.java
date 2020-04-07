@@ -82,7 +82,9 @@ public class EventsList extends AppCompatActivity {
 
         //Variables that decide the day (1-31) pressed
         dateClicked = intent.getStringExtra("DATE_CLICKED");
-        parser = dateClicked.split(" ");
+        if(dateClicked != null) {
+            parser = dateClicked.split(" ");
+        }
 
         //database
         db = new MyDatabase(this);
